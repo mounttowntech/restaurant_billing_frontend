@@ -6,7 +6,7 @@ import {
   FaBuilding,
   FaUser,
   FaEnvelope,
-  FaPhone,
+  FaPhoneAlt,
   FaBriefcase,
   FaLock,
 } from "react-icons/fa";
@@ -160,7 +160,7 @@ function Register() {
 
             <div className="input-group">
               <div className="icon-box">
-                <FaPhone />
+                <FaPhoneAlt />
               </div>
 
               <input
