@@ -9,6 +9,12 @@ import {
   toggleRestaurantStatus,
 } from "../../features/restaurant/restaurantSlice";
 import RestaurantForm from "./RestaurantForm";
+import {
+  EditButton,
+  DeleteButton,
+  AddButton,
+} from "../../components/common/Button";
+import Modal from "../../components/Common/Modal";
 
 const emptyFormData = {
   companyId: "",
@@ -284,7 +290,7 @@ const Restaurant = () => {
   // ==========================================
 
   return (
-    <div className="restaurant-container">
+    <div className="restaurant-container-wrapper">
       {/* HEADER */}
 
       <div className="restaurant-header">
@@ -293,116 +299,124 @@ const Restaurant = () => {
           <p>Manage your restaurants</p>
         </div>
 
-        <button className="add-restaurant-btn" onClick={handleAdd}>
+        <AddButton className="add-restaurant-btn" onClick={handleAdd}>
           + Add Restaurant
-        </button>
+        </AddButton>
       </div>
 
       {/* SEARCH */}
+      <div className="restaurant-content-box">
+        <div className="restaurant-search">
+          <input
+            type="text"
+            placeholder="Search restaurant..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
-      <div className="restaurant-search">
-        <input
-          type="text"
-          placeholder="Search restaurant..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+        {/* ERROR */}
 
-      {/* ERROR */}
+        {error && <div className="restaurant-error">{error}</div>}
 
-      {error && <div className="restaurant-error">{error}</div>}
+        {/* TABLE */}
 
-      {/* TABLE */}
-
-      <div className="restaurant-table-wrapper">
-        <table className="restaurant-table">
-          <thead>
-            <tr>
-              <th>Restaurant Code</th>
-              <th>Restaurant Name</th>
-              <th>Owner</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>City</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {loading ? (
+        <div className="restaurant-table-wrapper">
+          <table className="restaurant-table">
+            <thead>
               <tr>
-                <td colSpan="8">Loading...</td>
+                <th>Restaurant Code</th>
+                <th>Restaurant Name</th>
+                <th>Owner</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ) : filteredRestaurants.length === 0 ? (
-              <tr>
-                <td colSpan="8">No restaurants found</td>
-              </tr>
-            ) : (
-              filteredRestaurants.map((restaurant) => (
-                <tr key={restaurant._id}>
-                  <td>{restaurant.restaurantCode}</td>
+            </thead>
 
-                  <td>{restaurant.restaurantName}</td>
-
-                  <td>{restaurant.ownerName}</td>
-
-                  <td>{restaurant.phone}</td>
-
-                  <td>{restaurant.email || "-"}</td>
-
-                  <td>{restaurant.city || "-"}</td>
-
-                  <td>
-                    <button
-                      className={
-                        restaurant.status === "Active"
-                          ? "status-active"
-                          : "status-inactive"
-                      }
-                      onClick={() => handleStatus(restaurant._id)}
-                    >
-                      {restaurant.status}
-                    </button>
-                  </td>
-
-                  <td>
-                    <div className="action-buttons">
-                      <button
-                        className="edit-btn"
-                        onClick={() => handleEdit(restaurant)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDelete(restaurant._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="8">Loading...</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : filteredRestaurants.length === 0 ? (
+                <tr>
+                  <td colSpan="8">No restaurants found</td>
+                </tr>
+              ) : (
+                filteredRestaurants.map((restaurant) => (
+                  <tr key={restaurant._id}>
+                    <td>{restaurant.restaurantCode}</td>
+
+                    <td>{restaurant.restaurantName}</td>
+
+                    <td>{restaurant.ownerName}</td>
+
+                    <td>{restaurant.phone}</td>
+
+                    <td>{restaurant.email || "-"}</td>
+
+                    <td>{restaurant.city || "-"}</td>
+
+                    <td>
+                      <button
+                        className={
+                          restaurant.status === "Active"
+                            ? "status-active"
+                            : "status-inactive"
+                        }
+                        onClick={() => handleStatus(restaurant._id)}
+                      >
+                        {restaurant.status}
+                      </button>
+                    </td>
+
+                    <td>
+                      <div className="action-buttons">
+                        <EditButton onClick={() => handleEdit(restaurant)}>
+                          Edit
+                        </EditButton>
+
+                        <DeleteButton
+                          onClick={() => handleDelete(restaurant._id)}
+                        >
+                          Delete
+                        </DeleteButton>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* ADD / EDIT MODAL */}
+
+        <Modal
+          open={showModal}
+          title={editId ? "Edit Restaurant" : "Add Restaurant"}
+          size="lg"
+          onClose={() => {
+            setShowModal(false);
+            setEditId(null);
+          }}
+        >
+          <RestaurantForm
+            editId={editId}
+            formData={formData}
+            loading={loading}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            onClose={() => {
+              setShowModal(false);
+              setEditId(null);
+            }}
+          />
+        </Modal>
       </div>
-
-      {/* ADD / EDIT MODAL */}
-
-      {showModal && (
-        <RestaurantForm
-          editId={editId}
-          formData={formData}
-          loading={loading}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          onClose={() => setShowModal(false)}
-        />
-      )}
     </div>
   );
 };

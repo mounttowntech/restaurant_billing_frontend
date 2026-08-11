@@ -23,7 +23,7 @@
 .sidebar {
   width: 260px;
   height: 100vh;
-  background: linear-gradient(180deg, var(--sb-red) 0%, var(--sb-red-dark) 100%);
+  background: #7A2432;
 
   position: fixed;
   top: 0;
@@ -41,7 +41,7 @@
 .sidebar-logo {
   height: 76px;
   flex-shrink: 0;
-
+  background: #521923;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -60,7 +60,7 @@
   align-items: center;
   justify-content: center;
 
-  background: var(--sb-yellow);
+  background: #7A2432;
   border-radius: 10px;
   color: var(--sb-red-dark);
   font-size: 18px;
@@ -92,10 +92,9 @@
 
 .sidebar-menu {
   padding: 16px 12px;
-
   display: flex;
   flex-direction: column;
-
+  background: #521923;
   gap: 4px;
 }
 
@@ -105,7 +104,7 @@
 
   gap: 12px;
 
-  padding: 12px 14px;
+  padding: 10px 14px;
 
   border-radius: 8px;
 

@@ -69,6 +69,14 @@
   color: #521923;
 }
 
+.restaurant-content-box{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
 .restaurant-header p {
   margin: 0;
   color: var(--muted);
@@ -110,17 +118,12 @@
   width: 100%;
   max-width: 340px;
   padding: 10px 14px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(122, 36, 50, 0.25);
   border-radius: 8px;
   font-size: 0.9rem;
   background: var(--surface);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.restaurant-search input:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
 }
 
 /* ---------- Error ---------- */
@@ -245,7 +248,7 @@
 }
 
 /* ---------- Modal ---------- */
-
+/* 
 .restaurant-modal-overlay {
   position: fixed;
   inset: 0;
@@ -267,7 +270,7 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   animation: modal-in 0.18s ease-out;
-}
+} */
 
 @keyframes modal-in {
   from {
@@ -279,7 +282,7 @@
     transform: translateY(0) scale(1);
   }
 }
-
+/* 
 .modal-header {
   display: flex;
   align-items: center;
@@ -313,8 +316,8 @@
 .modal-header button:hover {
   background: var(--line);
   color: var(--ink);
-}
-
+} */
+/* 
 .restaurant-modal form {
   padding: 8px 28px 28px;
 }
@@ -330,7 +333,7 @@
 
 .restaurant-modal h4:first-of-type {
   margin-top: 20px;
-}
+} */
 
 /* Form grid */
 
@@ -349,12 +352,12 @@
 .form-grid .full-width {
   grid-column: 1 / -1;
 }
-
+/* 
 .form-grid label {
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--ink-soft);
-}
+} */
 
 .form-grid input,
 .form-grid textarea {
@@ -387,7 +390,7 @@
 }
 
 /* Checkboxes */
-
+/* 
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -421,10 +424,10 @@
   height: 15px;
   accent-color: var(--purple);
   cursor: pointer;
-}
+} */
 
 /* Actions */
-
+/* 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -467,10 +470,10 @@
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-}
+} */
 
 /* ---------- Responsive ---------- */
-
+/* 
 @media (max-width: 720px) {
   .form-grid,
   .checkbox-grid {
@@ -487,8 +490,8 @@
   .form-grid,
   .checkbox-grid {
     grid-template-columns: 1fr;
-  }
-
+  } */
+/* 
   .restaurant-modal-overlay {
     padding: 0;
   }
@@ -496,22 +499,13 @@
   .restaurant-modal {
     border-radius: 0;
     min-height: 100vh;
-  }
-}
-
-/* ---------- Accessibility ---------- */
-
-.restaurant-container button:focus-visible,
-.restaurant-container input:focus-visible,
-.restaurant-container textarea:focus-visible {
-  outline: 2px solid var(--purple);
-  outline-offset: 2px;
-}
+  } */
+/* } */
 
 @media (prefers-reduced-motion: reduce) {
-  .restaurant-modal {
+  /* .restaurant-modal {
     animation: none;
-  }
+  } */
   .add-restaurant-btn {
     transition: none;
   }

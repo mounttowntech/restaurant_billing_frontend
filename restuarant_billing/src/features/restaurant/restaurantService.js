@@ -25,7 +25,7 @@ export const createRestaurant = async (data) => {
 // ================= Update Restaurant =================
 
 export const updateRestaurant = async ({ id, restaurant }) => {
-  const response = await API.put(`/restaurants/${id}`, restaurant);
+  const response = await API.put(`/restaurants/update/${id}`, restaurant);
 
   return response.data.data;
 };
@@ -33,7 +33,7 @@ export const updateRestaurant = async ({ id, restaurant }) => {
 // ================= Delete Restaurant =================
 
 export const deleteRestaurant = async (id) => {
-  await API.delete(`/restaurants/${id}`);
+  await API.delete(`/restaurants/delete/${id}`);
   return id;
 };
 
