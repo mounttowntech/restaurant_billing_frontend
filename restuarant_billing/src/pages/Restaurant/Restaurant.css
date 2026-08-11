@@ -1,0 +1,518 @@
+/* ==========================================
+   Restaurant Management — Styles
+   Palette (exact hex, as provided):
+     --purple        #4F46E5
+     --purple-dark   #312E81
+     --red           #7A2432
+     --red-dark      #521923
+     --yellow        #D6A756
+     --yellow-light  #FFF5E5
+     --white         #FFFFFF
+   ========================================== */
+
+:root {
+  --ink: #1c1917;
+  --ink-soft: #44403c;
+  --muted: #78716c;
+  --line: #e7e2dc;
+  --surface: #ffffff;
+
+  --purple: #4f46e5;
+  --purple-dark: #312e81;
+  --purple-tint: #eeedfc;
+
+  --red: #7a2432;
+  --red-dark: #521923;
+  --red-tint: #fbecee;
+
+  --yellow: #d6a756;
+  --yellow-light: #fff5e5;
+
+  --success: #15803d;
+  --success-tint: #eaf6ec;
+
+  --radius: 10px;
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06);
+  --shadow-md: 0 12px 32px rgba(49, 46, 129, 0.16);
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.restaurant-container * {
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+.restaurant-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  color: var(--ink);
+}
+
+/* ---------- Header ---------- */
+
+.restaurant-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.restaurant-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #521923;
+}
+
+.restaurant-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.add-restaurant-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: #521923;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.add-restaurant-btn:hover {
+  background: var(--purple-dark);
+  transform: translateY(-1px);
+}
+
+.add-restaurant-btn:active {
+  transform: translateY(0);
+}
+
+/* ---------- Search ---------- */
+
+.restaurant-search {
+  margin-bottom: 18px;
+}
+
+.restaurant-search input {
+  width: 100%;
+  max-width: 340px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restaurant-search input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+}
+
+/* ---------- Error ---------- */
+
+.restaurant-error {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--red-tint);
+  color: var(--red);
+  border: 1px solid rgba(122, 36, 50, 0.25);
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+
+/* ---------- Table ---------- */
+
+.restaurant-table-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.restaurant-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.restaurant-table thead th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #521923;
+  background: var(--yellow-light);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.restaurant-table tbody td {
+  padding: 13px 16px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.restaurant-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.restaurant-table tbody tr:hover {
+  background: var(--yellow-light);
+}
+
+.restaurant-table tbody td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Status pill buttons (toggle) */
+
+.status-active,
+.status-inactive {
+  border: none;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.status-active {
+  background: var(--success-tint);
+  color: var(--success);
+}
+
+.status-inactive {
+  background: var(--red-tint);
+  color: var(--red);
+}
+
+.status-active:hover,
+.status-inactive:hover {
+  filter: brightness(0.95);
+}
+
+/* Row actions */
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.edit-btn:hover {
+  border-color: var(--purple);
+  color: var(--purple-dark);
+  background: var(--purple-tint);
+}
+
+.delete-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-tint);
+}
+
+/* ---------- Modal ---------- */
+
+.restaurant-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(49, 46, 129, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.restaurant-modal {
+  width: 100%;
+  max-width: 760px;
+  background: var(--white);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  animation: modal-in 0.18s ease-out;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--purple-dark);
+}
+
+.modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.modal-header button:hover {
+  background: var(--line);
+  color: var(--ink);
+}
+
+.restaurant-modal form {
+  padding: 8px 28px 28px;
+}
+
+.restaurant-modal h4 {
+  margin: 24px 0 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--purple-dark);
+}
+
+.restaurant-modal h4:first-of-type {
+  margin-top: 20px;
+}
+
+/* Form grid */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px 16px;
+}
+
+.form-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+.form-grid label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.form-grid input,
+.form-grid textarea {
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 0.87rem;
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+}
+
+.form-grid input:disabled {
+  background: #f2efec;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.form-grid textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+
+/* Checkboxes */
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 16px;
+  margin-top: 4px;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.checkbox-grid label:has(input:checked) {
+  border-color: var(--purple);
+  background: var(--purple-tint);
+  color: var(--purple-dark);
+  font-weight: 600;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--purple);
+  cursor: pointer;
+}
+
+/* Actions */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.modal-actions button[type="button"] {
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+
+.modal-actions button[type="button"]:hover {
+  background: #f2efec;
+}
+
+.modal-actions button[type="submit"] {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: var(--white);
+}
+
+.modal-actions button[type="submit"]:hover {
+  background: var(--purple-dark);
+}
+
+.modal-actions button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .form-grid,
+  .checkbox-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .restaurant-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid,
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-modal-overlay {
+    padding: 0;
+  }
+
+  .restaurant-modal {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}
+
+/* ---------- Accessibility ---------- */
+
+.restaurant-container button:focus-visible,
+.restaurant-container input:focus-visible,
+.restaurant-container textarea:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .restaurant-modal {
+    animation: none;
+  }
+  .add-restaurant-btn {
+    transition: none;
+  }
+}

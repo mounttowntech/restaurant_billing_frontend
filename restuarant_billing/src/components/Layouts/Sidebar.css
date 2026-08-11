@@ -1,0 +1,343 @@
+/* ==========================================
+   Sidebar — Styles
+   Palette (exact hex, as provided):
+     --purple        #4F46E5
+     --purple-dark   #312E81
+     --red           #7A2432
+     --red-dark      #521923
+     --yellow        #D6A756
+     --yellow-light  #FFF5E5
+     --white         #FFFFFF
+   ========================================== */
+
+:root {
+  --sb-purple: #4f46e5;
+  --sb-purple-dark: #312e81;
+  --sb-red: #7a2432;
+  --sb-red-dark: #521923;
+  --sb-yellow: #d6a756;
+  --sb-yellow-light: #fff5e5;
+  --sb-white: #ffffff;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--sb-red) 0%, var(--sb-red-dark) 100%);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(82, 25, 35, 0.25);
+}
+
+/* ---------- Logo ---------- */
+
+.sidebar-logo {
+  height: 76px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid rgba(255, 245, 229, 0.14);
+}
+
+.sidebar-logo-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--sb-yellow);
+  border-radius: 10px;
+  color: var(--sb-red-dark);
+  font-size: 18px;
+}
+
+.sidebar-logo h2 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: var(--sb-white);
+  line-height: 1.2;
+}
+
+.sidebar-logo span {
+  display: block;
+  margin-top: 2px;
+
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  color: var(--sb-yellow-light);
+  opacity: 0.75;
+}
+
+/* ---------- Menu ---------- */
+
+.sidebar-menu {
+  padding: 16px 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  color: var(--sb-yellow-light);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 245, 229, 0.1);
+  color: var(--sb-white);
+}
+
+.sidebar-link.active {
+  background: var(--sb-yellow);
+  color: var(--sb-red-dark);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(214, 167, 86, 0.35);
+}
+
+.sidebar-link.active .sidebar-icon {
+  color: var(--sb-red-dark);
+}
+
+.sidebar-icon {
+  width: 24px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 17px;
+  color: inherit;
+}
+
+.sidebar-text {
+  white-space: nowrap;
+}
+
+/* ---------- Section divider / label ---------- */
+
+.sidebar-section-label {
+  margin: 18px 14px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 245, 229, 0.45);
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 245, 229, 0.14);
+  margin: 12px 14px;
+}
+
+/* ---------- Footer / settings pinned to bottom ---------- */
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 12px;
+  border-top: 1px solid rgba(255, 245, 229, 0.14);
+}
+
+.sidebar-footer .sidebar-link {
+  color: var(--sb-yellow-light);
+}
+
+/* ---------- Scrollbar ---------- */
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 245, 229, 0.25);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 245, 229, 0.4);
+}
+
+/* ---------- Collapsed state (optional) ---------- */
+
+.sidebar.collapsed {
+  width: 76px;
+}
+
+.sidebar.collapsed .sidebar-text,
+.sidebar.collapsed .sidebar-logo h2,
+.sidebar.collapsed .sidebar-logo span,
+.sidebar.collapsed .sidebar-section-label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-logo {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar.collapsed .sidebar-link {
+  justify-content: center;
+  padding: 12px;
+}
+
+/* ---------- Accessibility ---------- */
+
+.sidebar-link:focus-visible {
+  outline: 2px solid var(--sb-yellow);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-link {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   Sidebar Icons — Styles
+   ========================================== */
+
+
+/* ---------- Icon Container ---------- */
+
+.sidebar-icon {
+  width: 24px;
+  height: 24px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: inherit;
+}
+
+
+/* ---------- SVG Icons ---------- */
+
+.sidebar-icon svg {
+  width: 19px;
+  height: 19px;
+
+  display: block;
+
+  flex-shrink: 0;
+
+  color: inherit;
+}
+
+
+/* ---------- Active Icon ---------- */
+
+.sidebar-link.active .sidebar-icon svg {
+  color: var(--sb-red-dark);
+}
+
+
+/* ---------- Hover Icon ---------- */
+
+.sidebar-link:hover .sidebar-icon svg {
+  color: inherit;
+}
+
+
+/* ---------- Collapsed Sidebar ---------- */
+
+.sidebar.collapsed .sidebar-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.sidebar.collapsed .sidebar-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+
+/* ---------- Icon Smoothness ---------- */
+
+.sidebar-icon svg {
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+
+/* ---------- Accessibility ---------- */
+
+.sidebar-link:focus-visible .sidebar-icon svg {
+  outline: none;
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 640px) {
+  .sidebar-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .sidebar-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 1200;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
