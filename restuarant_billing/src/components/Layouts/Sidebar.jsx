@@ -25,7 +25,7 @@ const Sidebar = () => {
       icon: DashboardIcon,
     },
     {
-      name: "POS",
+      name: "POS-Billing",
       path: "/pos-billing",
       icon: POSIcon,
     },
@@ -37,6 +37,11 @@ const Sidebar = () => {
     {
       name: "Products",
       path: "/products",
+      icon: ProductsIcon,
+    },
+    {
+      name: "Store",
+      path: "/store",
       icon: ProductsIcon,
     },
     {

@@ -8,6 +8,8 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ChangePassword from "../pages/Auth/ChangePassword/ChangePassword";
 import Restaurant from "../pages/restaurant/Restaurant";
 import Sidebar from "../components/Layouts/Sidebar";
+import POSBilling from "../pages/POSBilling/POSBilling";
+import Store from "../pages/Store/Store";
 
 function MainLayout() {
   return (
@@ -18,6 +20,8 @@ function MainLayout() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/restaurants" element={<Restaurant />} />
+          <Route path="/pos-billing" element={<POSBilling />} />
+          <Route path="/store" element={<Store />} />
         </Routes>
       </main>
     </div>

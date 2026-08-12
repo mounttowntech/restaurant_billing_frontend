@@ -1,5 +1,65 @@
 // ========================= SidebarIcons.jsx =========================
 
+// ================= Total Orders Icon =================
+
+export const OrdersIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 7h14" />
+    <path d="M6 7l1 12h10l1-12" />
+    <path d="M9 7V5a3 3 0 0 1 6 0v2" />
+    <path d="M9 11h6" />
+    <path d="M9 15h4" />
+  </svg>
+);
+
+// ================= Total Bills Icon =================
+
+export const BillsIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" />
+    <path d="M9 7h6" />
+    <path d="M9 11h6" />
+    <path d="M9 15h3" />
+  </svg>
+);
+
+// ================= Low Stock Icon =================
+
+export const LowStockIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M12 3 21 20H3L12 3Z" />
+    <path d="M12 9v5" />
+    <path d="M12 17h.01" />
+  </svg>
+);
+
 export const DashboardIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
