@@ -1,3 +1,5 @@
+import "./RestaurantForm.css";
+
 const RestaurantForm = ({
   editId,
   formData,
@@ -136,8 +138,6 @@ const RestaurantForm = ({
       </div>
 
       {/* ADDRESS */}
-
-      <h4>Address</h4>
 
       <div className="form-grid">
         <div className="full-width">
@@ -288,7 +288,7 @@ const RestaurantForm = ({
 
       <h4>Features</h4>
 
-      <div className="checkbox-grid">
+      <div className="feature-grid">
         <label>
           <input
             type="checkbox"

@@ -10,6 +10,7 @@ import Restaurant from "../pages/restaurant/Restaurant";
 import Sidebar from "../components/Layouts/Sidebar";
 import POSBilling from "../pages/POSBilling/POSBilling";
 import Store from "../pages/Store/Store";
+import Customer from "../pages/customer/Customer";
 
 function MainLayout() {
   return (
@@ -22,6 +23,7 @@ function MainLayout() {
           <Route path="/restaurants" element={<Restaurant />} />
           <Route path="/pos-billing" element={<POSBilling />} />
           <Route path="/store" element={<Store />} />
+          <Route path="/customers" element={<Customer />} />
         </Routes>
       </main>
     </div>

@@ -558,7 +558,7 @@
 
 .payment-paid {
   background: #dcfce7;
-  color: #15803d;
+  color: #5A1E2A;
 }
 
 .payment-partial {
@@ -576,7 +576,7 @@
 
 .status-completed {
   background: #dcfce7;
-  color: #15803d;
+  color: #5A1E2A;
 }
 
 .status-hold {
@@ -596,7 +596,7 @@
 
 .status-resumed {
   background: #dbeafe;
-  color: #2563eb;
+  color: #5A1E2A;
 }
 
 
@@ -795,7 +795,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-
 /* =========================================================
    PAYMENT BUTTON
 ========================================================= */
@@ -806,7 +805,7 @@
   padding: 0 18px;
   border: none;
   border-radius: 7px;
-  background: #16a34a;
+  background: #5A1E2A;
   color: #ffffff;
   font-family: inherit;
   font-size: 13px;
@@ -815,14 +814,13 @@
 }
 
 .pos-payment-button:hover {
-  background: #15803d;
+  background: #5A1E2A;
 }
 
 .pos-payment-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-
 
 /* =========================================================
    CANCEL BUTTON
@@ -834,7 +832,7 @@
   padding: 0 18px;
   border: none;
   border-radius: 7px;
-  background: #dc2626;
+  background: #5A1E2A;
   color: #ffffff;
   font-family: inherit;
   font-size: 13px;
@@ -843,7 +841,7 @@
 }
 
 .pos-cancel-button:hover {
-  background: #b91c1c;
+  background: #5A1E2A;
 }
 
 .pos-cancel-button:disabled {

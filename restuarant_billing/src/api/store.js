@@ -3,6 +3,7 @@ import restaurantSlice from "../features/restaurant/restaurantSlice";
 import dashboardSlice from "../features/dashboard/dashboardSlice";
 import posBillingSlice from "../features/posbilling/posBillingSlice";
 import storeSlice from "../features/store/storeSlice";
+import customerSlice from "../features/customer/customerSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     dashboard: dashboardSlice,
     posBilling: posBillingSlice,
     stores: storeSlice,
+    customer: customerSlice,
   },
 });
 

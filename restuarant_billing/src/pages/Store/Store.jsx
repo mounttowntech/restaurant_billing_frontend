@@ -1,16 +1,71 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   fetchStores,
+  createStore,
+  updateStore,
   deleteStore,
   restoreStore,
   toggleStoreStatus,
 } from "../../features/store/storeSlice";
-
+import {
+  validateStoreForm,
+  buildStorePayload,
+  buildStoreUpdatePayload,
+} from "../../validation/storeValidation";
 import StoreForm from "./StoreForm";
-
+import {
+  EditButton,
+  DeleteButton,
+  AddButton,
+} from "../../components/common/Button";
 import "./Store.css";
+import Modal from "../../components/Common/Modal";
+
+const emptyFormData = {
+  restaurant: "",
+  storeCode: "",
+  storeName: "",
+  branchName: "",
+  managerName: "",
+
+  email: "",
+  phone: "",
+  alternatePhone: "",
+
+  gstNumber: "",
+  fssaiNumber: "",
+
+  address: "",
+  area: "",
+  city: "",
+  state: "",
+  country: "India",
+  pincode: "",
+
+  latitude: "",
+  longitude: "",
+
+  openingTime: "09:00",
+  closingTime: "23:00",
+  totalTables: 0,
+  totalSeats: 0,
+  serviceChargePercentage: 0,
+
+  gstEnabled: true,
+  serviceChargeEnabled: false,
+  dineInEnabled: true,
+  takeawayEnabled: true,
+  deliveryEnabled: true,
+  onlineOrderEnabled: false,
+
+  printerName: "",
+  kitchenPrinter: "",
+  billingPrinter: "",
+  logo: "",
+
+  status: "Active",
+};
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -21,188 +76,245 @@ const Store = () => {
     error,
   } = useSelector((state) => state.stores || {});
 
-  const [showForm, setShowForm] = useState(false);
-
-  const [editStore, setEditStore] = useState(null);
-
+  const [showModal, setShowModal] = useState(false);
+  const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
-
   const [status, setStatus] = useState("");
 
-  // ==================================================
+  const [formData, setFormData] = useState(emptyFormData);
+  const [submitError, setSubmitError] = useState("");
+
+  // ==========================================
   // FETCH STORES
-  // ==================================================
+  // ==========================================
 
   useEffect(() => {
-    dispatch(
-      fetchStores({
-        search,
-        status,
-      }),
-    );
+    dispatch(fetchStores({ search, status }));
   }, [dispatch, search, status]);
 
-  // ==================================================
-  // CREATE
-  // ==================================================
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    setSubmitError("");
+  };
+
+  // ==========================================
+  // OPEN ADD MODAL
+  // ==========================================
 
   const handleAdd = () => {
-    setEditStore(null);
-    setShowForm(true);
+    setEditId(null);
+    setFormData(emptyFormData);
+    setSubmitError("");
+    setShowModal(true);
   };
 
-  // ==================================================
+  // ==========================================
   // EDIT
-  // ==================================================
+  // ==========================================
 
   const handleEdit = (store) => {
-    setEditStore(store);
-    setShowForm(true);
+    setEditId(store._id);
+
+    const restaurantId =
+      typeof store.restaurant === "object"
+        ? store.restaurant?._id
+        : store.restaurant;
+
+    setFormData({
+      restaurant: restaurantId || "",
+
+      storeCode: store.storeCode || "",
+
+      storeName: store.storeName || "",
+
+      branchName: store.branchName || "",
+
+      managerName: store.managerName || "",
+
+      email: store.email || "",
+
+      phone: store.phone || "",
+
+      alternatePhone: store.alternatePhone || "",
+
+      gstNumber: store.gstNumber || "",
+
+      fssaiNumber: store.fssaiNumber || "",
+
+      address: store.address || "",
+
+      area: store.area || "",
+
+      city: store.city || "",
+
+      state: store.state || "",
+
+      country: store.country || "India",
+
+      pincode: store.pincode || "",
+
+      latitude: store.latitude ?? "",
+
+      longitude: store.longitude ?? "",
+
+      openingTime: store.openingTime || "09:00",
+
+      closingTime: store.closingTime || "23:00",
+
+      totalTables: store.totalTables ?? 0,
+
+      totalSeats: store.totalSeats ?? 0,
+
+      serviceChargePercentage: store.serviceChargePercentage ?? 0,
+
+      gstEnabled: store.gstEnabled ?? true,
+
+      serviceChargeEnabled: store.serviceChargeEnabled ?? false,
+
+      dineInEnabled: store.dineInEnabled ?? true,
+
+      takeawayEnabled: store.takeawayEnabled ?? true,
+
+      deliveryEnabled: store.deliveryEnabled ?? true,
+
+      onlineOrderEnabled: store.onlineOrderEnabled ?? false,
+
+      printerName: store.printerName || "",
+
+      kitchenPrinter: store.kitchenPrinter || "",
+
+      billingPrinter: store.billingPrinter || "",
+
+      logo: store.logo || "",
+
+      status: store.status || "Active",
+    });
+
+    setSubmitError("");
+    setShowModal(true);
   };
 
-  // ==================================================
+  // ==========================================
+  // SUBMIT
+  // ==========================================
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const validationError = validateStoreForm(formData, !!editId);
+
+    if (validationError) {
+      setSubmitError(validationError);
+      return;
+    }
+
+    const payload = buildStorePayload(formData);
+
+    try {
+      if (editId) {
+        // Backend does not allow restaurant / storeCode
+        // to be changed during update.
+        const updateData = buildStoreUpdatePayload(payload);
+
+        await dispatch(
+          updateStore({
+            id: editId,
+            store: updateData,
+          }),
+        ).unwrap();
+      } else {
+        await dispatch(createStore(payload)).unwrap();
+      }
+
+      setShowModal(false);
+      setEditId(null);
+      dispatch(fetchStores({ search, status }));
+    } catch (err) {
+      setSubmitError(
+        typeof err === "string" ? err : err?.message || "Failed to save store",
+      );
+    }
+  };
+
+  // ==========================================
   // DELETE
-  // ==================================================
+  // ==========================================
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this store?",
-    );
-
-    if (!confirmDelete) {
+    if (!window.confirm("Are you sure you want to delete this store?")) {
       return;
     }
 
     try {
       await dispatch(deleteStore(id)).unwrap();
-
-      dispatch(
-        fetchStores({
-          search,
-          status,
-        }),
-      );
-    } catch (error) {
-      console.error("Delete Store Error:", error);
+      dispatch(fetchStores({ search, status }));
+    } catch (err) {
+      console.error("Delete Store Error:", err);
     }
   };
 
-  // ==================================================
+  // ==========================================
   // RESTORE
-  // ==================================================
+  // ==========================================
 
   const handleRestore = async (id) => {
     try {
       await dispatch(restoreStore(id)).unwrap();
-
-      dispatch(
-        fetchStores({
-          search,
-          status,
-        }),
-      );
-    } catch (error) {
-      console.error("Restore Store Error:", error);
+      dispatch(fetchStores({ search, status }));
+    } catch (err) {
+      console.error("Restore Store Error:", err);
     }
   };
 
-  // ==================================================
+  // ==========================================
   // TOGGLE STATUS
-  // ==================================================
+  // ==========================================
 
   const handleToggleStatus = async (id) => {
     try {
       await dispatch(toggleStoreStatus(id)).unwrap();
-
-      dispatch(
-        fetchStores({
-          search,
-          status,
-        }),
-      );
-    } catch (error) {
-      console.error("Toggle Status Error:", error);
+      dispatch(fetchStores({ search, status }));
+    } catch (err) {
+      console.error("Toggle Status Error:", err);
     }
   };
 
-  // ==================================================
-  // FORM SUCCESS
-  // ==================================================
+  // ==========================================
+  // JSX
+  // ==========================================
 
-  const handleFormSuccess = () => {
-    setShowForm(false);
-    setEditStore(null);
-
-    dispatch(
-      fetchStores({
-        search,
-        status,
-      }),
-    );
-  };
-
-  // ==================================================
-  // FORM CANCEL
-  // ==================================================
-
-  const handleCancelForm = () => {
-    setShowForm(false);
-    setEditStore(null);
-  };
-
-  console.log("STORE PAGE RENDER:", { stores });
   return (
     <div className="store-page">
-      {/* ==================================================
-          HEADER
-      ================================================== */}
+      {/* HEADER */}
 
       <div className="store-page-header">
         <div>
           <h1>Store Management</h1>
-
           <p>Manage your restaurant stores</p>
         </div>
 
-        <button type="button" className="store-add-btn" onClick={handleAdd}>
+        <AddButton className="store-add-btn" onClick={handleAdd}>
           + Add Store
-        </button>
+        </AddButton>
       </div>
 
-      {/* ==================================================
-          FORM
-      ================================================== */}
-
-      {showForm && (
-        <StoreForm
-          editStore={editStore}
-          onSuccess={handleFormSuccess}
-          onCancel={handleCancelForm}
-        />
-      )}
-
-      {/* ==================================================
-          ERROR
-      ================================================== */}
-
-      {error && <div className="store-error">{error}</div>}
-
-      {/* ==================================================
-          STORE LIST
-      ================================================== */}
+      {/* LIST */}
 
       <div className="store-list-box">
         <div className="store-list-header">
           <div>
             <h2>Stores</h2>
-
             <span>Total Stores: {stores.length}</span>
           </div>
         </div>
 
-        {/* ==================================================
-            SEARCH
-        ================================================== */}
+        {/* FILTERS */}
 
         <div className="store-filters">
           <input
@@ -214,16 +326,16 @@ const Store = () => {
 
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="">All Status</option>
-
             <option value="Active">Active</option>
-
             <option value="Inactive">Inactive</option>
           </select>
         </div>
 
-        {/* ==================================================
-            TABLE
-        ================================================== */}
+        {/* ERROR */}
+
+        {error && <div className="store-error">{error}</div>}
+
+        {/* TABLE */}
 
         <div className="store-table-wrapper">
           <table className="store-table">
@@ -274,34 +386,22 @@ const Store = () => {
                     <td>{store.restaurant?.restaurantName || "-"}</td>
 
                     <td>
-                      <span
+                      <button
+                        type="button"
                         className={`store-status ${String(
                           store.status || "",
                         ).toLowerCase()}`}
+                        onClick={() => handleToggleStatus(store._id)}
                       >
                         {store.status || "-"}
-                      </span>
+                      </button>
                     </td>
 
                     <td>
                       <div className="store-actions">
-                        <button
-                          type="button"
-                          className="store-edit-btn"
-                          onClick={() => handleEdit(store)}
-                        >
+                        <EditButton onClick={() => handleEdit(store)}>
                           Edit
-                        </button>
-
-                        <button
-                          type="button"
-                          className="store-status-btn"
-                          onClick={() => handleToggleStatus(store._id)}
-                        >
-                          {store.status === "Active"
-                            ? "Deactivate"
-                            : "Activate"}
-                        </button>
+                        </EditButton>
 
                         {store.isDeleted ? (
                           <button
@@ -312,13 +412,9 @@ const Store = () => {
                             Restore
                           </button>
                         ) : (
-                          <button
-                            type="button"
-                            className="store-delete-btn"
-                            onClick={() => handleDelete(store._id)}
-                          >
+                          <DeleteButton onClick={() => handleDelete(store._id)}>
                             Delete
-                          </button>
+                          </DeleteButton>
                         )}
                       </div>
                     </td>
@@ -328,6 +424,31 @@ const Store = () => {
             </tbody>
           </table>
         </div>
+
+        {/* ADD / EDIT MODAL */}
+
+        <Modal
+          open={showModal}
+          title={editId ? "Edit Store" : "Add Store"}
+          size="lg"
+          onClose={() => {
+            setShowModal(false);
+            setEditId(null);
+          }}
+        >
+          <StoreForm
+            editId={editId}
+            formData={formData}
+            loading={loading}
+            submitError={submitError}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            onClose={() => {
+              setShowModal(false);
+              setEditId(null);
+            }}
+          />
+        </Modal>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import API from "../../api/api";
+import API from "../../services/api";
 
 // Fetch Dashboard Cards
 
