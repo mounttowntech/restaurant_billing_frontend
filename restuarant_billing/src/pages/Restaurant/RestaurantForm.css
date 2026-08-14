@@ -248,23 +248,13 @@ input[type="number"]::-webkit-inner-spin-button {
   transition: background 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
 }
 
-.modal-actions button[type="button"] {
-  background: var(--rf-bg);
-  color: var(--rf-text);
-  border-color: var(--rf-border);
-}
-
-.modal-actions button[type="button"]:hover {
-  border-color: var(--rf-border-hover);
-}
-
 .modal-actions button[type="submit"] {
-  background: var(--rf-accent);
+  background: #521923;
   color: #ffffff;
 }
 
 .modal-actions button[type="submit"]:hover:not(:disabled) {
-  background: #000000;
+  background: #7A2432;
 }
 
 .modal-actions button[type="submit"]:disabled {
@@ -299,7 +289,7 @@ input[type="number"]::-webkit-inner-spin-button {
   height: 16px;
   flex-shrink: 0;
   margin: 0;
-  accent-color: #16181d;
+  accent-color: #7A2432;
   cursor: pointer;
 }
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "./Customer.css";
+import "./CustomerForm.css";
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 import Input from "../../components/common/Input";
 import customerValidation from "../../validation/customerValidation";

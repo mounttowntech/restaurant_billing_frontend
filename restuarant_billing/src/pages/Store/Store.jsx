@@ -307,15 +307,6 @@ const Store = () => {
       {/* LIST */}
 
       <div className="store-list-box">
-        <div className="store-list-header">
-          <div>
-            <h2>Stores</h2>
-            <span>Total Stores: {stores.length}</span>
-          </div>
-        </div>
-
-        {/* FILTERS */}
-
         <div className="store-filters">
           <input
             type="text"

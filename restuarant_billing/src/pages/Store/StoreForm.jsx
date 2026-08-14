@@ -1,3 +1,5 @@
+import { CancelButton, SaveButton } from "../../components/common/Button";
+
 const StoreForm = ({
   editId,
   formData,
@@ -410,13 +412,13 @@ const StoreForm = ({
       {/* BUTTONS */}
 
       <div className="modal-actions">
-        <button type="button" onClick={onClose}>
+        <CancelButton type="button" onClick={onClose}>
           Cancel
-        </button>
+        </CancelButton>
 
-        <button type="submit" disabled={loading}>
+        <SaveButton type="submit" disabled={loading}>
           {loading ? "Saving..." : isEdit ? "Update Store" : "Create Store"}
-        </button>
+        </SaveButton>
       </div>
     </form>
   );

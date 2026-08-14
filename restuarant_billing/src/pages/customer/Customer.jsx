@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteButton, EditButton } from "../../components/Common/Button";
+import {
+  DeleteButton,
+  EditButton,
+  AddButton,
+} from "../../components/Common/Button";
 import "./Customer.css";
 
 import Modal from "../../components/Common/Modal";
@@ -194,34 +198,22 @@ const Customer = () => {
 
   return (
     <div className="customer-page">
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
-
       <div className="customer-page-header">
         <div>
           <h1>Customers</h1>
           <p>Manage your customers and their information</p>
         </div>
 
-        <button
+        <AddButton
           type="button"
           className="customer-add-btn"
           onClick={handleAddCustomer}
         >
           + Add Customer
-        </button>
+        </AddButton>
       </div>
 
-      {/* =====================================================
-          ERROR
-      ===================================================== */}
-
       {error && <div className="customer-error-box">{error}</div>}
-
-      {/* =====================================================
-          SUMMARY CARDS
-      ===================================================== */}
 
       <div className="customer-summary-grid">
         <div className="customer-summary-card">
@@ -248,122 +240,114 @@ const Customer = () => {
           <div className="customer-summary-value">{blockedCustomers}</div>
         </div>
       </div>
+      <div className="customer-grid-page">
+        <div className="customer-toolbar">
+          <div className="customer-search">
+            <input
+              type="text"
+              placeholder="Search customer..."
+              value={search}
+              onChange={handleSearch}
+            />
+          </div>
 
-      {/* =====================================================
-          TOOLBAR
-      ===================================================== */}
-
-      <div className="customer-toolbar">
-        <div className="customer-search">
-          <input
-            type="text"
-            placeholder="Search customer..."
-            value={search}
-            onChange={handleSearch}
-          />
+          <div className="customer-filter">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="All">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Blocked">Blocked</option>
+            </select>
+          </div>
         </div>
 
-        <div className="customer-filter">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="All">All Status</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-            <option value="Blocked">Blocked</option>
-          </select>
-        </div>
-      </div>
-
-      {/* =====================================================
-          CUSTOMER TABLE
-      ===================================================== */}
-
-      <div className="customer-table-container">
-        {loading ? (
-          <div className="customer-loading">Loading customers...</div>
-        ) : filteredCustomers.length === 0 ? (
-          <div className="customer-empty">No customers found.</div>
-        ) : (
-          <table className="customer-table">
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Customer Name</th>
-                <th>Type</th>
-                <th>Mobile</th>
-                <th>Email</th>
-                <th>Membership</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredCustomers.map((customer) => (
-                <tr key={customer._id}>
-                  <td>{customer.customerCode || "-"}</td>
-
-                  <td>
-                    <div className="customer-name">
-                      {customer.customerName || "-"}
-                    </div>
-                  </td>
-
-                  <td>{customer.customerType || "-"}</td>
-
-                  <td>{customer.mobile || "-"}</td>
-
-                  <td>{customer.email || "-"}</td>
-
-                  <td>{customer.membershipType || "None"}</td>
-
-                  <td>
-                    <select
-                      className={`customer-status-select ${String(
-                        customer.status || "",
-                      ).toLowerCase()}`}
-                      value={customer.status || "Active"}
-                      onChange={(e) =>
-                        handleStatusChange(customer._id, e.target.value)
-                      }
-                    >
-                      <option value="Active">Active</option>
-
-                      <option value="Inactive">Inactive</option>
-
-                      <option value="Blocked">Blocked</option>
-                    </select>
-                  </td>
-
-                  <td>
-                    <div className="customer-actions">
-                      <EditButton
-                        type="button"
-                        className="customer-edit-btn"
-                        onClick={() => handleEditCustomer(customer)}
-                      >
-                        Edit
-                      </EditButton>
-
-                      <DeleteButton
-                        type="button"
-                        className="customer-delete-btn"
-                        onClick={() => handleDeleteCustomer(customer._id)}
-                        disabled={deleteLoading}
-                      >
-                        Delete
-                      </DeleteButton>
-                    </div>
-                  </td>
+        <div className="customer-table-container">
+          {loading ? (
+            <div className="customer-loading">Loading customers...</div>
+          ) : filteredCustomers.length === 0 ? (
+            <div className="customer-empty">No customers found.</div>
+          ) : (
+            <table className="customer-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Customer Name</th>
+                  <th>Type</th>
+                  <th>Mobile</th>
+                  <th>Email</th>
+                  <th>Membership</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+              </thead>
 
+              <tbody>
+                {filteredCustomers.map((customer) => (
+                  <tr key={customer._id}>
+                    <td>{customer.customerCode || "-"}</td>
+
+                    <td>
+                      <div className="customer-name">
+                        {customer.customerName || "-"}
+                      </div>
+                    </td>
+
+                    <td>{customer.customerType || "-"}</td>
+
+                    <td>{customer.mobile || "-"}</td>
+
+                    <td>{customer.email || "-"}</td>
+
+                    <td>{customer.membershipType || "None"}</td>
+
+                    <td>
+                      <select
+                        className={`customer-status-select ${String(
+                          customer.status || "",
+                        ).toLowerCase()}`}
+                        value={customer.status || "Active"}
+                        onChange={(e) =>
+                          handleStatusChange(customer._id, e.target.value)
+                        }
+                      >
+                        <option value="Active">Active</option>
+
+                        <option value="Inactive">Inactive</option>
+
+                        <option value="Blocked">Blocked</option>
+                      </select>
+                    </td>
+
+                    <td>
+                      <div className="customer-actions">
+                        <EditButton
+                          type="button"
+                          className="customer-edit-btn"
+                          onClick={() => handleEditCustomer(customer)}
+                        >
+                          Edit
+                        </EditButton>
+
+                        <DeleteButton
+                          type="button"
+                          className="customer-delete-btn"
+                          onClick={() => handleDeleteCustomer(customer._id)}
+                          disabled={deleteLoading}
+                        >
+                          Delete
+                        </DeleteButton>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
       <Modal
         open={showModal}
         title={editingCustomer ? "Edit Customer" : "Add Customer"}

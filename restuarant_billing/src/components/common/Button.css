@@ -11,9 +11,11 @@
 
 .btn-add,
 .btn-save {
-  background: var(--color-primary);
+  background: #7A2432;
   float: inline-end;
   width: fit-content;
+  color: #fff;
+  padding: 11px 22px;
 }
 
 .btn-add:hover,
@@ -40,14 +42,14 @@
 }
 
 .btn-cancel {
-  background: #6b7280;
+  background: #4b5563;
   color: #fff;
   width: auto;
   padding: 11px 22px;
 }
 
 .btn-cancel:hover {
-  background: #4b5563;
+  background: #939497;
 }
 
 .btn-pagination {

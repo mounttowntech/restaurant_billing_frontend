@@ -11,6 +11,7 @@ import Sidebar from "../components/Layouts/Sidebar";
 import POSBilling from "../pages/POSBilling/POSBilling";
 import Store from "../pages/Store/Store";
 import Customer from "../pages/customer/Customer";
+import Product from "../pages/product/Product";
 
 function MainLayout() {
   return (
@@ -24,6 +25,7 @@ function MainLayout() {
           <Route path="/pos-billing" element={<POSBilling />} />
           <Route path="/store" element={<Store />} />
           <Route path="/customers" element={<Customer />} />
+          <Route path="/products" element={<Product />} />
         </Routes>
       </main>
     </div>

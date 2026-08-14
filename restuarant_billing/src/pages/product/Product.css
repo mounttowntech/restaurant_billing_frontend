@@ -1,0 +1,237 @@
+/* =====================================================
+   PAGE LAYOUT
+===================================================== */
+
+.product-page {
+  padding: 74px;
+}
+
+.product-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.product-page-header h1 {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.product-page-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.product-add-btn {
+  white-space: nowrap;
+}
+
+.product-error-box {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+/* =====================================================
+   SUMMARY CARDS
+===================================================== */
+
+.product-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.product-summary-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.product-summary-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.product-summary-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.product-grid-page {
+  background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.product-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.product-search input {
+  width: 260px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.product-filter select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #ffffff;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+.product-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-sizing: border-box;
+}
+
+.product-table {
+  width: 100%;
+  min-width: 900px;
+  border: none !important;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.product-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  background: #f9fafb;
+  color: #6b7280;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.product-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.product-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-loading,
+.product-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* =====================================================
+   AVAILABILITY TOGGLE
+===================================================== */
+
+.product-availability-toggle {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.product-availability-toggle.available {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.product-availability-toggle.unavailable {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+/* =====================================================
+   STATUS BADGE
+===================================================== */
+
+.product-status-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.product-status-badge.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.product-status-badge.inactive {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.product-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+  .product-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .product-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-search input {
+    width: 100%;
+  }
+}

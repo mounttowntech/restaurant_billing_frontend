@@ -1,8 +1,3 @@
-/* ==========================================================================
-   Store Page — clean minimal
-   Same spacing scale + tokens as Restaurant.css so both pages feel
-   like one product, not two different screens bolted together.
-   ========================================================================== */
 
 :root {
   --sp-1: 4px;
@@ -36,7 +31,7 @@
 .store-page {
   font-family: var(--st-font);
   color: var(--st-text);
-  max-width: 1120px;
+  max-width: 1020px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
 }
@@ -53,12 +48,13 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--sp-5);
-  margin-bottom: var(--sp-6);
+  margin-bottom: 10px;
 }
 
 .store-page-header h1 {
   font-size: 22px;
   font-weight: 600;
+  color: var(--red-dark);
   margin: 0 0 var(--sp-1);
 }
 
@@ -86,15 +82,13 @@
   background: #000000;
 }
 
-/* ==========================================================================
-   List box
-   ========================================================================== */
+/* List box */
 
 .store-list-box {
   background: var(--st-bg);
   border: 1px solid var(--st-border);
   border-radius: 12px;
-  padding: var(--sp-6);
+  padding: 25px !important;
 }
 
 .store-list-header {
@@ -115,9 +109,7 @@
   color: var(--st-muted);
 }
 
-/* ==========================================================================
-   Filters
-   ========================================================================== */
+/* Filters */
 
 .store-filters {
   display: flex;
@@ -165,9 +157,7 @@
   }
 }
 
-/* ==========================================================================
-   Error banner
-   ========================================================================== */
+/* Error banner */
 
 .store-error {
   font-size: 13px;
@@ -178,9 +168,7 @@
   margin-bottom: var(--sp-4);
 }
 
-/* ==========================================================================
-   Table
-   ========================================================================== */
+/* Table */
 
 .store-table-wrapper {
   overflow-x: auto;
@@ -206,8 +194,8 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--st-muted);
-  background: var(--st-surface);
+  color: #521923;
+  background: var(--yellow-light);
   border-bottom: 1px solid var(--st-border);
 }
 
@@ -220,7 +208,7 @@
 }
 
 .store-table tbody tr:hover {
-  background: var(--st-surface);
+background: var(--yellow-light);
 }
 
 .store-table .store-empty {
@@ -230,9 +218,7 @@
   white-space: normal;
 }
 
-/* ==========================================================================
-   Status pill (toggle button)
-   ========================================================================== */
+/* Status pill (toggle button) */
 
 .store-status {
   display: inline-flex;
@@ -261,9 +247,7 @@
   background: var(--st-danger-bg);
 }
 
-/* ==========================================================================
-   Row actions
-   ========================================================================== */
+/* Row actions */
 
 .store-actions {
   display: flex;
