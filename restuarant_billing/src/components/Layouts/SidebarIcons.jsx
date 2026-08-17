@@ -109,6 +109,28 @@ export const ProductsIcon = (props) => (
   </svg>
 );
 
+export const StoreIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M3 10h18" />
+    <path d="M5 10v10h14V10" />
+    <path d="M4 10l2-6h12l2 6" />
+    <path d="M9 20v-6h6v6" />
+    <path d="M4 10a2 2 0 0 0 4 0" />
+    <path d="M8 10a2 2 0 0 0 4 0" />
+    <path d="M12 10a2 2 0 0 0 4 0" />
+    <path d="M16 10a2 2 0 0 0 4 0" />
+  </svg>
+);
+
 export const PurchaseIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -126,7 +148,7 @@ export const PurchaseIcon = (props) => (
   </svg>
 );
 
-export const SalesIcon = (props) => (
+export const CompaniesIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -137,11 +159,15 @@ export const SalesIcon = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="M3 9h18" />
-    <path d="M7 14h4" />
-    <path d="M16 13v4" />
-    <path d="M14 15h4" />
+    <path d="M4 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17" />
+    <path d="M16 9h3a1 1 0 0 1 1 1v11" />
+    <path d="M2 21h20" />
+    <path d="M8 7h4" />
+    <path d="M8 11h4" />
+    <path d="M8 15h4" />
+    <path d="M8 19v2" />
+    <path d="M16 13h2" />
+    <path d="M16 17h2" />
   </svg>
 );
 

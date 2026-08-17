@@ -1,0 +1,412 @@
+/* =========================================================
+   PURCHASE FORM
+========================================================= */
+
+.purchase-form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.purchase-form-section {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+}
+
+.purchase-form-section > h3 {
+  margin: 0 0 18px 0;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #1f2937;
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.purchase-items-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+.purchase-items-header h3 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #1f2937;
+}
+
+/* =========================================================
+   2 COLUMN GRID
+========================================================= */
+
+.purchase-form-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  box-sizing: border-box;
+}
+
+.form-group label {
+  margin: 0;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  color: #374151;
+}
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  min-width: 0;
+
+  padding: 0 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* =========================================================
+   INPUT / SELECT HEIGHT
+========================================================= */
+
+.form-group input,
+.form-group select {
+  height: 40px;
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form-group textarea {
+  min-height: 90px;
+
+  padding: 10px 12px;
+
+  resize: vertical;
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+  background: #f9fafb;
+
+  color: #6b7280;
+
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* =========================================================
+   FULL WIDTH FIELD
+========================================================= */
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   PURCHASE ITEM CARD
+========================================================= */
+
+.purchase-item-card {
+  width: 100%;
+
+  margin-top: 16px;
+
+  padding: 18px;
+
+  background: #f9fafb;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ITEM HEADER
+========================================================= */
+
+.purchase-item-title {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 16px;
+}
+
+.purchase-item-title h4 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #1f2937;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.purchase-form-section button {
+  height: 36px;
+
+  padding: 0 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.purchase-form-section button:hover {
+  background: #f3f4f6;
+}
+
+/* =========================================================
+   ITEM TOTAL
+========================================================= */
+
+.purchase-item-total {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-top: 16px;
+  padding-top: 12px;
+
+  border-top: 1px solid #e5e7eb;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #1f2937;
+}
+
+/* =========================================================
+   PURCHASE SUMMARY
+========================================================= */
+
+.purchase-summary {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+  box-sizing: border-box;
+}
+
+.purchase-summary > div {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 16px;
+
+  background: #f9fafb;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+.purchase-summary span {
+  font-size: 12px;
+
+  color: #6b7280;
+}
+
+.purchase-summary strong {
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.purchase-form-actions {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #e5e7eb;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+  .purchase-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .purchase-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .purchase-form-section {
+    padding: 16px;
+  }
+
+  .purchase-item-card {
+    padding: 14px;
+  }
+
+  .purchase-items-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .purchase-items-header button {
+    flex-shrink: 0;
+  }
+
+  .purchase-form-actions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+  .purchase-form-actions button {
+    width: 100%;
+  }
+
+  .purchase-summary > div {
+    padding: 12px 14px;
+  }
+}

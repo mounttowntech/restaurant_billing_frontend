@@ -8,10 +8,11 @@ import {
   POSIcon,
   RestaurantIcon,
   ProductsIcon,
+  StoreIcon,
+  CompaniesIcon,
   CustomersIcon,
   PurchaseIcon,
   SuppliersIcon,
-  PaymentsIcon,
   ReturnsIcon,
   StockIcon,
   ReportsIcon,
@@ -42,7 +43,7 @@ const Sidebar = () => {
     {
       name: "Store",
       path: "/store",
-      icon: ProductsIcon,
+      icon: StoreIcon,
     },
     {
       name: "Purchase",
@@ -50,9 +51,9 @@ const Sidebar = () => {
       icon: PurchaseIcon,
     },
     {
-      name: "Sales",
-      path: "/sales",
-      icon: PaymentsIcon,
+      name: "Companies",
+      path: "/companies",
+      icon: CompaniesIcon,
     },
     {
       name: "Returns",

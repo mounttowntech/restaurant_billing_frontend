@@ -1,0 +1,223 @@
+/* =====================================================
+   COMPANY FORM
+===================================================== */
+
+.company-form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   FORM SECTION
+===================================================== */
+
+.company-form-section {
+  margin-bottom: 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.company-form-section:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.company-form-section-title {
+  margin-bottom: 14px;
+}
+
+.company-form-section-title h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.company-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* =====================================================
+   FORM GROUP
+===================================================== */
+
+.company-form-group {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.company-form-group label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.company-form-group .required {
+  margin-left: 3px;
+  color: #dc2626;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.company-form-group input,
+.company-form-group select,
+.company-form-group textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.company-form-group input,
+.company-form-group select {
+  height: 40px;
+}
+
+.company-form-group textarea {
+  min-height: 80px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.company-form-group input:focus,
+.company-form-group select:focus,
+.company-form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+.company-form-group input::placeholder,
+.company-form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.company-form-group input:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   FULL WIDTH
+===================================================== */
+
+.company-full-width {
+  grid-column: 1 / -1;
+}
+
+/* =====================================================
+   FORM ERROR
+===================================================== */
+
+.company-form-error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+/* =====================================================
+   FORM ACTIONS
+===================================================== */
+
+.company-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  margin-top: 4px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.company-cancel-button,
+.company-submit-button {
+  min-width: 120px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.company-cancel-button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+}
+
+.company-cancel-button:hover {
+  background: #f3f4f6;
+}
+
+.company-submit-button {
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.company-submit-button:hover {
+  border-color: #1d4ed8;
+  background: #1d4ed8;
+}
+
+.company-cancel-button:disabled,
+.company-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+  .company-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-full-width {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .company-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .company-cancel-button,
+  .company-submit-button {
+    width: 100%;
+  }
+}

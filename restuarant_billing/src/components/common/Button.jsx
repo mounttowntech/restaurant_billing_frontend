@@ -41,6 +41,14 @@ export const SaveButton = ({ children = "Save", type = "submit", onClick }) => {
   );
 };
 
+export const PaymentButton = ({ children = "Payment", onClick }) => {
+  return (
+    <button type="button" className="btn btn-payment" onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
 export const PreviousButton = ({
   children = "Previous",
   onClick,

@@ -5,6 +5,8 @@ import posBillingSlice from "../features/posbilling/posBillingSlice";
 import storeSlice from "../features/store/storeSlice";
 import customerSlice from "../features/customer/customerSlice";
 import productSlice from "../features/product/productSlice";
+import purchaseSlice from "../features/purchase/purchaseSlice";
+import companySlice from "../features/company/companySlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     stores: storeSlice,
     customer: customerSlice,
     product: productSlice,
+    purchase: purchaseSlice,
+    company: companySlice,
   },
 });
 

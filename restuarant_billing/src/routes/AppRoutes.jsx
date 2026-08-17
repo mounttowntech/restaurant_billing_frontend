@@ -10,8 +10,10 @@ import Restaurant from "../pages/restaurant/Restaurant";
 import Sidebar from "../components/Layouts/Sidebar";
 import POSBilling from "../pages/POSBilling/POSBilling";
 import Store from "../pages/Store/Store";
-import Customer from "../pages/customer/Customer";
-import Product from "../pages/product/Product";
+import Customer from "../pages/Customer/Customer";
+import Product from "../pages/Product/Product";
+import Purchase from "../pages/Purchase/Purchase";
+import Company from "../pages/Companies/Company";
 
 function MainLayout() {
   return (
@@ -26,6 +28,8 @@ function MainLayout() {
           <Route path="/store" element={<Store />} />
           <Route path="/customers" element={<Customer />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/purchases" element={<Purchase />} />
+          <Route path="/companies" element={<Company />} />
         </Routes>
       </main>
     </div>
