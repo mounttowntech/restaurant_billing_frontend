@@ -364,7 +364,7 @@ const Product = () => {
                     </td>
 
                     <td>
-                      <div className="product-actions">
+                      <div className="modal-actions">
                         <EditButton
                           type="button"
                           className="product-edit-btn"

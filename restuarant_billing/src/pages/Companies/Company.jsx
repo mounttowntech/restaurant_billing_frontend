@@ -309,7 +309,7 @@ const Company = () => {
                   </td>
 
                   <td>
-                    <div className="company-action-buttons">
+                    <div className="modal-actions">
                       {!company.isDeleted ? (
                         <>
                           <EditButton onClick={() => handleEdit(company._id)}>

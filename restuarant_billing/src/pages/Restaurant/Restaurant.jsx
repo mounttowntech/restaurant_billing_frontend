@@ -374,7 +374,7 @@ const Restaurant = () => {
                     </td>
 
                     <td>
-                      <div className="action-buttons">
+                      <div className="modal-actions">
                         <EditButton onClick={() => handleEdit(restaurant)}>
                           Edit
                         </EditButton>

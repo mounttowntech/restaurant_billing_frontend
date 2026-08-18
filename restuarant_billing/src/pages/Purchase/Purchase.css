@@ -326,7 +326,7 @@
 }
 
 .purchase-table tbody tr:hover {
-  background: #fafafa;
+background: var(--yellow-light);
 }
 
 .purchase-table tbody tr:last-child td {

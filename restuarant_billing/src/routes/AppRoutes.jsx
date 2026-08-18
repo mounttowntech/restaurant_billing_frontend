@@ -14,6 +14,9 @@ import Customer from "../pages/Customer/Customer";
 import Product from "../pages/Product/Product";
 import Purchase from "../pages/Purchase/Purchase";
 import Company from "../pages/Companies/Company";
+import Invoice from "../pages/Invoice/Invoice";
+import MenuItem from "../pages/Menu/MenuItem";
+import MenuCategory from "../pages/MenuCategory/MenuCategory";
 
 function MainLayout() {
   return (
@@ -27,9 +30,12 @@ function MainLayout() {
           <Route path="/pos-billing" element={<POSBilling />} />
           <Route path="/store" element={<Store />} />
           <Route path="/customers" element={<Customer />} />
+          <Route path="/menu-categories" element={<MenuCategory />} />
           <Route path="/products" element={<Product />} />
           <Route path="/purchases" element={<Purchase />} />
           <Route path="/companies" element={<Company />} />
+          <Route path="/invoices" element={<Invoice />} />
+          <Route path="/menu-items" element={<MenuItem />} />
         </Routes>
       </main>
     </div>

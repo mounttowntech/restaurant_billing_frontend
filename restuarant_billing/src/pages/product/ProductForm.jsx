@@ -157,10 +157,6 @@ const ProductForm = ({
 
   return (
     <form className="product-form" onSubmit={handleSubmit(onFormSubmit)}>
-      {" "}
-      {/* =====================================================
-          BASIC INFORMATION
-      ===================================================== */}
       <div className="product-form-section">
         <h3>Basic Information</h3>
 

@@ -56,3 +56,20 @@
   padding: 24px;
   overflow-y: auto;
 }
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+       
+.modal-actions button {
+  padding: 5px 9px;
+  border: 1px solid #d7d7d7;
+  border-radius: 5px;
+  background: #521923;
+  font-size: 11px;
+  color: #fff;
+  cursor: pointer;
+}

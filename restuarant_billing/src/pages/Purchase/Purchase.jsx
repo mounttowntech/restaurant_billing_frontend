@@ -489,7 +489,7 @@ const Purchase = () => {
                     </td>
 
                     <td>
-                      <div className="purchase-actions">
+                      <div className="modal-actions">
                         <EditButton onClick={() => handleEdit(purchase._id)}>
                           Edit
                         </EditButton>

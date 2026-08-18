@@ -322,7 +322,7 @@ const Customer = () => {
                     </td>
 
                     <td>
-                      <div className="customer-actions">
+                      <div className="modal-actions">
                         <EditButton
                           type="button"
                           className="customer-edit-btn"

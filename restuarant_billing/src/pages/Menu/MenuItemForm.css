@@ -1,0 +1,224 @@
+/* ==========================================================
+   MENU ITEM FORM
+========================================================== */
+
+.menu-item-form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   FORM SECTION
+========================================================== */
+
+.menu-item-form-section {
+  width: 100%;
+  padding: 0 0 22px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-item-form-section:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.menu-item-form-section h3 {
+  margin: 0 0 16px;
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   FORM GRID
+========================================================== */
+
+.menu-item-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 18px;
+  width: 100%;
+}
+
+/* ==========================================================
+   FORM FIELD
+========================================================== */
+
+.menu-item-field {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.menu-item-field input,
+.menu-item-field select,
+.menu-item-field textarea {
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   FULL WIDTH FIELD
+========================================================== */
+
+.menu-item-full-width {
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================
+   INPUT STYLING
+   This also works if your Input component passes the
+   normal input element through.
+========================================================== */
+
+.menu-item-field input[type="text"],
+.menu-item-field input[type="number"],
+.menu-item-field input[type="url"],
+.menu-item-field select,
+.menu-item-field textarea {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 13px;
+  transition: border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.menu-item-field textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+.menu-item-field input::placeholder,
+.menu-item-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+.menu-item-field input:focus,
+.menu-item-field select:focus,
+.menu-item-field textarea:focus {
+  border-color: #7a0d2e;
+  box-shadow: 0 0 0 2px rgba(122, 13, 46, 0.08);
+}
+
+.menu-item-field input:disabled,
+.menu-item-field select:disabled,
+.menu-item-field textarea:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   LABEL
+========================================================== */
+
+.menu-item-field label {
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   NUMBER INPUT
+========================================================== */
+
+.menu-item-field input[type="number"] {
+  appearance: textfield;
+}
+
+.menu-item-field input[type="number"]::-webkit-inner-spin-button,
+.menu-item-field input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+}
+
+/* ==========================================================
+   CHECKBOX FIELD
+========================================================== */
+
+.menu-item-checkbox-field {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+}
+
+.menu-item-checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.menu-item-checkbox-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #7a0d2e;
+  cursor: pointer;
+}
+
+/* ==========================================================
+   ERROR MESSAGE SUPPORT
+========================================================== */
+
+.menu-item-field .error,
+.menu-item-field .error-message {
+  display: block;
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 11px;
+}
+
+/* ==========================================================
+   FORM ACTIONS
+========================================================== */
+
+.menu-item-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+  padding-top: 4px;
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.menu-item-form-actions button {
+  min-width: 100px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 800px) {
+  .menu-item-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-item-full-width {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .menu-item-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .menu-item-form-actions button {
+    width: 100%;
+  }
+}

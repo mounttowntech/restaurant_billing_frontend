@@ -11,10 +11,11 @@ import {
   StoreIcon,
   CompaniesIcon,
   CustomersIcon,
+  MenuCategoriesIcon,
   PurchaseIcon,
   SuppliersIcon,
   ReturnsIcon,
-  StockIcon,
+  menuItemIcon,
   ReportsIcon,
 } from "./SidebarIcons";
 
@@ -34,6 +35,11 @@ const Sidebar = () => {
       name: "Restaurants",
       path: "/restaurants",
       icon: RestaurantIcon,
+    },
+    {
+      name: "Menu Categories",
+      path: "/menu-categories",
+      icon: MenuCategoriesIcon,
     },
     {
       name: "Products",
@@ -56,8 +62,8 @@ const Sidebar = () => {
       icon: CompaniesIcon,
     },
     {
-      name: "Returns",
-      path: "/sales-return",
+      name: "Invoices",
+      path: "/invoices",
       icon: ReturnsIcon,
     },
     {
@@ -71,9 +77,9 @@ const Sidebar = () => {
       icon: SuppliersIcon,
     },
     {
-      name: "Stock",
-      path: "/stock",
-      icon: StockIcon,
+      name: "Menu Items",
+      path: "/menu-items",
+      icon: menuItemIcon,
     },
     {
       name: "Reports",

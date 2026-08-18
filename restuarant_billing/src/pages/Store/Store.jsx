@@ -389,7 +389,7 @@ const Store = () => {
                     </td>
 
                     <td>
-                      <div className="store-actions">
+                      <div className="modal-actions">
                         <EditButton onClick={() => handleEdit(store)}>
                           Edit
                         </EditButton>

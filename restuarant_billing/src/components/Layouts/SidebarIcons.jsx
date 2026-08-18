@@ -225,7 +225,7 @@ export const SuppliersIcon = (props) => (
   </svg>
 );
 
-export const StockIcon = (props) => (
+export const menuItemIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -375,5 +375,25 @@ export const CloseIcon = (props) => (
   >
     <path d="M18 6L6 18" />
     <path d="M6 6L18 18" />
+  </svg>
+);
+
+export const MenuCategoriesIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M4 5h16" />
+    <path d="M4 12h16" />
+    <path d="M4 19h16" />
+    <circle cx="7" cy="5" r="1" />
+    <circle cx="7" cy="12" r="1" />
+    <circle cx="7" cy="19" r="1" />
   </svg>
 );
