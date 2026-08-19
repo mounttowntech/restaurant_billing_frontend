@@ -1,0 +1,317 @@
+/* =========================================================
+   INVOICE FORM
+========================================================= */
+
+.invoice-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.invoice-form-section {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.invoice-form-section:last-child {
+  margin-bottom: 0;
+}
+
+.form-section-header{
+    display: flex !important;
+    padding-bottom: 20px !important;
+    gap: 120px !important;
+    align-items: center !important;
+}
+
+.invoice-form-section h3 {
+  margin: 0 0 15px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.invoice-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-top: 18px;
+  margin-top: 4px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.invoice-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+
+/* =========================================================
+   FULL WIDTH
+========================================================= */
+
+.invoice-full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.invoice-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.invoice-section-header h3 {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   ADD ITEM BUTTON
+========================================================= */
+
+.invoice-add-item-btn {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   ITEM CARD
+========================================================= */
+
+.invoice-item-card {
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid #e4e4e4;
+  border-radius: 7px;
+  background: #fafafa;
+}
+
+.invoice-item-card:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   ITEM HEADER
+========================================================= */
+
+.invoice-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.invoice-item-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.invoice-item-header button {
+  padding: 5px 9px;
+  border: 1px solid #e2b2b2;
+  border-radius: 5px;
+  background: #fff;
+  color: #c62828;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.invoice-item-header button:hover {
+  background: #fff2f2;
+}
+
+
+/* =========================================================
+   ITEM GRID
+========================================================= */
+
+.invoice-item-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+
+/* =========================================================
+   ITEM TOTAL
+========================================================= */
+
+.invoice-item-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 13px;
+}
+
+.invoice-item-total strong {
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   PAYMENT SUMMARY
+========================================================= */
+
+.invoice-payment-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.invoice-summary-box {
+  padding: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.invoice-summary-box span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: #777;
+}
+
+.invoice-summary-box strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.invoice-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e8e8;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.invoice-form-actions button {
+  min-width: 100px;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.invoice-form-cancel {
+  border: 1px solid #d5d5d5;
+  background: #fff;
+  color: #555;
+}
+
+.invoice-form-submit {
+  border: none;
+  background: #222;
+  color: #fff;
+}
+
+.invoice-form-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.invoice-form-error {
+  margin-bottom: 15px;
+  padding: 9px 12px;
+  border: 1px solid #efb4b4;
+  border-radius: 6px;
+  background: #fff2f2;
+  color: #c62828;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .invoice-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-item-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-full-width {
+    grid-column: auto;
+  }
+
+  .invoice-payment-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .invoice-form-section {
+    margin-bottom: 18px;
+  }
+
+  .invoice-item-card {
+    padding: 12px;
+  }
+
+  .invoice-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .invoice-form-actions button {
+    width: 100%;
+  }
+}

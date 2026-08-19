@@ -1,0 +1,105 @@
+.btn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px 16px;
+  width: 100px;
+  color: var(--color-white);
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.btn-add,
+.btn-save {
+  background: #7A2432;
+  float: inline-end;
+  width: fit-content;
+  color: #fff;
+  padding: 11px 22px;
+}
+
+.btn-add:hover,
+.btn-save:hover {
+  background:#7A2432;
+}
+
+.btn-edit {
+  background:#7A2432;
+  color: #fff;
+}
+
+.btn-edit:hover {
+  background:#7A2432;
+}
+
+.btn-delete {
+  background:#A3282E !important;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background:#A3282E !important;
+}
+
+.btn-cancel {
+  background: #4b5563;
+  color: #fff;
+  width: auto;
+  padding: 11px 22px;
+}
+
+.btn-cancel:hover {
+  background: #939497;
+}
+
+.btn-pagination {
+  background: #0f766e;
+  color: #fff;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background:#7A2432;
+}
+
+.btn-pagination:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;         
+  min-width: fit-content;
+  white-space: nowrap;  
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 10px;
+  background: #7A2432;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(11, 127, 121, 0.2);
+}
+
+.btn-primary:hover {
+  background: #7A2432;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 127, 121, 0.3);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

@@ -1,0 +1,906 @@
+
+.dashboard-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 32px 40px 50px;
+    box-sizing: border-box;
+    background: #f8f9fb;
+    font-family:
+        "Poppins",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    color: #4b1720;
+}
+
+.dashboard-header {
+    width: 100%;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-header h1 {
+    margin: 0 0 6px;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #5a1822;
+}
+
+.dashboard-header p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #6f6f6f;
+}
+
+.dashboard-loading {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    color: #5a1822;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-error {
+    width: 100%;
+    padding: 15px 18px;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    border: 1px solid #f1b8b8;
+    border-radius: 12px;
+    background: #fff3f3;
+    color: #c62828;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.dashboard-cards {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    gap: 24px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   SINGLE CARD
+========================================================= */
+
+.dashboard-card {
+    position: relative;
+    min-width: 0;
+    min-height: 180px;
+    padding: 15px 14px 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid #e3e5e8;
+    border-radius: 18px;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.04),
+        0 2px 5px rgba(0, 0, 0, 0.025);
+    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08),
+        0 3px 8px rgba(0, 0, 0, 0.03);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.dashboard-card-content {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.dashboard-card-title {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 14px;
+    line-height: 1.4;
+
+    font-weight: 600;
+
+    color: #2855c7;
+}
+
+.dashboard-card:nth-child(2) .dashboard-card-title {
+    color: #48b979;
+}
+
+.dashboard-card:nth-child(3) .dashboard-card-title {
+    color: #f3a11b;
+}
+
+.dashboard-card:nth-child(4) .dashboard-card-title {
+    color: #8b52e8;
+}
+
+.dashboard-card:nth-child(5) .dashboard-card-title {
+    color: #d84d5a;
+}
+
+
+/* =========================================================
+   CARD VALUE
+========================================================= */
+
+.dashboard-card h2 {
+    margin: 25px 0 8px;
+
+    font-size: 31px;
+    line-height: 1.15;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    color: #581923;
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.dashboard-card-label {
+    display: block;
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    color: #777777;
+
+    font-weight: 400;
+}
+
+/* 
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.dashboard-card-icon {
+    position: absolute;
+
+    top: 20px;
+    left: 24px;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    z-index: 3;
+}
+
+
+/* Move content down because icon is at the top */
+
+.dashboard-card-content {
+    padding-top: 48px;
+}
+
+
+/* =========================================================
+   SALES ICON
+========================================================= */
+
+.sales-icon {
+    /* background: #dce7ff; */
+    color: #2356d8;
+}
+
+
+/* =========================================================
+   BILLS ICON
+========================================================= */
+
+.bills-icon {
+    /* background: #d8f4e5; */
+    color: #21965c;
+}
+
+
+/* =========================================================
+   ORDERS ICON
+========================================================= */
+
+.orders-icon {
+    /* background: #ffe8c2; */
+    color: #ee9414;
+}
+
+
+/* =========================================================
+   CUSTOMERS ICON
+========================================================= */
+
+.customers-icon {
+    /* background: #eadcff; */
+    color: #8247dc;
+}
+
+
+/* =========================================================
+   STOCK ICON
+========================================================= */
+
+.stock-icon {
+    /* background: #ffe0e0; */
+    color: #d43e4b;
+}
+
+
+/* =========================================================
+   LOW STOCK CARD
+========================================================= */
+
+.low-stock-card h2 {
+    color: #5a1822;
+} 
+
+
+/* =========================================================
+   CARD BOTTOM GRAPH EFFECT
+========================================================= */
+
+.dashboard-card::after {
+    content: "";
+
+    position: absolute;
+
+    left: -5%;
+    right: -5%;
+    bottom: 0;
+
+    height: 58px;
+
+    opacity: 0.18;
+
+    background:
+        linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 20%,
+            #3264d8 21%,
+            #3264d8 22%,
+            transparent 23%,
+            transparent 37%,
+            #3264d8 38%,
+            #3264d8 39%,
+            transparent 40%,
+            transparent 55%,
+            #3264d8 56%,
+            #3264d8 57%,
+            transparent 58%,
+            transparent 72%,
+            #3264d8 73%,
+            #3264d8 74%,
+            transparent 75%,
+            transparent 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* Green graph */
+
+.dashboard-card:nth-child(2)::after {
+    background:
+        linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 20%,
+            #36a66b 21%,
+            #36a66b 22%,
+            transparent 23%,
+            transparent 37%,
+            #36a66b 38%,
+            #36a66b 39%,
+            transparent 40%,
+            transparent 55%,
+            #36a66b 56%,
+            #36a66b 57%,
+            transparent 58%,
+            transparent 72%,
+            #36a66b 73%,
+            #36a66b 74%,
+            transparent 75%,
+            transparent 100%
+        );
+}
+
+
+/* Orange graph */
+
+.dashboard-card:nth-child(3)::after {
+    background:
+        linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 20%,
+            #f0a12b 21%,
+            #f0a12b 22%,
+            transparent 23%,
+            transparent 37%,
+            #f0a12b 38%,
+            #f0a12b 39%,
+            transparent 40%,
+            transparent 55%,
+            #f0a12b 56%,
+            #f0a12b 57%,
+            transparent 58%,
+            transparent 72%,
+            #f0a12b 73%,
+            #f0a12b 74%,
+            transparent 75%,
+            transparent 100%
+        );
+}
+
+
+/* Purple graph */
+
+.dashboard-card:nth-child(4)::after {
+    background:
+        linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 20%,
+            #8852df 21%,
+            #8852df 22%,
+            transparent 23%,
+            transparent 37%,
+            #8852df 38%,
+            #8852df 39%,
+            transparent 40%,
+            transparent 55%,
+            #8852df 56%,
+            #8852df 57%,
+            transparent 58%,
+            transparent 72%,
+            #8852df 73%,
+            #8852df 74%,
+            transparent 75%,
+            transparent 100%
+        );
+}
+/* Red graph */
+
+.dashboard-card:nth-child(5)::after {
+    background:
+        linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 20%,
+            #d84d5a 21%,
+            #d84d5a 22%,
+            transparent 23%,
+            transparent 37%,
+            #d84d5a 38%,
+            #d84d5a 39%,
+            transparent 40%,
+            transparent 55%,
+            #d84d5a 56%,
+            #d84d5a 57%,
+            transparent 58%,
+            transparent 72%,
+            #d84d5a 73%,
+            #d84d5a 74%,
+            transparent 75%,
+            transparent 100%
+        );
+}
+
+
+/* =========================================================
+   RECENT SALES BOX
+========================================================= */
+
+.recent-sales-box {
+    width: 100%;
+    margin-top: 36px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e4e7;
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.04),
+        0 2px 6px rgba(0, 0, 0, 0.025);
+}
+
+
+/* =========================================================
+   RECENT SALES HEADER
+========================================================= */
+
+.recent-sales-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 25px 30px 24px;
+}
+
+.recent-sales-header h2 {
+    margin: 0 0 6px;
+
+    color: #581923;
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.recent-sales-header p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.recent-sales-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.recent-sales-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.recent-sales-table thead {
+    background: #fff5e3;
+}
+
+.recent-sales-table th {
+    padding: 14px 28px;
+
+    text-align: left;
+
+    color: #5b252d;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.recent-sales-table tbody tr {
+    border-bottom: 1px solid #eeeeee;
+
+    transition: background 0.15s ease;
+}
+
+.recent-sales-table tbody tr:hover {
+    background: #fffdf9;
+}
+
+.recent-sales-table td {
+    padding: 19px 28px;
+
+    color: #333333;
+
+    font-size: 14px;
+
+    vertical-align: middle;
+}
+
+
+/* =========================================================
+   INVOICE
+========================================================= */
+
+.recent-invoice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.invoice-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #fff4df;
+
+    color: #dba744;
+
+    font-size: 14px;
+}
+
+.recent-invoice strong {
+    color: #333333;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer-name {
+    color: #333333;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SALE TOTAL
+========================================================= */
+
+.sale-total {
+    color: #2e2e2e;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.sale-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* Status dot */
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/* Paid */
+
+.sale-status.paid {
+    background: #e8f8f0;
+
+    color: #40bd7b;
+}
+
+
+/* Pending */
+
+.sale-status.pending {
+    background: #eef0f8;
+
+    color: #65708c;
+}
+
+
+/* Overdue */
+
+.sale-status.overdue {
+    background: #ffeded;
+
+    color: #e34e4e;
+}
+
+
+/* =========================================================
+   NO SALES
+========================================================= */
+
+.no-sales {
+    padding: 45px 20px !important;
+
+    text-align: center;
+
+    color: #888888 !important;
+
+    font-size: 14px !important;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.recent-sales-loading {
+    padding: 45px 20px;
+
+    text-align: center;
+
+    color: #777777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.recent-sales-error {
+    margin: 0 25px 20px;
+
+    padding: 12px 15px;
+
+    border-radius: 8px;
+
+    background: #fff2f2;
+
+    color: #d33c3c;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.recent-sales-footer {
+    padding: 13px 20px;
+
+    text-align: center;
+
+    background: #fff5e3;
+
+    color: #5b252d;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .recent-sales-table {
+        min-width: 750px;
+    }
+
+    .recent-sales-table-wrapper {
+        overflow-x: auto;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .recent-sales-box {
+        margin-top: 25px;
+
+        border-radius: 14px;
+    }
+
+    .recent-sales-header {
+        padding: 20px;
+    }
+
+    .recent-sales-header h2 {
+        font-size: 19px;
+    }
+
+    .recent-sales-table th,
+    .recent-sales-table td {
+        padding: 14px 18px;
+    }
+}
+
+@media (max-width: 1300px) {
+    .dashboard-page {
+        padding: 30px;
+    }
+
+    .dashboard-cards {
+        gap: 20px;
+    }
+
+    .dashboard-card {
+        min-height: 225px;
+        padding: 22px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 28px;
+    }
+}
+
+
+/* 
+   RESPONSIVE - TABLET
+ */
+
+@media (max-width: 1050px) {
+    .dashboard-page {
+        padding: 28px 24px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-card {
+        min-height: 220px;
+    }
+}
+
+
+/* 
+   RESPONSIVE - MOBILE
+ */
+
+@media (max-width: 650px) {
+    .dashboard-page {
+        padding: 20px 16px 35px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 25px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 24px;
+    }
+
+    .dashboard-header p {
+        font-size: 13px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .dashboard-card {
+        min-height: 205px;
+
+        padding: 20px;
+    }
+
+    .dashboard-card-icon {
+        left: 20px;
+        top: 18px;
+
+        width: 44px;
+        height: 44px;
+
+        font-size: 18px;
+    }
+
+    .dashboard-card-content {
+        padding-top: 45px;
+    }
+
+    .dashboard-card h2 {
+        margin-top: 20px;
+
+        font-size: 27px;
+    }
+
+    .dashboard-card-title {
+        font-size: 13px;
+    }
+
+    .dashboard-card-label {
+        font-size: 11px;
+    }
+}
+
+
+/* 
+   VERY SMALL MOBILE
+ */
+
+@media (max-width: 400px) {
+    .dashboard-page {
+        padding: 16px 12px 30px;
+    }
+
+    .dashboard-card {
+        min-height: 195px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 25px;
+    }
+}

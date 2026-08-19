@@ -1,0 +1,1236 @@
+/* =========================================================
+   CUSTOMER PAGE
+========================================================= */
+
+:root {
+  --ink: #1c1917;
+  --ink-soft: #44403c;
+  --muted: #78716c;
+  --line: #e7e2dc;
+  --surface: #ffffff;
+
+  --purple: #4f46e5;
+  --purple-dark: #312e81;
+  --purple-tint: #eeedfc;
+
+  --red: #7a2432;
+  --red-dark: #521923;
+  --red-tint: #fbecee;
+
+  --yellow: #d6a756;
+  --yellow-light: #fff5e5;
+
+  --success: #15803d;
+  --success-tint: #eaf6ec;
+
+  --radius: 10px;
+
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06);
+  --shadow-md: 0 12px 32px rgba(49, 46, 129, 0.16);
+
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+
+/* =========================================================
+   CUSTOMER PAGE
+========================================================= */
+
+.customer-page {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+
+  margin: 0 auto;
+  padding: 56px;
+
+  box-sizing: border-box;
+
+  font-family: var(--font-body);
+  color: var(--ink);
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.customer-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.customer-page-header > div {
+  min-width: 0;
+}
+
+.customer-page-header h1 {
+  margin: 0 0 4px;
+
+  font-size: 1.55rem;
+  line-height: 1.3;
+
+  font-weight: 700;
+  letter-spacing: -0.01em;
+
+  color: var(--red-dark);
+}
+
+.customer-page-header p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   ADD CUSTOMER BUTTON
+========================================================= */
+
+.customer-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 10px 18px;
+
+  background: var(--red-dark);
+  color: #ffffff;
+
+  border: none;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.customer-add-btn:hover {
+  background: var(--purple-dark);
+
+  transform: translateY(-1px);
+}
+
+.customer-add-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.customer-error-box {
+  width: 100%;
+
+  margin-bottom: 16px;
+  padding: 12px 16px;
+
+  box-sizing: border-box;
+
+  background: var(--red-tint);
+  color: var(--red);
+
+  border: 1px solid rgba(122, 36, 50, 0.25);
+  border-radius: 8px;
+
+  font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.customer-summary-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 14px;
+
+  margin-bottom: 20px;
+}
+
+.customer-summary-card {
+  min-width: 0;
+
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.customer-summary-card:hover {
+  border-color: rgba(122, 36, 50, 0.25);
+
+  box-shadow: var(--shadow-md);
+}
+
+.customer-summary-label {
+  margin-bottom: 7px;
+
+  color: var(--muted);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.customer-summary-value {
+  color: var(--ink);
+
+  font-size: 1.4rem;
+  line-height: 1.2;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.customer-toolbar {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin-bottom: 18px;
+}
+
+.customer-search {
+  flex: 1;
+  min-width: 250px;
+}
+
+.customer-search input {
+  width: 100%;
+  max-width: 340px;
+
+  padding: 10px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(122, 36, 50, 0.25);
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+
+  background: var(--surface);
+  color: var(--ink);
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.customer-search input::placeholder {
+  color: var(--muted);
+}
+
+.customer-search input:focus {
+  border-color: var(--purple);
+
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.14);
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.customer-filter {
+  flex: 0 0 auto;
+}
+
+.customer-filter select {
+  width: 160px;
+  height: 42px;
+
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--line);
+  border-radius: 8px;
+
+  outline: none;
+
+  background: var(--surface);
+  color: var(--ink-soft);
+
+  font-family: inherit;
+  font-size: 0.9rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.customer-filter select:focus {
+  border-color: var(--purple);
+
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.14);
+}
+
+
+/* =========================================================
+   CUSTOMER TABLE
+========================================================= */
+
+.customer-table-container {
+  width: 100%;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  box-sizing: border-box;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.customer-table {
+  width: 100%;
+
+  min-width: 950px;
+
+  border-collapse: collapse;
+
+  table-layout: auto;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.customer-table thead tr {
+  background: var(--yellow-light);
+}
+
+.customer-table th {
+  padding: 12px 16px;
+
+  border-bottom: 1px solid var(--line);
+
+  text-align: left;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  color: var(--red-dark);
+
+  white-space: nowrap;
+}
+
+.customer-table th:first-child {
+  padding-left: 18px;
+}
+
+.customer-table th:last-child {
+  padding-right: 18px;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.customer-table td {
+  padding: 13px 16px;
+
+  border-bottom: 1px solid var(--line);
+
+  color: var(--ink-soft);
+
+  font-size: 0.88rem;
+
+  white-space: nowrap;
+
+  vertical-align: middle;
+}
+
+.customer-table td:first-child {
+  padding-left: 18px;
+}
+
+.customer-table td:last-child {
+  padding-right: 18px;
+}
+
+.customer-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.customer-table tbody tr:hover {
+  background: var(--yellow-light);
+}
+
+.customer-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   CUSTOMER NAME
+========================================================= */
+
+.customer-name {
+  color: var(--ink);
+
+  font-size: 0.88rem;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.customer-status-select {
+  border: none;
+
+  border-radius: 999px;
+
+  padding: 5px 14px;
+
+  min-width: 90px;
+
+  font-family: inherit;
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  outline: none;
+
+  transition: filter 0.15s ease;
+}
+
+.customer-status-select.active {
+  background: var(--success-tint);
+  color: var(--success);
+}
+
+.customer-status-select.inactive {
+  background: var(--yellow-light);
+  color: #a16207;
+}
+
+.customer-status-select.blocked {
+  background: var(--red-tint);
+  color: var(--red);
+}
+
+.customer-status-select:hover {
+  filter: brightness(0.95);
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.customer-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  white-space: nowrap;
+}
+
+.customer-edit-btn,
+.customer-delete-btn {
+  border: 1px solid var(--line);
+
+  background: var(--surface);
+
+  border-radius: 6px;
+
+  padding: 6px 12px;
+
+  font-family: inherit;
+
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.customer-edit-btn:hover {
+  border-color: var(--purple);
+
+  color: var(--purple-dark);
+
+  background: var(--purple-tint);
+}
+
+.customer-delete-btn {
+  color: var(--red);
+}
+
+.customer-delete-btn:hover {
+  border-color: var(--red);
+
+  color: var(--red);
+
+  background: var(--red-tint);
+}
+
+.customer-delete-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   CUSTOMER FORM
+   MATCHES RESTAURANT FORM DESIGN
+========================================================= */
+
+.customer-form {
+  width: 100%;
+
+  padding: 8px 0px 28px;
+
+  box-sizing: border-box;
+
+  background: var(--surface);
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.customer-form-section {
+  width: 100%;
+
+  margin-bottom: 24px;
+}
+
+.customer-form-section:last-of-type {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   FORM SECTION TITLE
+========================================================= */
+
+.customer-form-section h3 {
+  margin: 20px 0 12px;
+
+  padding: 0;
+
+  border-bottom: none;
+
+  color: var(--rf-muted);
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+
+  line-height: 1.4;
+}
+
+.customer-form-section:first-child h3 {
+  margin-top: 12px;
+}
+
+
+/* =========================================================
+   FORM GRID
+   EXACT RESTAURANT STYLE
+========================================================= */
+
+.customer-form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 14px 16px;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   CUSTOMER FIELD
+========================================================= */
+
+.customer-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  min-width: 0;
+
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FULL WIDTH FIELD
+========================================================= */
+
+.customer-full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.customer-field label {
+  display: block;
+
+  margin: 0;
+
+  color: var(--ink-soft);
+
+  font-size: 0.76rem;
+
+  font-weight: 600;
+
+  line-height: 1.4;
+}
+
+.customer-field label span {
+  color: var(--red);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.customer-field input,
+.customer-field textarea,
+.customer-field select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 9px 12px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 7px;
+
+  background: var(--surface);
+
+  color: var(--ink);
+
+  outline: none;
+
+  font-family: inherit;
+
+  font-size: 0.87rem;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* =========================================================
+   INPUT + SELECT HEIGHT
+========================================================= */
+
+.customer-field input,
+.customer-field select {
+  height: 40px;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.customer-field textarea {
+  min-height: 64px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.customer-field input::placeholder,
+.customer-field textarea::placeholder {
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   INPUT HOVER
+========================================================= */
+
+.customer-field input:hover,
+.customer-field textarea:hover,
+.customer-field select:hover {
+  border-color: rgba(122, 36, 50, 0.35);
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+========================================================= */
+
+.customer-field input:focus,
+.customer-field textarea:focus,
+.customer-field select:focus {
+  border-color: var(--purple);
+
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.14);
+}
+
+
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.customer-field input:disabled,
+.customer-field select:disabled,
+.customer-field textarea:disabled {
+  background: #f2efec;
+
+  color: var(--muted);
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   DATE INPUT
+========================================================= */
+
+.customer-field input[type="date"] {
+  cursor: pointer;
+}
+
+.customer-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+
+  opacity: 0.7;
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+.customer-field input[type="number"] {
+  appearance: textfield;
+
+  -moz-appearance: textfield;
+}
+
+.customer-field input[type="number"]::-webkit-inner-spin-button,
+.customer-field input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.customer-field select {
+  cursor: pointer;
+
+  appearance: auto;
+}
+
+
+/* =========================================================
+   FORM ERROR
+========================================================= */
+
+.customer-error {
+  display: block;
+
+  margin-top: 1px;
+
+  color: var(--red);
+
+  font-size: 0.72rem;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+   RESTAURANT STYLE
+========================================================= */
+
+.customer-form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  margin-top: 26px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--line);
+}
+
+
+/* =========================================================
+   CANCEL / SUBMIT
+========================================================= */
+
+.customer-cancel-btn,
+.customer-submit-btn {
+  padding: 10px 20px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+
+  font-size: 0.88rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  border: 1px solid var(--line);
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+.customer-cancel-btn {
+  background: var(--surface);
+
+  color: var(--ink-soft);
+}
+
+.customer-cancel-btn:hover {
+  background: #f2efec;
+
+  border-color: #d6d0ca;
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.customer-submit-btn {
+  background: var(--red-dark);
+
+  border-color: var(--red-dark);
+
+  color: #ffffff;
+}
+
+.customer-submit-btn:hover {
+  background: var(--purple-dark);
+
+  border-color: var(--purple-dark);
+}
+
+.customer-submit-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+.customer-cancel-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.customer-loading {
+  min-height: 260px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  color: var(--muted);
+
+  font-size: 0.88rem;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.customer-empty {
+  min-height: 260px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  color: var(--muted);
+
+  font-size: 0.88rem;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   FORM FIELD FIX
+========================================================= */
+
+.customer-form .customer-field + .customer-field {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .customer-page {
+    padding: 40px 30px;
+  }
+
+  .customer-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .customer-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .customer-search {
+    flex: 1 1 100%;
+
+    min-width: 100%;
+  }
+
+  .customer-search input {
+    max-width: 100%;
+  }
+
+  .customer-filter {
+    width: 100%;
+  }
+
+  .customer-filter select {
+    width: 100%;
+  }
+
+  .customer-table {
+    min-width: 900px;
+  }
+
+  /* Keep form compact like Restaurant */
+  .customer-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .customer-page {
+    padding: 24px 18px;
+  }
+
+  .customer-page-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 14px;
+  }
+
+  .customer-page-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .customer-add-btn {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .customer-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .customer-toolbar {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .customer-search {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .customer-search input {
+    width: 100%;
+
+    max-width: 100%;
+  }
+
+  .customer-filter {
+    width: 100%;
+  }
+
+  .customer-filter select {
+    width: 100%;
+  }
+
+  .customer-table-container {
+    border-radius: 8px;
+  }
+
+  .customer-table {
+    min-width: 900px;
+  }
+
+  /* Form becomes one column on mobile */
+  .customer-form {
+    padding: 8px 18px 22px;
+  }
+
+  .customer-form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+  .customer-full-width {
+    grid-column: auto;
+  }
+
+  .customer-form-section {
+    margin-bottom: 22px;
+  }
+
+  .customer-form-section h3 {
+    font-size: 0.76rem;
+
+    margin-top: 18px;
+    margin-bottom: 12px;
+  }
+
+  .customer-form-actions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+  .customer-cancel-btn,
+  .customer-submit-btn {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+  .customer-page {
+    padding: 18px 12px;
+  }
+
+  .customer-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-page-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .customer-page-header p {
+    font-size: 0.8rem;
+  }
+
+  .customer-form {
+    padding: 8px 14px 18px;
+  }
+
+  .customer-form-grid {
+    gap: 12px;
+  }
+
+  .customer-field label {
+    font-size: 0.72rem;
+  }
+
+  .customer-field input,
+  .customer-field select,
+  .customer-field textarea {
+    font-size: 0.82rem;
+  }
+
+  .customer-field input,
+  .customer-field select {
+    height: 38px;
+  }
+
+  .customer-form-section h3 {
+    font-size: 0.74rem;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.customer-add-btn:focus-visible,
+.customer-edit-btn:focus-visible,
+.customer-delete-btn:focus-visible,
+.customer-status-select:focus-visible,
+.customer-search input:focus-visible,
+.customer-filter select:focus-visible,
+.customer-cancel-btn:focus-visible,
+.customer-submit-btn:focus-visible,
+.customer-field input:focus-visible,
+.customer-field select:focus-visible,
+.customer-field textarea:focus-visible {
+  outline: 2px solid var(--purple);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .customer-add-btn,
+  .customer-summary-card,
+  .customer-search input,
+  .customer-filter select,
+  .customer-field input,
+  .customer-field select,
+  .customer-field textarea,
+  .customer-edit-btn,
+  .customer-delete-btn,
+  .customer-submit-btn,
+  .customer-cancel-btn {
+    transition: none;
+  }
+}
