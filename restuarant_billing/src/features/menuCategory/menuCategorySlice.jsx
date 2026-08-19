@@ -2,9 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { menuCategoryService } from "./menuCategoryService";
 
-// ==========================================================
 // Fetch Menu Categories
-// ==========================================================
 
 export const fetchMenuCategories = createAsyncThunk(
   "menuCategory/fetchMenuCategories",
@@ -22,9 +20,7 @@ export const fetchMenuCategories = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Search Menu Categories
-// ==========================================================
 
 export const searchMenuCategories = createAsyncThunk(
   "menuCategory/searchMenuCategories",
@@ -42,9 +38,7 @@ export const searchMenuCategories = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Fetch Menu Category By ID
-// ==========================================================
 
 export const fetchMenuCategoryById = createAsyncThunk(
   "menuCategory/fetchMenuCategoryById",
@@ -62,9 +56,7 @@ export const fetchMenuCategoryById = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Create Menu Category
-// ==========================================================
 
 export const createMenuCategory = createAsyncThunk(
   "menuCategory/createMenuCategory",
@@ -82,9 +74,7 @@ export const createMenuCategory = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Update Menu Category
-// ==========================================================
 
 export const updateMenuCategory = createAsyncThunk(
   "menuCategory/updateMenuCategory",
@@ -102,9 +92,7 @@ export const updateMenuCategory = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Delete Menu Category
-// ==========================================================
 
 export const deleteMenuCategory = createAsyncThunk(
   "menuCategory/deleteMenuCategory",
@@ -122,9 +110,7 @@ export const deleteMenuCategory = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Toggle Menu Category Availability
-// ==========================================================
 
 export const toggleMenuCategoryAvailability = createAsyncThunk(
   "menuCategory/toggleMenuCategoryAvailability",
@@ -143,9 +129,7 @@ export const toggleMenuCategoryAvailability = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Toggle Menu Category Active
-// ==========================================================
 
 export const toggleMenuCategoryActive = createAsyncThunk(
   "menuCategory/toggleMenuCategoryActive",
@@ -163,9 +147,7 @@ export const toggleMenuCategoryActive = createAsyncThunk(
   },
 );
 
-// ==========================================================
 // Slice
-// ==========================================================
 
 const menuCategorySlice = createSlice({
   name: "menuCategory",
@@ -195,9 +177,7 @@ const menuCategorySlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // ====================================================
       // FETCH MENU CATEGORIES
-      // ====================================================
 
       .addCase(fetchMenuCategories.pending, (state) => {
         state.loading = true;
@@ -214,9 +194,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // SEARCH MENU CATEGORIES
-      // ====================================================
 
       .addCase(searchMenuCategories.pending, (state) => {
         state.loading = true;
@@ -233,9 +211,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // FETCH MENU CATEGORY BY ID
-      // ====================================================
 
       .addCase(fetchMenuCategoryById.pending, (state) => {
         state.menuCategoryLoading = true;
@@ -252,9 +228,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // CREATE MENU CATEGORY
-      // ====================================================
 
       .addCase(createMenuCategory.pending, (state) => {
         state.menuCategoryLoading = true;
@@ -270,9 +244,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // UPDATE MENU CATEGORY
-      // ====================================================
 
       .addCase(updateMenuCategory.pending, (state) => {
         state.menuCategoryLoading = true;
@@ -288,9 +260,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // DELETE MENU CATEGORY
-      // ====================================================
 
       .addCase(deleteMenuCategory.pending, (state) => {
         state.deleteLoading = true;
@@ -310,9 +280,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // TOGGLE AVAILABILITY
-      // ====================================================
 
       .addCase(toggleMenuCategoryAvailability.pending, (state) => {
         state.actionLoading = true;
@@ -336,9 +304,7 @@ const menuCategorySlice = createSlice({
         state.error = action.payload;
       })
 
-      // ====================================================
       // TOGGLE ACTIVE
-      // ====================================================
 
       .addCase(toggleMenuCategoryActive.pending, (state) => {
         state.actionLoading = true;
@@ -364,14 +330,10 @@ const menuCategorySlice = createSlice({
   },
 });
 
-// ==========================================================
 // Actions
-// ==========================================================
 
 export const { clearMenuCategoryError } = menuCategorySlice.actions;
 
-// ==========================================================
 // Reducer
-// ==========================================================
 
 export default menuCategorySlice.reducer;

@@ -17,6 +17,7 @@ import Company from "../pages/Companies/Company";
 import Invoice from "../pages/Invoice/Invoice";
 import MenuItem from "../pages/Menu/MenuItem";
 import MenuCategory from "../pages/MenuCategory/MenuCategory";
+import Category from "../pages/Category/Category";
 
 function MainLayout() {
   return (
@@ -36,6 +37,7 @@ function MainLayout() {
           <Route path="/companies" element={<Company />} />
           <Route path="/invoices" element={<Invoice />} />
           <Route path="/menu-items" element={<MenuItem />} />
+          <Route path="/categories" element={<Category />} />
         </Routes>
       </main>
     </div>

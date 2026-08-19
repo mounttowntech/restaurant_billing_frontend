@@ -299,199 +299,187 @@ const MenuCategory = () => {
         </div>
       </div>
 
-      {/* =====================================================
-          GRID / TABLE
-      ===================================================== */}
-
       <div className="menu-category-grid-page">
-        {/* ===================================================
-            TOOLBAR
-        =================================================== */}
-
         <div className="menu-category-toolbar">
-          <div className="menu-category-search">
-            <input
-              type="text"
-              placeholder="Search menu category..."
-              value={search}
-              onChange={handleSearch}
-            />
-          </div>
-
-          <div className="menu-category-filter">
-            <select
-              value={foodTypeFilter}
-              onChange={(e) => setFoodTypeFilter(e.target.value)}
-            >
-              <option value="All">All Food Types</option>
-
-              <option value="Veg">Veg</option>
-
-              <option value="Non Veg">Non Veg</option>
-
-              <option value="Both">Both</option>
-            </select>
-          </div>
-
-          <div className="menu-category-filter">
-            <select
-              value={kitchenFilter}
-              onChange={(e) => setKitchenFilter(e.target.value)}
-            >
-              <option value="All">All Kitchens</option>
-
-              <option value="Main Kitchen">Main Kitchen</option>
-
-              <option value="Chinese">Chinese</option>
-
-              <option value="South Indian">South Indian</option>
-
-              <option value="North Indian">North Indian</option>
-
-              <option value="Tandoor">Tandoor</option>
-
-              <option value="Bakery">Bakery</option>
-
-              <option value="Dessert">Dessert</option>
-
-              <option value="Beverage">Beverage</option>
-
-              <option value="Bar">Bar</option>
-
-              <option value="Fast Food">Fast Food</option>
-            </select>
-          </div>
-
-          <div className="menu-category-filter">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="All">All Status</option>
-
-              <option value="Available">Available</option>
-
-              <option value="Unavailable">Unavailable</option>
-
-              <option value="Active">Active</option>
-
-              <option value="Inactive">Inactive</option>
-            </select>
-          </div>
-        </div>
-
-        {/* ===================================================
-            TABLE
-        =================================================== */}
-
-        <div className="menu-category-table-container">
-          {loading ? (
-            <div className="menu-category-loading">
-              Loading menu categories...
+          <div className="menu-category-filter-label">
+            <div className="menu-category-search">
+              <input
+                type="text"
+                placeholder="Search menu category..."
+                value={search}
+                onChange={handleSearch}
+              />
             </div>
-          ) : filteredMenuCategories.length === 0 ? (
-            <div className="menu-category-empty">No menu categories found.</div>
-          ) : (
-            <table className="menu-category-table">
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Category Name</th>
-                  <th>Display Name</th>
-                  <th>Food Type</th>
-                  <th>Kitchen</th>
-                  <th>Order</th>
-                  <th>Popular</th>
-                  <th>Available</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
+            <div className="menu-category-filter">
+              <select
+                value={foodTypeFilter}
+                onChange={(e) => setFoodTypeFilter(e.target.value)}
+              >
+                <option value="All">All Food Types</option>
 
-              <tbody>
-                {filteredMenuCategories.map((category) => (
-                  <tr key={category._id}>
-                    <td>{category.categoryCode || "-"}</td>
+                <option value="Veg">Veg</option>
 
-                    <td>
-                      <div className="menu-category-name">
-                        {category.categoryName || "-"}
-                      </div>
-                    </td>
+                <option value="Non Veg">Non Veg</option>
 
-                    <td>{category.displayName || "-"}</td>
+                <option value="Both">Both</option>
+              </select>
+            </div>
 
-                    <td>{category.foodType || "-"}</td>
+            <div className="menu-category-filter">
+              <select
+                value={kitchenFilter}
+                onChange={(e) => setKitchenFilter(e.target.value)}
+              >
+                <option value="All">All Kitchens</option>
 
-                    <td>{category.kitchenSection || "-"}</td>
+                <option value="Main Kitchen">Main Kitchen</option>
 
-                    <td>{category.displayOrder ?? 0}</td>
+                <option value="Chinese">Chinese</option>
 
-                    <td>
-                      {category.isPopular ? (
-                        <span className="menu-category-popular-badge">
-                          Popular
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
+                <option value="South Indian">South Indian</option>
 
-                    <td>
-                      <button
-                        type="button"
-                        className={`menu-category-availability-toggle ${
-                          category.isAvailable ? "available" : "unavailable"
-                        }`}
-                        onClick={() => handleToggleAvailability(category._id)}
-                      >
-                        {category.isAvailable ? "Available" : "Unavailable"}
-                      </button>
-                    </td>
+                <option value="North Indian">North Indian</option>
 
-                    <td>
-                      <button
-                        type="button"
-                        className={`menu-category-status-badge ${
-                          category.isActive ? "active" : "inactive"
-                        }`}
-                        onClick={() => handleToggleActive(category._id)}
-                      >
-                        {category.isActive ? "Active" : "Inactive"}
-                      </button>
-                    </td>
+                <option value="Tandoor">Tandoor</option>
 
-                    <td>
-                      <div className="menu-category-actions">
-                        <EditButton
-                          type="button"
-                          className="menu-category-edit-btn"
-                          onClick={() => handleEditMenuCategory(category)}
-                        >
-                          Edit
-                        </EditButton>
+                <option value="Bakery">Bakery</option>
 
-                        <DeleteButton
-                          type="button"
-                          className="menu-category-delete-btn"
-                          onClick={() => handleDeleteMenuCategory(category._id)}
-                          disabled={deleteLoading}
-                        >
-                          Delete
-                        </DeleteButton>
-                      </div>
-                    </td>
+                <option value="Dessert">Dessert</option>
+
+                <option value="Beverage">Beverage</option>
+
+                <option value="Bar">Bar</option>
+
+                <option value="Fast Food">Fast Food</option>
+              </select>
+            </div>
+
+            <div className="menu-category-filter">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="All">All Status</option>
+
+                <option value="Available">Available</option>
+
+                <option value="Unavailable">Unavailable</option>
+
+                <option value="Active">Active</option>
+
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div className="menu-category-table-container">
+            {loading ? (
+              <div className="menu-category-loading">
+                Loading menu categories...
+              </div>
+            ) : filteredMenuCategories.length === 0 ? (
+              <div className="menu-category-empty">
+                No menu categories found.
+              </div>
+            ) : (
+              <table className="menu-category-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Category Name</th>
+                    <th>Display Name</th>
+                    <th>Food Type</th>
+                    <th>Kitchen</th>
+                    <th>Order</th>
+                    <th>Popular</th>
+                    <th>Available</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                </thead>
+
+                <tbody>
+                  {filteredMenuCategories.map((category) => (
+                    <tr key={category._id}>
+                      <td>{category.categoryCode || "-"}</td>
+
+                      <td>
+                        <div className="menu-category-name">
+                          {category.categoryName || "-"}
+                        </div>
+                      </td>
+
+                      <td>{category.displayName || "-"}</td>
+
+                      <td>{category.foodType || "-"}</td>
+
+                      <td>{category.kitchenSection || "-"}</td>
+
+                      <td>{category.displayOrder ?? 0}</td>
+
+                      <td>
+                        {category.isPopular ? (
+                          <span className="menu-category-popular-badge">
+                            Popular
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+
+                      <td>
+                        <button
+                          type="button"
+                          className={`menu-category-availability-toggle ${
+                            category.isAvailable ? "available" : "unavailable"
+                          }`}
+                          onClick={() => handleToggleAvailability(category._id)}
+                        >
+                          {category.isAvailable ? "Available" : "Unavailable"}
+                        </button>
+                      </td>
+
+                      <td>
+                        <button
+                          type="button"
+                          className={`menu-category-status-badge ${
+                            category.isActive ? "active" : "inactive"
+                          }`}
+                          onClick={() => handleToggleActive(category._id)}
+                        >
+                          {category.isActive ? "Active" : "Inactive"}
+                        </button>
+                      </td>
+
+                      <td>
+                        <div className="modal-actions">
+                          <EditButton
+                            type="button"
+                            className="menu-category-edit-btn"
+                            onClick={() => handleEditMenuCategory(category)}
+                          >
+                            Edit
+                          </EditButton>
+
+                          <DeleteButton
+                            type="button"
+                            className="menu-category-delete-btn"
+                            onClick={() =>
+                              handleDeleteMenuCategory(category._id)
+                            }
+                            disabled={deleteLoading}
+                          >
+                            Delete
+                          </DeleteButton>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* =====================================================
-          MODAL
-      ===================================================== */}
 
       <Modal
         open={showModal}

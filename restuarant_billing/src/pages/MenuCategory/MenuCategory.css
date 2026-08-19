@@ -4,7 +4,7 @@
 
 .menu-category-page {
   width: 100%;
-  padding: 24px;
+  padding: 74px;
   box-sizing: border-box;
 }
 
@@ -69,7 +69,7 @@
 .menu-category-summary-card {
   padding: 18px;
   background: #ffffff;
-  border: 1px solid var(--grey-border);
+border: 1px solid #e5e7eb;
   border-radius: 10px;
   box-sizing: border-box;
 }
@@ -94,7 +94,9 @@
 .menu-category-grid-page {
   width: 100%;
   background: #ffffff;
-  border: 1px solid var(--grey-border);
+  display: flex;
+  flex-direction: column;
+border: 1px solid var(--st-border);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -104,7 +106,7 @@
 ========================================================= */
 
 .menu-category-toolbar {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   gap: 12px;
   padding: 16px;
@@ -118,11 +120,11 @@
 }
 
 .menu-category-search input {
-  width: 100%;
+  width:100%;
   height: 40px;
   padding: 0 12px;
   box-sizing: border-box;
-  border: 1px solid var(--grey-border);
+border: 1px solid var(--st-border);
   border-radius: 7px;
   outline: none;
   font-size: 0.85rem;
@@ -133,11 +135,19 @@
   border-color: var(--dark-blue);
 }
 
+.menu-category-filter-label{
+min-width: 145px !important;
+  display:flex !important;
+  gap: 10px !important;
+  padding-bottom: 10px ;
+  align-items: center !important; 
+}
+
 .menu-category-filter select {
   height: 40px;
-  min-width: 145px;
-  padding: 0 10px;
-  border: 1px solid var(--grey-border);
+  width: 100%;
+  padding: 0 40px;
+border: 1px solid var(--st-border);
   border-radius: 7px;
   background: #ffffff;
   color: var(--dark-blue);
@@ -156,7 +166,9 @@
 
 .menu-category-table-container {
   width: 100%;
+border: 1px solid var(--st-border);
   overflow-x: auto;
+  border-radius:10px;
 }
 
 /* =========================================================
@@ -166,7 +178,7 @@
 .menu-category-table {
   width: 100%;
   min-width: 1050px;
-  border-collapse: collapse;
+  border-collapse: collapse !important;
 }
 
 .menu-category-table thead {
@@ -175,12 +187,14 @@
 
 .menu-category-table th {
   padding: 13px 14px;
-  border-bottom: 1px solid var(--grey-border);
-  text-align: left;
+border-bottom: 1px solid var(--st-border); 
+ text-align: left;
   white-space: nowrap;
   font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--dark-blue);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #521923;
+  background: var(--yellow-light);
 }
 
 .menu-category-table td {
@@ -192,7 +206,7 @@
 }
 
 .menu-category-table tbody tr:hover {
-  background: #fafbfc;
+    background: var(--yellow-light);
 }
 
 .menu-category-table tbody tr:last-child td {
@@ -267,16 +281,6 @@
 .menu-category-status-badge.inactive {
   background: #eeeeee;
   color: #616161;
-}
-
-/* =========================================================
-   ACTIONS
-========================================================= */
-
-.menu-category-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 /* =========================================================

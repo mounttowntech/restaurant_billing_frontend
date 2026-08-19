@@ -14,6 +14,7 @@ import {
   MenuCategoriesIcon,
   PurchaseIcon,
   SuppliersIcon,
+  CategoryIcon,
   ReturnsIcon,
   menuItemIcon,
   ReportsIcon,
@@ -40,6 +41,11 @@ const Sidebar = () => {
       name: "Menu Categories",
       path: "/menu-categories",
       icon: MenuCategoriesIcon,
+    },
+    {
+      name: "Categories",
+      path: "/categories",
+      icon: CategoryIcon,
     },
     {
       name: "Products",

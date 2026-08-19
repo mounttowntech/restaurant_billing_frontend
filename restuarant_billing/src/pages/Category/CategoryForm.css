@@ -1,0 +1,145 @@
+/* =====================================================
+   CATEGORY FORM
+===================================================== */
+
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* =====================================================
+   FORM SECTION
+===================================================== */
+
+.category-form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-form-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.category-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+
+/* =====================================================
+   FORM FIELD
+===================================================== */
+
+.category-field {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =====================================================
+   FULL WIDTH
+===================================================== */
+
+.category-full-width {
+  grid-column: 1 / -1;
+}
+
+
+/* =====================================================
+   CHECKBOX
+===================================================== */
+
+.category-checkbox-field {
+  flex-direction: row;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.category-checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.category-checkbox-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   DISABLED INPUT
+===================================================== */
+
+.category-form input:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+
+/* =====================================================
+   FORM ACTIONS
+===================================================== */
+
+.category-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.category-cancel-btn,
+.category-submit-btn {
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+  .category-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-full-width {
+    grid-column: 1;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .category-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .category-cancel-btn,
+  .category-submit-btn {
+    width: 100%;
+  }
+}
