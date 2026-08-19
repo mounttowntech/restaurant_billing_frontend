@@ -397,7 +397,7 @@ const Category = () => {
               </thead>
 
               <tbody>
-                {filteredCategories.map((category) => (
+                {filteredCategories.slice(0, 2).map((category) => (
                   <tr key={category._id}>
                     {/* CODE */}
 

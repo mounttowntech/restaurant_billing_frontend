@@ -62,26 +62,26 @@ const CategoryForm = ({
     defaultValues: initialForm,
   });
 
-  const selectedCategoryCode = watch("categoryCode");
-  const selectedRestaurant = watch("restaurant"); // NEW - drives conditional rendering
+  // const selectedCategoryCode = watch("categoryCode");
+  const selectedRestaurant = watch("restaurant");
 
   useEffect(() => {
-    // Only run this when EDITING
     if (!editingCategory) {
       return;
     }
 
-    if (!selectedCategoryCode) {
-      return;
-    }
-
     const selectedCategory = categories.find(
-      (category) => category.categoryCode === selectedCategoryCode,
+      (category) =>
+        category._id === editingCategory._id ||
+        category._id === editingCategory.id ||
+        category.categoryCode === editingCategory.categoryCode,
     );
 
     if (!selectedCategory) {
       return;
     }
+
+    setValue("categoryCode", selectedCategory.categoryCode || "");
 
     setValue("categoryName", selectedCategory.categoryName || "");
 
@@ -128,7 +128,7 @@ const CategoryForm = ({
     setValue("image", selectedCategory.image || "");
 
     setValue("icon", selectedCategory.icon || "");
-  }, [selectedCategoryCode, categories, editingCategory, setValue]);
+  }, [editingCategory, categories, setValue]);
 
   const onFormSubmit = async (data) => {
     const payload = {
@@ -231,38 +231,14 @@ const CategoryForm = ({
         </div>
 
         <div className="category-form-grid">
-          {editingCategory ? (
-            <Select
-              label="Category Code"
-              name="categoryCode"
-              register={register}
-              error={errors.categoryCode?.message}
-              options={[
-                ...categories
-                  .filter((category) => {
-                    const categoryRestaurant =
-                      typeof category.restaurant === "object"
-                        ? category.restaurant?._id
-                        : category.restaurant;
-
-                    return categoryRestaurant === selectedRestaurant;
-                  })
-                  .map((category) => ({
-                    _id: category.categoryCode,
-                    label: category.categoryCode,
-                  })),
-              ]}
-            />
-          ) : (
-            <Input
-              label="Category Code"
-              name="categoryCode"
-              type="text"
-              placeholder="Enter Category Code"
-              register={register}
-              error={errors.categoryCode?.message}
-            />
-          )}
+          <Input
+            label="Category Code"
+            name="categoryCode"
+            type="text"
+            placeholder="Enter Category Code"
+            register={register}
+            error={errors.categoryCode?.message}
+          />
 
           {/* CATEGORY NAME */}
 
