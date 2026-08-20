@@ -8,7 +8,7 @@ import {
   DeleteButton,
   SaveButton,
   PaymentButton,
-} from "../../components/common/Button";
+} from "../../components/Common/Button";
 import {
   fetchPurchases,
   createPurchase,
@@ -24,7 +24,7 @@ import {
 } from "../../features/purchase/purchaseSlice";
 
 import PurchaseForm from "./PurchaseForm";
-import Modal from "../../components/common/Modal";
+import Modal from "../../components/Common/Modal";
 import "./Purchase.css";
 
 const Purchase = () => {

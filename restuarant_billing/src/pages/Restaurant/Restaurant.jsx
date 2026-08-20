@@ -13,7 +13,7 @@ import {
   EditButton,
   DeleteButton,
   AddButton,
-} from "../../components/common/Button";
+} from "../../components/Common/Button";
 import Modal from "../../components/Common/Modal";
 
 const emptyFormData = {

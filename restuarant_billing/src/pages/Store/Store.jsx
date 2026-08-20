@@ -18,7 +18,7 @@ import {
   EditButton,
   DeleteButton,
   AddButton,
-} from "../../components/common/Button";
+} from "../../components/Common/Button";
 import "./Store.css";
 import Modal from "../../components/Common/Modal";
 

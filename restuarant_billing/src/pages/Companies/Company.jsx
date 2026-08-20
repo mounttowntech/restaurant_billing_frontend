@@ -13,9 +13,9 @@ import {
   AddButton,
   EditButton,
   DeleteButton,
-} from "../../components/common/Button";
+} from "../../components/Common/Button";
 
-import Modal from "../../components/common/Modal";
+import Modal from "../../components/Common/Modal";
 import CompanyForm from "./CompanyForm";
 
 import "./Company.css";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./PurchaseForm.css";
-import { CancelButton, SaveButton } from "../../components/common/Button";
+import { CancelButton, SaveButton } from "../../components/Common/Button";
 const emptyItem = {
   ingredient: "",
   batch: "",

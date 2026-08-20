@@ -5,8 +5,8 @@ import "./CategoryForm.css";
 
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 
-import Input from "../../components/common/Input";
-import Select from "../../components/common/Select";
+import Input from "../../components/Common/Input";
+import Select from "../../components/Common/Select";
 
 // =====================================================
 // INITIAL FORM

@@ -19,6 +19,7 @@ import MenuItem from "../pages/Menu/MenuItem";
 import MenuCategory from "../pages/MenuCategory/MenuCategory";
 import Category from "../pages/Category/Category";
 import Reports from "../pages/Reports/Reports";
+import Order from "../pages/Order/Order";
 
 function MainLayout() {
   return (
@@ -40,6 +41,7 @@ function MainLayout() {
           <Route path="/menu-items" element={<MenuItem />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/orders" element={<Order />} />
         </Routes>
       </main>
     </div>
