@@ -14,7 +14,7 @@ export const createPOSBillApi = async (data) => {
 // GET ALL POS BILLS
 // ==================================================
 
-export const getPOSBillsApi = async (params = {}) => {
+export const getPOSBills = async (params = {}) => {
   const response = await API.get("/pos-billing/all", {
     params,
   });
@@ -26,7 +26,7 @@ export const getPOSBillsApi = async (params = {}) => {
 // GET POS BILL BY ID
 // ==================================================
 
-export const getPOSBillByIdApi = async (id) => {
+export const getPOSBillById = async (id) => {
   const response = await API.get(`/pos-billing/${id}`);
 
   return response.data.data;
@@ -36,7 +36,7 @@ export const getPOSBillByIdApi = async (id) => {
 // HOLD BILL
 // ==================================================
 
-export const holdBillApi = async (id) => {
+export const holdBill = async (id) => {
   const response = await API.patch(`/pos-billing/hold/${id}`);
 
   return response.data.data;
@@ -46,7 +46,7 @@ export const holdBillApi = async (id) => {
 // RESUME BILL
 // ==================================================
 
-export const resumeBillApi = async (id) => {
+export const resumeBill = async (id) => {
   const response = await API.patch(`/pos-billing/resume/${id}`);
 
   return response.data.data;
@@ -105,7 +105,7 @@ export const calculateTaxApi = async ({
 // PAYMENT
 // ==================================================
 
-export const makePaymentApi = async ({ id, method, amount, referenceNo }) => {
+export const makePayment = async ({ id, method, amount, referenceNo }) => {
   const response = await API.post(`/pos-billing/payment/${id}`, {
     method,
     amount,
@@ -129,7 +129,7 @@ export const printBillApi = async (id) => {
 // CANCEL BILL
 // ==================================================
 
-export const cancelBillApi = async ({ id, cancelReason }) => {
+export const cancelBill = async ({ id, cancelReason }) => {
   const response = await API.patch(`/pos-billing/cancel/${id}`, {
     cancelReason,
   });

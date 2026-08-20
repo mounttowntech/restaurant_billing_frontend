@@ -29,7 +29,7 @@ export const getPOSBills = createAsyncThunk(
   "posBilling/getPOSBills",
   async (params = {}, { rejectWithValue }) => {
     try {
-      return await posBillingService.getPOSBillsApi(params);
+      return await posBillingService.getPOSBills(params);
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message ||
