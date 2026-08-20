@@ -42,6 +42,9 @@ const MenuCategoryForm = ({
   onSubmit,
   onCancel,
   loading = false,
+  restaurants = [],
+  stores = [],
+  menuCategories = [],
 }) => {
   const {
     register,
@@ -182,18 +185,44 @@ const MenuCategoryForm = ({
               error={errors.categoryCode?.message}
             />
           </div>
-
           <div className="menu-category-field">
             <Input
-              label="Restaurant ID"
-              name="restaurant"
+              label="Category Name"
+              name="categoryName"
               type="text"
-              placeholder="Enter restaurant ObjectId"
+              placeholder="Main Course"
               register={register}
-              error={errors.restaurant?.message}
+              error={errors.categoryName?.message}
             />
           </div>
-
+          <div className="menu-category-field">
+            <Select
+              label="Restaurant"
+              name="restaurant"
+              register={register}
+              error={errors.restaurant?.message}
+              options={restaurants.map((restaurant) => ({
+                _id: restaurant._id,
+                label:
+                  restaurant.restaurantName ||
+                  restaurant.name ||
+                  restaurant.displayName ||
+                  restaurant._id,
+              }))}
+            />
+          </div>
+          <div className="menu-category-field">
+            <Select
+              label="Store"
+              name="store"
+              register={register}
+              error={errors.store?.message}
+              options={stores.map((store) => ({
+                _id: store._id,
+                label: store.storeName || store.name || store._id,
+              }))}
+            />
+          </div>
           <div className="menu-category-field">
             <Input
               label="Display Name"
@@ -241,47 +270,47 @@ const MenuCategoryForm = ({
         </div>
       </div>
 
-      {/* =====================================================
-          RESTAURANT / STORE
-      ===================================================== */}
-
       <div className="menu-category-form-section">
         <h3>Restaurant & Store</h3>
 
         <div className="menu-category-form-grid">
           <div className="menu-category-field">
-            <Input
-              label="Restaurant ID"
-              name="restaurant"
-              type="text"
-              placeholder="Enter restaurant ObjectId"
-              register={register}
-              error={errors.restaurant?.message}
-              disabled={!!editingMenuCategory}
-            />
-          </div>
+            {editingMenuCategory ? (
+              <Select
+                label="Parent Category"
+                name="parentCategory"
+                register={register}
+                error={errors.parentCategory?.message}
+                options={[
+                  {
+                    _id: "",
+                    label: "No Parent Category",
+                  },
 
-          <div className="menu-category-field">
-            <Input
-              label="Store ID"
-              name="store"
-              type="text"
-              placeholder="Enter store ObjectId"
-              register={register}
-              error={errors.store?.message}
-              disabled={!!editingMenuCategory}
-            />
-          </div>
-
-          <div className="menu-category-field">
-            <Input
-              label="Parent Category ID"
-              name="parentCategory"
-              type="text"
-              placeholder="Enter parent category ObjectId"
-              register={register}
-              error={errors.parentCategory?.message}
-            />
+                  ...menuCategories
+                    .filter(
+                      (category) => category._id !== editingMenuCategory?._id,
+                    )
+                    .map((category) => ({
+                      _id: category._id,
+                      label:
+                        category.displayName ||
+                        category.categoryName ||
+                        category.categoryCode ||
+                        category._id,
+                    })),
+                ]}
+              />
+            ) : (
+              <Input
+                label="Parent Category ID"
+                name="parentCategory"
+                type="text"
+                placeholder="Enter parent category ObjectId"
+                register={register}
+                error={errors.parentCategory?.message}
+              />
+            )}
           </div>
         </div>
       </div>

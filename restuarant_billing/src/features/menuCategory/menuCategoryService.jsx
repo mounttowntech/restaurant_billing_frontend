@@ -39,7 +39,7 @@ export const getMenuCategoryById = async (id) => {
 // ==========================================================
 
 export const createMenuCategory = async (data) => {
-  const response = await API.post(`/menuCategories/create`, data);
+  const response = await API.post(`/menucategories/create`, data);
 
   return response.data;
 };
@@ -49,7 +49,7 @@ export const createMenuCategory = async (data) => {
 // ==========================================================
 
 export const updateMenuCategory = async (id, data) => {
-  const response = await API.put(`/menuCategories/update/${id}`, data);
+  const response = await API.put(`/menucategories/${id}`, data);
 
   return response.data;
 };
@@ -59,7 +59,7 @@ export const updateMenuCategory = async (id, data) => {
 // ==========================================================
 
 export const deleteMenuCategory = async (id) => {
-  const response = await API.delete(`/menuCategories/delete/${id}`);
+  const response = await API.delete(`/menucategories/delete/${id}`);
 
   return response.data;
 };
@@ -69,7 +69,7 @@ export const deleteMenuCategory = async (id) => {
 // ==========================================================
 
 export const toggleMenuCategoryAvailability = async (id) => {
-  const response = await API.patch(`/menuCategories/toggle-availability/${id}`);
+  const response = await API.patch(`/menucategories/toggle-availability/${id}`);
 
   return response.data;
 };
@@ -79,7 +79,7 @@ export const toggleMenuCategoryAvailability = async (id) => {
 // ==========================================================
 
 export const toggleMenuCategoryActive = async (id) => {
-  const response = await API.patch(`/menuCategories/toggle-active/${id}`);
+  const response = await API.patch(`/menucategories/toggle-active/${id}`);
 
   return response.data;
 };
