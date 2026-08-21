@@ -12,7 +12,8 @@ import "./MenuCategory.css";
 import Modal from "../../components/Common/Modal";
 
 import MenuCategoryForm from "./MenuCategoryForm";
-
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
 import {
   fetchMenuCategories,
   createMenuCategory,
@@ -33,10 +34,8 @@ const MenuCategory = () => {
     deleteLoading = false,
     error = null,
   } = useSelector((state) => state.menuCategory || {});
-
-  // =====================================================
-  // MODAL STATE
-  // =====================================================
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
 
   const [showModal, setShowModal] = useState(false);
 
@@ -60,7 +59,8 @@ const MenuCategory = () => {
 
   useEffect(() => {
     dispatch(fetchMenuCategories());
-
+    dispatch(fetchStores());
+    dispatch(fetchRestaurants());
     console.log("STEP 1 - MenuCategory.jsx useEffect RUNNING");
 
     console.log("STEP 2 - dispatching fetchMenuCategories()");
@@ -492,6 +492,9 @@ const MenuCategory = () => {
           onSubmit={handleSubmitMenuCategory}
           onCancel={handleCloseModal}
           loading={menuCategoryLoading}
+          restaurants={restaurants}
+          stores={stores}
+          menuCategories={menuCategories}
         />
       </Modal>
     </div>

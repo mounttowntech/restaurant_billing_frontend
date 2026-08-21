@@ -14,6 +14,7 @@ import {
   MenuCategoriesIcon,
   PurchaseIcon,
   SuppliersIcon,
+  OrderIcon,
   CategoryIcon,
   ReturnsIcon,
   menuItemIcon,
@@ -51,6 +52,11 @@ const Sidebar = () => {
       name: "Products",
       path: "/products",
       icon: ProductsIcon,
+    },
+    {
+      name: "Orders",
+      path: "/orders",
+      icon: OrderIcon,
     },
     {
       name: "Store",

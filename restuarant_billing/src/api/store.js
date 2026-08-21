@@ -11,6 +11,8 @@ import invoiceSlice from "../features/invoice/invoiceSlice";
 import menuItemSlice from "../features/menuItem/menuItemSlice";
 import menuCategorySlice from "../features/menuCategory/menuCategorySlice";
 import categorySlice from "../features/category/categorySlice";
+import reportSlice from "../features/reports/reportSlice";
+import orderSlice from "../features/order/orderSlice";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +28,8 @@ const store = configureStore({
     menuItem: menuItemSlice,
     menuCategory: menuCategorySlice,
     category: categorySlice,
+    report: reportSlice,
+    order: orderSlice,
   },
 });
 

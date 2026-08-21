@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "./InvoiceForm.css";
-import Input from "../../components/common/Input";
-import Select from "../../components/common/Select";
+import Input from "../../components/Common/Input";
+import Select from "../../components/Common/Select";
 import { AddButton } from "../../components/Common/Button";
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 

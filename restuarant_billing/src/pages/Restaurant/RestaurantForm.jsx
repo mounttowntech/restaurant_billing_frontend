@@ -1,5 +1,5 @@
 import "./RestaurantForm.css";
-import { CancelButton, SaveButton } from "../../components/common/Button";
+import { CancelButton, SaveButton } from "../../components/Common/Button";
 const RestaurantForm = ({
   editId,
   formData,

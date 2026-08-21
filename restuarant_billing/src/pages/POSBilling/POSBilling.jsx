@@ -10,7 +10,7 @@ import {
   makePayment,
   cancelBill,
   clearPOSBill,
-} from "../../features/posBilling/posBillingSlice";
+} from "../../features/posbilling/posBillingSlice";
 
 import POSBillingForm from "./POSBillingForm";
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Modal from "../../components/common/Modal";
+import Modal from "../../components/Common/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddButton,

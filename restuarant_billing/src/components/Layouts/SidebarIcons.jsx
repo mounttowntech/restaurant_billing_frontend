@@ -243,6 +243,24 @@ export const CategoryIcon = (props) => (
   </svg>
 );
 
+export const OrderIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 3h14l-1 15a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 3Z" />
+    <path d="M9 3v-.5A2.5 2.5 0 0 1 11.5 0h1A2.5 2.5 0 0 1 15 2.5V3" />
+    <path d="M8 10h8" />
+    <path d="M8 14h5" />
+  </svg>
+);
+
 export const menuItemIcon = (props) => (
   <svg
     viewBox="0 0 24 24"

@@ -6,9 +6,9 @@ import "./MenuItemForm.css";
 
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 
-import Input from "../../components/common/Input";
+import Input from "../../components/Common/Input";
 
-import Select from "../../components/common/Select";
+import Select from "../../components/Common/Select";
 
 const initialForm = {
   menuCode: "",
