@@ -1,0 +1,42 @@
+.ingredient-stock-ledger-form {
+  width: 100%;
+}
+
+.ingredient-stock-ledger-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ingredient-stock-ledger-form-full {
+  grid-column: 1 / -1;
+}
+
+.ingredient-stock-ledger-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ingredient-stock-ledger-form input,
+.ingredient-stock-ledger-form select,
+.ingredient-stock-ledger-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .ingredient-stock-ledger-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredient-stock-ledger-form-full {
+    grid-column: auto;
+  }
+
+  .ingredient-stock-ledger-form-actions {
+    justify-content: stretch;
+  }
+}

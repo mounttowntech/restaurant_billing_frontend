@@ -8,10 +8,6 @@ import { CancelButton, SaveButton } from "../../components/Common/Button";
 import Input from "../../components/Common/Input";
 import Select from "../../components/Common/Select";
 
-// =====================================================
-// INITIAL FORM
-// =====================================================
-
 const initialForm = {
   restaurant: "",
   store: "",
@@ -40,10 +36,6 @@ const initialForm = {
 
   isActive: true,
 };
-
-// =====================================================
-// CATEGORY FORM
-// =====================================================
 
 const CategoryForm = ({
   editingCategory,

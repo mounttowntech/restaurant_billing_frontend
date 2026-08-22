@@ -93,9 +93,11 @@ const restaurantSlice = createSlice({
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
         state.loading = false;
 
-        state.restaurants = Array.isArray(action.payload) ? action.payload : [];
+        state.restaurants = Array.isArray(action.payload)
+          ? action.payload
+          : action.payload?.data || [];
       })
-
+      
       .addCase(fetchRestaurants.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;

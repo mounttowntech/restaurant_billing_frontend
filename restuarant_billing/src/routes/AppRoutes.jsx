@@ -20,6 +20,12 @@ import MenuCategory from "../pages/MenuCategory/MenuCategory";
 import Category from "../pages/Category/Category";
 import Reports from "../pages/Reports/Reports";
 import Order from "../pages/Order/Order";
+import KOT from "../pages/KOT/KOT";
+import Recipe from "../pages/Recipe/Recipe";
+import IngredientStockLedger from "../pages/IngredientStockLedger/IngredientStockLedger";
+import Unit from "../pages/Unit/Unit";
+import Warehouse from "../pages/Warehouse/Warehouse";
+import Ingredient from "../pages/Ingredient/Ingredient";
 
 function MainLayout() {
   return (
@@ -42,6 +48,15 @@ function MainLayout() {
           <Route path="/categories" element={<Category />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/orders" element={<Order />} />
+          <Route path="/kot" element={<KOT />} />
+          <Route path="/recipe" element={<Recipe />} />
+          <Route path="/units" element={<Unit />} />
+          <Route path="/warehouse" element={<Warehouse />} />
+          <Route path="/ingredient" element={<Ingredient />} />
+          <Route
+            path="/ingredient-stock-ledger"
+            element={<IngredientStockLedger />}
+          />
         </Routes>
       </main>
     </div>
