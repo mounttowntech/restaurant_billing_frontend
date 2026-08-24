@@ -1,0 +1,239 @@
+/* ==========================================
+SIDEBAR
+========================================== */
+
+.sidebar{
+
+    width:270px;
+
+    min-width:270px;
+
+    height:100vh;
+
+    position:sticky;
+
+    top:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    background:#551821;
+
+    color:#fff;
+
+    padding:25px 20px;
+
+    box-shadow:4px 0 18px rgba(0,0,0,.08);
+
+}
+
+/* ==========================================
+LOGO
+========================================== */
+
+.sidebar-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:35px;
+
+}
+
+.logo-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:14px;
+
+    background:#d9a84f;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+}
+
+.sidebar-logo h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.sidebar-logo p{
+
+    font-size:12px;
+
+    color:#d5c8c8;
+
+    margin-top:3px;
+
+}
+
+/* ==========================================
+MENU
+========================================== */
+
+.sidebar-menu{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.menu-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+.menu-icon{
+
+    font-size:18px;
+
+    width:22px;
+
+}
+
+/* Hover */
+
+.menu-item:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+/* Active */
+
+.menu-item.active{
+
+    background:#d9a84f;
+
+    color:#fff;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
+
+}
+
+/* ==========================================
+BOTTOM
+========================================== */
+
+.sidebar-bottom{
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    padding-top:18px;
+
+}
+
+/* ==========================================
+RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+.sidebar{
+
+    width:90px;
+
+    min-width:90px;
+
+    padding:20px 12px;
+
+}
+
+.sidebar-logo{
+
+    justify-content:center;
+
+}
+
+.sidebar-logo h2,
+
+.sidebar-logo p,
+
+.menu-item span:last-child{
+
+    display:none;
+
+}
+
+.menu-item{
+
+    justify-content:center;
+
+    padding:14px;
+
+}
+
+.sidebar-bottom .menu-item{
+
+    justify-content:center;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+
+    position:fixed;
+
+    left:-270px;
+
+    top:0;
+
+    z-index:1000;
+
+    transition:.3s;
+
+}
+
+.sidebar.show{
+
+    left:0;
+
+}
+
+}

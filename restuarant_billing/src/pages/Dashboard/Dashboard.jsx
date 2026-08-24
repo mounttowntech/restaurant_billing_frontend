@@ -1,14 +1,44 @@
+import "./Dashboard.css";
+
+import Sidebar from "../../../src/components/Sidebar/Sidebar";
+import Header from "../../../src/components/Header/Header";
+
 function Dashboard() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="bg-white p-6 rounded-2xl shadow">
-        <h1 className="text-3xl font-bold text-gray-800">
-          🍽 Restaurant Dashboard
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Login successful! Protected route is working.
-        </p>
+    <div className="dashboard">
+
+      {/* Sidebar */}
+
+      <Sidebar />
+
+      {/* Main Content */}
+
+      <div className="dashboard-main">
+
+        {/* Header */}
+
+        <Header />
+
+        {/* Page Content */}
+
+        <div className="dashboard-content">
+
+          {/* Dashboard Cards */}
+
+          <div className="dashboard-cards">
+
+          </div>
+
+          {/* Recent Sales */}
+
+          <div className="dashboard-table">
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
