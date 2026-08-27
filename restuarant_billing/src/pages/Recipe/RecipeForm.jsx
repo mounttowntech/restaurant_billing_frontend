@@ -82,13 +82,18 @@ const RecipeForm = ({ editingRecipe, onSubmit, onCancel, loading = false }) => {
   // ==========================================================
   // REDUX DATA
   // ==========================================================
+  // TO THIS
 
-  const menuItems = useSelector((state) => state.menuItem?.menuItems || []);
-
-  const menuCategories = useSelector(
-    (state) => state.menuCategory?.menuCategories || [],
+  const menuItems = useSelector(
+    (state) => state.menuItem?.menuItems || state.menuItems?.menuItems || [],
   );
 
+  const menuCategories = useSelector(
+    (state) =>
+      state.menuCategory?.menuCategories ||
+      state.menuCategories?.menuCategories ||
+      [],
+  );
   const restaurants = useSelector(
     (state) => state.restaurants?.restaurants || [],
   );
@@ -115,15 +120,11 @@ const RecipeForm = ({ editingRecipe, onSubmit, onCancel, loading = false }) => {
   // ==========================================================
 
   const loadMenuItems = () => {
-    if (!menuItems.length) {
-      dispatch(fetchMenuItems());
-    }
+    dispatch(fetchMenuItems());
   };
 
   const loadMenuCategories = () => {
-    if (!menuCategories.length) {
-      dispatch(fetchMenuCategories());
-    }
+    dispatch(fetchMenuCategories());
   };
 
   const loadRestaurants = () => {
@@ -360,13 +361,13 @@ const RecipeForm = ({ editingRecipe, onSubmit, onCancel, loading = false }) => {
 
           <div className="recipe-field">
             <Select
-              label="Menu Item"
-              name="menuItem"
+              label="Menu Category"
+              name="menuCategory"
               register={register}
-              error={errors.menuItem?.message}
-              options={menuItemOptions}
-              onClick={loadMenuItems}
-              onFocus={loadMenuItems}
+              error={errors.menuCategory?.message}
+              options={menuCategoryOptions}
+              onClick={loadMenuCategories}
+              onFocus={loadMenuCategories}
             />
           </div>
 

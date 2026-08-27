@@ -400,7 +400,7 @@ const Warehouse = () => {
                   </td>
 
                   <td>
-                    <div className="warehouse-actions">
+                    <div className="modal-actions">
                       <EditButton onClick={() => handleEdit(warehouse)} />
 
                       <DeleteButton

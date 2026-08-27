@@ -41,6 +41,7 @@ const initialForm = {
 const ProductForm = ({
   editingProduct,
   onSubmit,
+  stores = [],
   onCancel,
   loading = false,
 }) => {
@@ -230,14 +231,15 @@ const ProductForm = ({
 
         <div className="product-form-grid">
           <div className="product-field">
-            <Input
-              label="Store ID"
+            <Select
+              label="Store"
               name="store"
-              type="text"
-              placeholder="Enter store ObjectId"
               register={register}
               error={errors.store?.message}
-              disabled={!!editingProduct}
+              options={stores.map((store) => ({
+                _id: store._id,
+                label: store.storeName || store.name || store._id,
+              }))}
             />
           </div>
         </div>

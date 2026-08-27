@@ -1,423 +1,701 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+import "./StoreForm.css";
+
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 
+import Input from "../../components/Common/Input";
+import Select from "../../components/Common/Select";
+
+const initialForm = {
+  restaurant: "",
+
+  storeCode: "",
+  storeName: "",
+  branchName: "",
+  managerName: "",
+
+  email: "",
+  phone: "",
+  alternatePhone: "",
+
+  gstNumber: "",
+  fssaiNumber: "",
+
+  address: "",
+  area: "",
+  city: "",
+  state: "",
+  country: "India",
+  pincode: "",
+
+  latitude: "",
+  longitude: "",
+
+  openingTime: "09:00",
+  closingTime: "23:00",
+
+  totalTables: 0,
+  totalSeats: 0,
+  serviceChargePercentage: 0,
+
+  gstEnabled: true,
+  serviceChargeEnabled: false,
+  dineInEnabled: true,
+  takeawayEnabled: true,
+  deliveryEnabled: true,
+  onlineOrderEnabled: false,
+
+  printerName: "",
+  kitchenPrinter: "",
+  billingPrinter: "",
+  logo: "",
+
+  status: "Active",
+};
+
 const StoreForm = ({
-  editId,
-  formData,
-  loading,
-  submitError,
-  onChange,
+  editingStore,
   onSubmit,
-  onClose,
+  restaurants = [],
+  onCancel,
+  loading = false,
 }) => {
-  const isEdit = !!editId;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: initialForm,
+  });
+
+  // =====================================================
+  // LOAD EDIT DATA
+  // =====================================================
+
+  useEffect(() => {
+    if (editingStore) {
+      reset({
+        restaurant:
+          typeof editingStore.restaurant === "object"
+            ? editingStore.restaurant?._id || ""
+            : editingStore.restaurant || "",
+
+        storeCode: editingStore.storeCode || "",
+
+        storeName: editingStore.storeName || "",
+
+        branchName: editingStore.branchName || "",
+
+        managerName: editingStore.managerName || "",
+
+        email: editingStore.email || "",
+
+        phone: editingStore.phone || "",
+
+        alternatePhone: editingStore.alternatePhone || "",
+
+        gstNumber: editingStore.gstNumber || "",
+
+        fssaiNumber: editingStore.fssaiNumber || "",
+
+        address: editingStore.address || "",
+
+        area: editingStore.area || "",
+
+        city: editingStore.city || "",
+
+        state: editingStore.state || "",
+
+        country: editingStore.country || "India",
+
+        pincode: editingStore.pincode || "",
+
+        latitude: editingStore.latitude ?? "",
+
+        longitude: editingStore.longitude ?? "",
+
+        openingTime: editingStore.openingTime || "09:00",
+
+        closingTime: editingStore.closingTime || "23:00",
+
+        totalTables: editingStore.totalTables ?? 0,
+
+        totalSeats: editingStore.totalSeats ?? 0,
+
+        serviceChargePercentage: editingStore.serviceChargePercentage ?? 0,
+
+        gstEnabled: editingStore.gstEnabled ?? true,
+
+        serviceChargeEnabled: editingStore.serviceChargeEnabled ?? false,
+
+        dineInEnabled: editingStore.dineInEnabled ?? true,
+
+        takeawayEnabled: editingStore.takeawayEnabled ?? true,
+
+        deliveryEnabled: editingStore.deliveryEnabled ?? true,
+
+        onlineOrderEnabled: editingStore.onlineOrderEnabled ?? false,
+
+        printerName: editingStore.printerName || "",
+
+        kitchenPrinter: editingStore.kitchenPrinter || "",
+
+        billingPrinter: editingStore.billingPrinter || "",
+
+        logo: editingStore.logo || "",
+
+        status: editingStore.status || "Active",
+      });
+    } else {
+      reset(initialForm);
+    }
+  }, [editingStore, reset]);
+
+  // =====================================================
+  // SUBMIT
+  // =====================================================
+
+  const onFormSubmit = async (data) => {
+    const payload = {
+      restaurant: data.restaurant?.trim(),
+
+      storeCode: data.storeCode?.trim(),
+
+      storeName: data.storeName?.trim(),
+
+      branchName: data.branchName?.trim() || "",
+
+      managerName: data.managerName?.trim() || "",
+
+      email: data.email?.trim() || "",
+
+      phone: data.phone?.trim(),
+
+      alternatePhone: data.alternatePhone?.trim() || "",
+
+      gstNumber: data.gstNumber?.trim() || "",
+
+      fssaiNumber: data.fssaiNumber?.trim() || "",
+
+      address: data.address?.trim() || "",
+
+      area: data.area?.trim() || "",
+
+      city: data.city?.trim() || "",
+
+      state: data.state?.trim() || "",
+
+      country: data.country?.trim() || "India",
+
+      pincode: data.pincode?.trim() || "",
+
+      latitude: data.latitude === "" ? "" : Number(data.latitude),
+
+      longitude: data.longitude === "" ? "" : Number(data.longitude),
+
+      openingTime: data.openingTime || "09:00",
+
+      closingTime: data.closingTime || "23:00",
+
+      totalTables: Number(data.totalTables || 0),
+
+      totalSeats: Number(data.totalSeats || 0),
+
+      serviceChargePercentage: Number(data.serviceChargePercentage || 0),
+
+      gstEnabled: Boolean(data.gstEnabled),
+
+      serviceChargeEnabled: Boolean(data.serviceChargeEnabled),
+
+      dineInEnabled: Boolean(data.dineInEnabled),
+
+      takeawayEnabled: Boolean(data.takeawayEnabled),
+
+      deliveryEnabled: Boolean(data.deliveryEnabled),
+
+      onlineOrderEnabled: Boolean(data.onlineOrderEnabled),
+
+      printerName: data.printerName?.trim() || "",
+
+      kitchenPrinter: data.kitchenPrinter?.trim() || "",
+
+      billingPrinter: data.billingPrinter?.trim() || "",
+
+      logo: data.logo?.trim() || "",
+
+      status: data.status || "Active",
+    };
+
+    await onSubmit(payload);
+  };
 
   return (
-    <form onSubmit={onSubmit}>
-      {submitError && <div className="store-form-error">{submitError}</div>}
+    <form className="store-form" onSubmit={handleSubmit(onFormSubmit)}>
+      {/* =====================================================
+          BASIC INFORMATION
+      ===================================================== */}
 
-      {/* BASIC INFORMATION */}
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Basic Information</h3>
 
-      <h4>Basic Information</h4>
+        <div className="store-form-grid">
+          <div className="store-field">
+            <Select
+              label="Restaurant"
+              name="restaurant"
+              register={register}
+              error={errors.restaurant?.message}
+              options={restaurants.map((restaurant) => ({
+                _id: restaurant._id,
+                label:
+                  restaurant.restaurantName ||
+                  restaurant.name ||
+                  restaurant.displayName ||
+                  restaurant._id,
+              }))}
+            />
+          </div>
 
-      <div className="form-grid">
-        <div>
-          <label>Restaurant ID *</label>
+          <div className="store-field">
+            <Input
+              label="Store Code"
+              name="storeCode"
+              type="text"
+              placeholder="STORE001"
+              register={register}
+              error={errors.storeCode?.message}
+              disabled={!!editingStore}
+            />
 
-          <input
-            name="restaurant"
-            value={formData.restaurant}
-            onChange={onChange}
-            disabled={isEdit}
-            placeholder="Enter restaurant ID"
-          />
+            {editingStore && <small>Store code cannot be changed</small>}
+          </div>
 
-          {isEdit && <small>Restaurant cannot be changed</small>}
-        </div>
+          <div className="store-field">
+            <Input
+              label="Store Name"
+              name="storeName"
+              type="text"
+              placeholder="Enter store name"
+              register={register}
+              error={errors.storeName?.message}
+            />
+          </div>
 
-        <div>
-          <label>Store Code *</label>
+          <div className="store-field">
+            <Input
+              label="Branch Name"
+              name="branchName"
+              type="text"
+              placeholder="Enter branch name"
+              register={register}
+              error={errors.branchName?.message}
+            />
+          </div>
 
-          <input
-            name="storeCode"
-            value={formData.storeCode}
-            onChange={onChange}
-            disabled={isEdit}
-            placeholder="Example: STORE-001"
-          />
+          <div className="store-field">
+            <Input
+              label="Manager Name"
+              name="managerName"
+              type="text"
+              placeholder="Manager name"
+              register={register}
+              error={errors.managerName?.message}
+            />
+          </div>
 
-          {isEdit && <small>Store code cannot be changed</small>}
-        </div>
-
-        <div>
-          <label>Store Name *</label>
-
-          <input
-            name="storeName"
-            value={formData.storeName}
-            onChange={onChange}
-            placeholder="Enter store name"
-          />
-        </div>
-
-        <div>
-          <label>Branch Name</label>
-
-          <input
-            name="branchName"
-            value={formData.branchName}
-            onChange={onChange}
-            placeholder="Enter branch name"
-          />
-        </div>
-
-        <div>
-          <label>Manager Name</label>
-
-          <input
-            name="managerName"
-            value={formData.managerName}
-            onChange={onChange}
-            placeholder="Enter manager name"
-          />
-        </div>
-
-        <div>
-          <label>Status</label>
-
-          <select name="status" value={formData.status} onChange={onChange}>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
-      </div>
-
-      {/* CONTACT */}
-
-      <h4>Contact Information</h4>
-
-      <div className="form-grid">
-        <div>
-          <label>Email</label>
-
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={onChange}
-            placeholder="Enter email"
-          />
-        </div>
-
-        <div>
-          <label>Phone *</label>
-
-          <input
-            name="phone"
-            value={formData.phone}
-            onChange={onChange}
-            placeholder="Enter phone"
-          />
-        </div>
-
-        <div>
-          <label>Alternate Phone</label>
-
-          <input
-            name="alternatePhone"
-            value={formData.alternatePhone}
-            onChange={onChange}
-            placeholder="Enter alternate phone"
-          />
+          <div className="store-field">
+            <Select
+              label="Status"
+              name="status"
+              register={register}
+              error={errors.status?.message}
+              options={[
+                {
+                  _id: "Active",
+                  label: "Active",
+                },
+                {
+                  _id: "Inactive",
+                  label: "Inactive",
+                },
+              ]}
+            />
+          </div>
         </div>
       </div>
 
-      {/* TAX */}
+      {/* =====================================================
+          CONTACT INFORMATION
+      ===================================================== */}
 
-      <h4>Tax Information</h4>
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Contact Information</h3>
 
-      <div className="form-grid">
-        <div>
-          <label>GST Number</label>
+        <div className="store-form-grid">
+          <div className="store-field">
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="store@email.com"
+              register={register}
+              error={errors.email?.message}
+            />
+          </div>
 
-          <input
-            name="gstNumber"
-            value={formData.gstNumber}
-            onChange={onChange}
-            placeholder="Enter GST number"
-          />
-        </div>
+          <div className="store-field">
+            <Input
+              label="Phone"
+              name="phone"
+              type="text"
+              maxLength={10}
+              placeholder="9876543210"
+              register={register}
+              error={errors.phone?.message}
+            />
+          </div>
 
-        <div>
-          <label>FSSAI Number</label>
-
-          <input
-            name="fssaiNumber"
-            value={formData.fssaiNumber}
-            onChange={onChange}
-            placeholder="Enter FSSAI number"
-          />
-        </div>
-      </div>
-
-      {/* ADDRESS */}
-
-      <h4>Address</h4>
-
-      <div className="form-grid">
-        <div className="full-width">
-          <label>Address</label>
-
-          <textarea
-            name="address"
-            value={formData.address}
-            onChange={onChange}
-            placeholder="Enter address"
-            rows="3"
-          />
-        </div>
-
-        <div>
-          <label>Area</label>
-
-          <input name="area" value={formData.area} onChange={onChange} />
-        </div>
-
-        <div>
-          <label>City</label>
-
-          <input name="city" value={formData.city} onChange={onChange} />
-        </div>
-
-        <div>
-          <label>State</label>
-
-          <input name="state" value={formData.state} onChange={onChange} />
-        </div>
-
-        <div>
-          <label>Country</label>
-
-          <input name="country" value={formData.country} onChange={onChange} />
-        </div>
-
-        <div>
-          <label>Pincode</label>
-
-          <input name="pincode" value={formData.pincode} onChange={onChange} />
-        </div>
-
-        <div>
-          <label>Latitude</label>
-
-          <input
-            type="number"
-            step="any"
-            name="latitude"
-            value={formData.latitude}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Longitude</label>
-
-          <input
-            type="number"
-            step="any"
-            name="longitude"
-            value={formData.longitude}
-            onChange={onChange}
-          />
+          <div className="store-field">
+            <Input
+              label="Alternate Phone"
+              name="alternatePhone"
+              type="text"
+              maxLength={10}
+              placeholder="Alternate phone"
+              register={register}
+              error={errors.alternatePhone?.message}
+            />
+          </div>
         </div>
       </div>
 
-      {/* STORE SETTINGS */}
+      {/* =====================================================
+          TAX INFORMATION
+      ===================================================== */}
 
-      <h4>Store Settings</h4>
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Tax Information</h3>
 
-      <div className="form-grid">
-        <div>
-          <label>Opening Time</label>
+        <div className="store-form-grid">
+          <div className="store-field">
+            <Input
+              label="GST Number"
+              name="gstNumber"
+              type="text"
+              placeholder="GST number"
+              register={register}
+              error={errors.gstNumber?.message}
+            />
+          </div>
 
-          <input
-            type="time"
-            name="openingTime"
-            value={formData.openingTime}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Closing Time</label>
-
-          <input
-            type="time"
-            name="closingTime"
-            value={formData.closingTime}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Total Tables</label>
-
-          <input
-            type="number"
-            min="0"
-            name="totalTables"
-            value={formData.totalTables}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Total Seats</label>
-
-          <input
-            type="number"
-            min="0"
-            name="totalSeats"
-            value={formData.totalSeats}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Service Charge %</label>
-
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            name="serviceChargePercentage"
-            value={formData.serviceChargePercentage}
-            onChange={onChange}
-          />
+          <div className="store-field">
+            <Input
+              label="FSSAI Number"
+              name="fssaiNumber"
+              type="text"
+              placeholder="FSSAI number"
+              register={register}
+              error={errors.fssaiNumber?.message}
+            />
+          </div>
         </div>
       </div>
 
-      {/* FEATURES */}
+      {/* =====================================================
+          ADDRESS
+      ===================================================== */}
 
-      <h4>Features</h4>
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Address</h3>
 
-      <div className="feature-grid">
-        <label>
-          <input
-            type="checkbox"
-            name="gstEnabled"
-            checked={formData.gstEnabled}
-            onChange={onChange}
-          />
-          GST Enabled
-        </label>
+        <div className="store-form-grid">
+          <div className="store-field store-full-width">
+            <Input
+              label="Address"
+              name="address"
+              type="text"
+              placeholder="Enter address"
+              register={register}
+              error={errors.address?.message}
+            />
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            name="serviceChargeEnabled"
-            checked={formData.serviceChargeEnabled}
-            onChange={onChange}
-          />
-          Service Charge
-        </label>
+          <div className="store-field">
+            <Input
+              label="Area"
+              name="area"
+              type="text"
+              placeholder="Area"
+              register={register}
+              error={errors.area?.message}
+            />
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            name="dineInEnabled"
-            checked={formData.dineInEnabled}
-            onChange={onChange}
-          />
-          Dine In
-        </label>
+          <div className="store-field">
+            <Input
+              label="City"
+              name="city"
+              type="text"
+              placeholder="City"
+              register={register}
+              error={errors.city?.message}
+            />
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            name="takeawayEnabled"
-            checked={formData.takeawayEnabled}
-            onChange={onChange}
-          />
-          Takeaway
-        </label>
+          <div className="store-field">
+            <Input
+              label="State"
+              name="state"
+              type="text"
+              placeholder="State"
+              register={register}
+              error={errors.state?.message}
+            />
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            name="deliveryEnabled"
-            checked={formData.deliveryEnabled}
-            onChange={onChange}
-          />
-          Delivery
-        </label>
+          <div className="store-field">
+            <Input
+              label="Country"
+              name="country"
+              type="text"
+              placeholder="Country"
+              register={register}
+              error={errors.country?.message}
+            />
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            name="onlineOrderEnabled"
-            checked={formData.onlineOrderEnabled}
-            onChange={onChange}
-          />
-          Online Orders
-        </label>
-      </div>
+          <div className="store-field">
+            <Input
+              label="Pincode"
+              name="pincode"
+              type="text"
+              maxLength={6}
+              placeholder="641001"
+              register={register}
+              error={errors.pincode?.message}
+            />
+          </div>
 
-      {/* PRINTER SETTINGS */}
+          <div className="store-field">
+            <Input
+              label="Latitude"
+              name="latitude"
+              type="number"
+              step="any"
+              placeholder="11.0168"
+              register={register}
+              error={errors.latitude?.message}
+            />
+          </div>
 
-      <h4>Printer Settings</h4>
-
-      <div className="form-grid">
-        <div>
-          <label>Printer Name</label>
-
-          <input
-            name="printerName"
-            value={formData.printerName}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Kitchen Printer</label>
-
-          <input
-            name="kitchenPrinter"
-            value={formData.kitchenPrinter}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Billing Printer</label>
-
-          <input
-            name="billingPrinter"
-            value={formData.billingPrinter}
-            onChange={onChange}
-          />
-        </div>
-
-        <div>
-          <label>Logo</label>
-
-          <input
-            name="logo"
-            value={formData.logo}
-            onChange={onChange}
-            placeholder="Logo URL"
-          />
+          <div className="store-field">
+            <Input
+              label="Longitude"
+              name="longitude"
+              type="number"
+              step="any"
+              placeholder="76.9558"
+              register={register}
+              error={errors.longitude?.message}
+            />
+          </div>
         </div>
       </div>
 
-      {/* BUTTONS */}
+      {/* =====================================================
+          STORE SETTINGS
+      ===================================================== */}
 
-      <div className="modal-actions">
-        <CancelButton type="button" onClick={onClose}>
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Store Settings</h3>
+
+        <div className="store-form-grid">
+          <div className="store-field">
+            <Input
+              label="Opening Time"
+              name="openingTime"
+              type="time"
+              register={register}
+              error={errors.openingTime?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Closing Time"
+              name="closingTime"
+              type="time"
+              register={register}
+              error={errors.closingTime?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Total Tables"
+              name="totalTables"
+              type="number"
+              min="0"
+              placeholder="0"
+              register={register}
+              error={errors.totalTables?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Total Seats"
+              name="totalSeats"
+              type="number"
+              min="0"
+              placeholder="0"
+              register={register}
+              error={errors.totalSeats?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Service Charge %"
+              name="serviceChargePercentage"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0"
+              register={register}
+              error={errors.serviceChargePercentage?.message}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* =====================================================
+          FEATURES
+      ===================================================== */}
+
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Features</h3>
+
+        <div className="store-checkbox-grid">
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("gstEnabled")} />
+
+            <span>GST Enabled</span>
+          </label>
+
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("serviceChargeEnabled")} />
+
+            <span>Service Charge</span>
+          </label>
+
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("dineInEnabled")} />
+
+            <span>Dine In</span>
+          </label>
+
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("takeawayEnabled")} />
+
+            <span>Takeaway</span>
+          </label>
+
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("deliveryEnabled")} />
+
+            <span>Delivery</span>
+          </label>
+
+          <label className="store-checkbox">
+            <input type="checkbox" {...register("onlineOrderEnabled")} />
+
+            <span>Online Orders</span>
+          </label>
+        </div>
+      </div>
+
+      {/* =====================================================
+          PRINTER SETTINGS
+      ===================================================== */}
+
+      <div className="store-form-section">
+        <h3 className="store-form-section-title">Printer Settings</h3>
+
+        <div className="store-form-grid">
+          <div className="store-field">
+            <Input
+              label="Printer Name"
+              name="printerName"
+              type="text"
+              placeholder="Printer name"
+              register={register}
+              error={errors.printerName?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Kitchen Printer"
+              name="kitchenPrinter"
+              type="text"
+              placeholder="Kitchen printer"
+              register={register}
+              error={errors.kitchenPrinter?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Billing Printer"
+              name="billingPrinter"
+              type="text"
+              placeholder="Billing printer"
+              register={register}
+              error={errors.billingPrinter?.message}
+            />
+          </div>
+
+          <div className="store-field">
+            <Input
+              label="Logo"
+              name="logo"
+              type="text"
+              placeholder="Logo URL"
+              register={register}
+              error={errors.logo?.message}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* =====================================================
+          ACTIONS
+      ===================================================== */}
+
+      <div className="store-form-actions">
+        <CancelButton
+          type="button"
+          className="store-cancel-btn"
+          onClick={onCancel}
+          disabled={loading}
+        >
           Cancel
         </CancelButton>
 
-        <SaveButton type="submit" disabled={loading}>
-          {loading ? "Saving..." : isEdit ? "Update Store" : "Create Store"}
+        <SaveButton
+          type="submit"
+          className="store-submit-btn"
+          disabled={loading}
+        >
+          {loading
+            ? "Saving..."
+            : editingStore
+              ? "Update Store"
+              : "Create Store"}
         </SaveButton>
       </div>
     </form>

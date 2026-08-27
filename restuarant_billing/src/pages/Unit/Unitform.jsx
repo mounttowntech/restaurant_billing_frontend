@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { CancelButton, SaveButton } from "../../components/Common/Button";
+import "./UnitForm.css";
 
 const initialForm = {
   restaurant: "",
@@ -315,18 +317,22 @@ const UnitForm = ({
       ====================================================== */}
 
       <div className="unit-form-actions">
-        <button
+        <CancelButton
           type="button"
           className="unit-cancel-btn"
           onClick={onCancel}
           disabled={loading}
         >
           Cancel
-        </button>
+        </CancelButton>
 
-        <button type="submit" className="unit-submit-btn" disabled={loading}>
+        <SaveButton
+          type="submit"
+          className="unit-submit-btn"
+          disabled={loading}
+        >
           {loading ? "Saving..." : initialData ? "Update Unit" : "Create Unit"}
-        </button>
+        </SaveButton>
       </div>
     </form>
   );

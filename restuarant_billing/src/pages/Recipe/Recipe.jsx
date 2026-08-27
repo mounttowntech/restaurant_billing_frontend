@@ -224,7 +224,7 @@ const Recipe = () => {
                   <td>{recipe.status || "-"}</td>
 
                   <td>
-                    <div className="recipe-actions">
+                    <div className="modal-actions">
                       <EditButton
                         type="button"
                         onClick={() => handleEditRecipe(recipe)}

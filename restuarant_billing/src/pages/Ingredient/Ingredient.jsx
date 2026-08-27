@@ -294,7 +294,7 @@ const Ingredient = () => {
                   </td>
 
                   <td>
-                    <div className="ingredient-actions">
+                    <div className="modal-actions">
                       <EditButton onClick={() => handleEdit(ingredient)} />
 
                       <DeleteButton

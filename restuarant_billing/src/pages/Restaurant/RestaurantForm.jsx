@@ -362,7 +362,7 @@ const RestaurantForm = ({
 
       {/* BUTTONS */}
 
-      <div className="modal-actions">
+      <div className="restaurant-actions">
         <CancelButton type="button" onClick={onClose}>
           Cancel
         </CancelButton>

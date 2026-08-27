@@ -339,7 +339,7 @@ const Unit = () => {
                   </td>
 
                   <td>
-                    <div className="unit-actions">
+                    <div className="modal-actions">
                       <EditButton onClick={() => handleEdit(unit)} />
 
                       <DeleteButton

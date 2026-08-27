@@ -1,589 +1,595 @@
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
-import { fetchStores } from "../../features/store/storeSlice";
-// import { fetchUsers } from "../../features/user/userSlice";
+import "./WarehouseForm.css";
 
-import "./Warehouse.css";
+import { CancelButton, SaveButton } from "../../components/Common/Button";
+
+import Input from "../../components/Common/Input";
+import Select from "../../components/Common/Select";
 
 const initialForm = {
   restaurant: "",
   store: "",
+
   warehouseCode: "",
   warehouseName: "",
+
   warehouseType: "General",
+
   manager: "",
+
   contactPerson: "",
   phone: "",
   email: "",
+
   address: "",
   city: "",
   state: "",
   country: "India",
   pincode: "",
+
   capacity: 0,
   capacityUnit: "Piece",
+
   isDefault: false,
   isActive: true,
+
   description: "",
   remarks: "",
 };
 
 const WarehouseForm = ({
-  initialData = null,
+  editingWarehouse,
   onSubmit,
+  warehouses = [],
+  restaurants = [],
+  stores = [],
   onCancel,
   loading = false,
 }) => {
-  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: initialForm,
+  });
 
-  const [formData, setFormData] = useState(initialForm);
-
-  // ==========================================================
-  // REDUX DATA
-  // ==========================================================
-
-  const restaurantState = useSelector((state) => state.restaurant || {});
-
-  const storeState = useSelector((state) => state.store || {});
-
-  const restaurants = Array.isArray(restaurantState.restaurants)
-    ? restaurantState.restaurants
-    : [];
-
-  const stores = Array.isArray(storeState.stores) ? storeState.stores : [];
-
-  const restaurantLoading = restaurantState.loading || false;
-  const storeLoading = storeState.loading || false;
-
-  console.log("RESTAURANT are :", restaurants);
-  console.log("STORES are :", stores);
-  // const { users = [], loading: userLoading } = useSelector(
-  //   (state) => state.user || {},
-  // );
+  const selectedRestaurant = watch("restaurant");
 
   // ==========================================================
-  // FETCH DROPDOWN DATA
+  // EDIT WAREHOUSE
   // ==========================================================
 
   useEffect(() => {
-    dispatch(fetchRestaurants());
-    dispatch(fetchStores());
-    // dispatch(fetchUsers());
-  }, [dispatch]);
-
-  // ==========================================================
-  // EDIT DATA
-  // ==========================================================
-
-  useEffect(() => {
-    if (!initialData) {
-      setFormData(initialForm);
+    if (!editingWarehouse) {
       return;
     }
 
-    setFormData({
-      restaurant: initialData.restaurant?._id || initialData.restaurant || "",
+    const selectedWarehouse = warehouses.find(
+      (warehouse) =>
+        warehouse._id === editingWarehouse._id ||
+        warehouse._id === editingWarehouse.id ||
+        warehouse.warehouseCode === editingWarehouse.warehouseCode,
+    );
 
-      store: initialData.store?._id || initialData.store || "",
-
-      warehouseCode: initialData.warehouseCode || "",
-
-      warehouseName: initialData.warehouseName || "",
-
-      warehouseType: initialData.warehouseType || "General",
-
-      manager: initialData.manager?._id || initialData.manager || "",
-
-      contactPerson: initialData.contactPerson || "",
-
-      phone: initialData.phone || "",
-
-      email: initialData.email || "",
-
-      address: initialData.address || "",
-
-      city: initialData.city || "",
-
-      state: initialData.state || "",
-
-      country: initialData.country || "India",
-
-      pincode: initialData.pincode || "",
-
-      capacity: initialData.capacity ?? 0,
-
-      capacityUnit: initialData.capacityUnit || "Piece",
-
-      isDefault: initialData.isDefault ?? false,
-
-      isActive: initialData.isActive ?? true,
-
-      description: initialData.description || "",
-
-      remarks: initialData.remarks || "",
-    });
-  }, [initialData]);
-
-  // ==========================================================
-  // FILTER STORES BY RESTAURANT
-  // ==========================================================
-
-  const filteredStores = useMemo(() => {
-    if (!formData.restaurant) {
-      return stores;
+    if (!selectedWarehouse) {
+      return;
     }
 
-    return stores.filter((store) => {
-      const restaurantId = store.restaurant?._id || store.restaurant;
+    setValue(
+      "restaurant",
+      typeof selectedWarehouse.restaurant === "object"
+        ? selectedWarehouse.restaurant?._id || ""
+        : selectedWarehouse.restaurant || "",
+    );
 
-      return restaurantId?.toString() === formData.restaurant?.toString();
-    });
-  }, [stores, formData.restaurant]);
+    setValue(
+      "store",
+      typeof selectedWarehouse.store === "object"
+        ? selectedWarehouse.store?._id || ""
+        : selectedWarehouse.store || "",
+    );
+
+    setValue("warehouseCode", selectedWarehouse.warehouseCode || "");
+
+    setValue("warehouseName", selectedWarehouse.warehouseName || "");
+
+    setValue("warehouseType", selectedWarehouse.warehouseType || "General");
+
+    setValue(
+      "manager",
+      typeof selectedWarehouse.manager === "object"
+        ? selectedWarehouse.manager?._id || ""
+        : selectedWarehouse.manager || "",
+    );
+
+    setValue("contactPerson", selectedWarehouse.contactPerson || "");
+
+    setValue("phone", selectedWarehouse.phone || "");
+
+    setValue("email", selectedWarehouse.email || "");
+
+    setValue("address", selectedWarehouse.address || "");
+
+    setValue("city", selectedWarehouse.city || "");
+
+    setValue("state", selectedWarehouse.state || "");
+
+    setValue("country", selectedWarehouse.country || "India");
+
+    setValue("pincode", selectedWarehouse.pincode || "");
+
+    setValue("capacity", selectedWarehouse.capacity ?? 0);
+
+    setValue("capacityUnit", selectedWarehouse.capacityUnit || "Piece");
+
+    setValue("isDefault", selectedWarehouse.isDefault ?? false);
+
+    setValue("isActive", selectedWarehouse.isActive ?? true);
+
+    setValue("description", selectedWarehouse.description || "");
+
+    setValue("remarks", selectedWarehouse.remarks || "");
+  }, [editingWarehouse, warehouses, setValue]);
 
   // ==========================================================
-  // HANDLE CHANGE
+  // WAREHOUSE OPTIONS
   // ==========================================================
 
-  const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-
-    setFormData((previous) => ({
-      ...previous,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  const warehouseOptions = warehouses.map((warehouse) => ({
+    _id: warehouse._id,
+    label:
+      warehouse.warehouseName ||
+      warehouse.name ||
+      warehouse.displayName ||
+      warehouse.warehouseCode ||
+      warehouse.code ||
+      warehouse._id,
+  }));
 
   // ==========================================================
-  // RESTAURANT CHANGE
+  // RESTAURANT OPTIONS
   // ==========================================================
 
-  const handleRestaurantChange = (event) => {
-    const restaurantId = event.target.value;
+  const restaurantOptions = restaurants.map((restaurant) => ({
+    _id: restaurant._id,
+    label:
+      restaurant.restaurantName ||
+      restaurant.name ||
+      restaurant.displayName ||
+      restaurant._id,
+  }));
 
-    setFormData((previous) => ({
-      ...previous,
-      restaurant: restaurantId,
-      store: "",
-    }));
-  };
+  // ==========================================================
+  // STORE OPTIONS
+  // ==========================================================
+
+  const filteredStores = selectedRestaurant
+    ? stores.filter((store) => {
+        const restaurantId =
+          typeof store.restaurant === "object"
+            ? store.restaurant?._id
+            : store.restaurant;
+
+        return restaurantId?.toString() === selectedRestaurant?.toString();
+      })
+    : stores;
+
+  const storeOptions = filteredStores.map((store) => ({
+    _id: store._id,
+    label:
+      store.storeName ||
+      store.name ||
+      store.title ||
+      store.storeCode ||
+      store._id,
+  }));
 
   // ==========================================================
   // SUBMIT
   // ==========================================================
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const onFormSubmit = async (data) => {
     const payload = {
-      restaurant: formData.restaurant,
+      restaurant: data.restaurant?.trim(),
 
-      store: formData.store,
+      store: data.store?.trim(),
 
-      warehouseCode: formData.warehouseCode.trim().toUpperCase(),
+      warehouseCode: data.warehouseCode?.trim().toUpperCase(),
 
-      warehouseName: formData.warehouseName.trim(),
+      warehouseName: data.warehouseName?.trim(),
 
-      warehouseType: formData.warehouseType,
+      warehouseType: data.warehouseType,
 
-      manager: formData.manager || null,
+      manager: data.manager?.trim() || null,
 
-      contactPerson: formData.contactPerson.trim(),
+      contactPerson: data.contactPerson?.trim() || "",
 
-      phone: formData.phone.trim(),
+      phone: data.phone?.trim() || "",
 
-      email: formData.email.trim(),
+      email: data.email?.trim() || "",
 
-      address: formData.address.trim(),
+      address: data.address?.trim() || "",
 
-      city: formData.city.trim(),
+      city: data.city?.trim() || "",
 
-      state: formData.state.trim(),
+      state: data.state?.trim() || "",
 
-      country: formData.country.trim(),
+      country: data.country?.trim() || "India",
 
-      pincode: formData.pincode.trim(),
+      pincode: data.pincode?.trim() || "",
 
-      capacity: Number(formData.capacity) || 0,
+      capacity: Number(data.capacity || 0),
 
-      capacityUnit: formData.capacityUnit,
+      capacityUnit: data.capacityUnit,
 
-      isDefault: formData.isDefault,
+      isDefault: Boolean(data.isDefault),
 
-      isActive: formData.isActive,
+      isActive: Boolean(data.isActive),
 
-      description: formData.description.trim(),
+      description: data.description?.trim() || "",
 
-      remarks: formData.remarks.trim(),
+      remarks: data.remarks?.trim() || "",
     };
 
-    onSubmit(payload);
+    console.log("WAREHOUSE FORM DATA:", data);
+    console.log("WAREHOUSE PAYLOAD:", payload);
+
+    await onSubmit(payload);
   };
 
-  const formLoading = loading || restaurantLoading || storeLoading; // || userLoading;
+  // ==========================================================
+  // RENDER
+  // ==========================================================
+
   return (
-    <form className="warehouse-form" onSubmit={handleSubmit}>
-      <div className="warehouse-form-grid">
-        {/* RESTAURANT */}
+    <form className="warehouse-form" onSubmit={handleSubmit(onFormSubmit)}>
+      {/* ======================================================
+          BASIC INFORMATION
+      ====================================================== */}
 
-        <div className="warehouse-form-group">
-          <label>
-            Restaurant <span>*</span>
-          </label>
+      <div className="warehouse-form-section">
+        <h3>Basic Information</h3>
 
-          <select
-            name="restaurant"
-            value={formData.restaurant}
-            onChange={handleRestaurantChange}
-            required
-          >
-            <option value="">Select Restaurant</option>
+        <div className="warehouse-form-grid">
+          {/* RESTAURANT */}
 
-            {restaurants.map((restaurant) => (
-              <option key={restaurant._id} value={restaurant._id}>
-                {restaurant.restaurantName ||
-                  restaurant.name ||
-                  restaurant.title ||
-                  "Restaurant"}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* STORE */}
-
-        <div className="warehouse-form-group">
-          <label>
-            Store <span>*</span>
-          </label>
-
-          <select
-            name="store"
-            value={formData.store}
-            onChange={handleChange}
-            required
-            disabled={!formData.restaurant}
-          >
-            <option value="">Select Store</option>
-
-            {filteredStores.map((store) => (
-              <option key={store._id} value={store._id}>
-                {store.storeName || store.name || store.title || "Store"}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* WAREHOUSE CODE */}
-
-        <div className="warehouse-form-group">
-          <label>
-            Warehouse Code <span>*</span>
-          </label>
-
-          <input
-            type="text"
-            name="warehouseCode"
-            value={formData.warehouseCode}
-            onChange={handleChange}
-            placeholder="WH001"
-            required
-          />
-        </div>
-
-        {/* WAREHOUSE NAME */}
-
-        <div className="warehouse-form-group">
-          <label>
-            Warehouse Name <span>*</span>
-          </label>
-
-          <input
-            type="text"
-            name="warehouseName"
-            value={formData.warehouseName}
-            onChange={handleChange}
-            placeholder="Main Warehouse"
-            required
-          />
-        </div>
-
-        {/* TYPE */}
-
-        <div className="warehouse-form-group">
-          <label>Warehouse Type</label>
-
-          <select
-            name="warehouseType"
-            value={formData.warehouseType}
-            onChange={handleChange}
-          >
-            <option value="Main">Main</option>
-            <option value="Raw Material">Raw Material</option>
-            <option value="Finished Goods">Finished Goods</option>
-            <option value="Cold Storage">Cold Storage</option>
-            <option value="Dry Storage">Dry Storage</option>
-            <option value="General">General</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        {/* MANAGER */}
-
-        {/* <div className="warehouse-form-group">
-          <label>Manager</label>
-
-          <select
-            name="manager"
-            value={formData.manager}
-            onChange={handleChange}
-          >
-            <option value="">Select Manager</option>
-
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.name ||
-                  user.fullName ||
-                  user.username ||
-                  user.email ||
-                  "User"}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
-        {/* CONTACT PERSON */}
-
-        <div className="warehouse-form-group">
-          <label>Contact Person</label>
-
-          <input
-            type="text"
-            name="contactPerson"
-            value={formData.contactPerson}
-            onChange={handleChange}
-            placeholder="Contact person"
-          />
-        </div>
-
-        {/* PHONE */}
-
-        <div className="warehouse-form-group">
-          <label>Phone</label>
-
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Phone number"
-          />
-        </div>
-
-        {/* EMAIL */}
-
-        <div className="warehouse-form-group">
-          <label>Email</label>
-
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="warehouse@example.com"
-          />
-        </div>
-
-        {/* CAPACITY */}
-
-        <div className="warehouse-form-group">
-          <label>Capacity</label>
-
-          <input
-            type="number"
-            name="capacity"
-            value={formData.capacity}
-            onChange={handleChange}
-            min="0"
-            step="0.01"
-          />
-        </div>
-
-        {/* CAPACITY UNIT */}
-
-        <div className="warehouse-form-group">
-          <label>Capacity Unit</label>
-
-          <select
-            name="capacityUnit"
-            value={formData.capacityUnit}
-            onChange={handleChange}
-          >
-            <option value="Piece">Piece</option>
-            <option value="Kg">Kg</option>
-            <option value="Gram">Gram</option>
-            <option value="Liter">Liter</option>
-            <option value="ML">ML</option>
-            <option value="Box">Box</option>
-            <option value="Packet">Packet</option>
-            <option value="Pallet">Pallet</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        {/* CITY */}
-
-        <div className="warehouse-form-group">
-          <label>City</label>
-
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            placeholder="City"
-          />
-        </div>
-
-        {/* STATE */}
-
-        <div className="warehouse-form-group">
-          <label>State</label>
-
-          <input
-            type="text"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            placeholder="State"
-          />
-        </div>
-
-        {/* COUNTRY */}
-
-        <div className="warehouse-form-group">
-          <label>Country</label>
-
-          <input
-            type="text"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            placeholder="Country"
-          />
-        </div>
-
-        {/* PINCODE */}
-
-        <div className="warehouse-form-group">
-          <label>Pincode</label>
-
-          <input
-            type="text"
-            name="pincode"
-            value={formData.pincode}
-            onChange={handleChange}
-            placeholder="Pincode"
-          />
-        </div>
-
-        {/* ADDRESS */}
-
-        <div className="warehouse-form-group warehouse-form-full">
-          <label>Address</label>
-
-          <textarea
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Warehouse address"
-            rows="3"
-          />
-        </div>
-
-        {/* DESCRIPTION */}
-
-        <div className="warehouse-form-group warehouse-form-full">
-          <label>Description</label>
-
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Warehouse description"
-            rows="3"
-          />
-        </div>
-
-        {/* REMARKS */}
-
-        <div className="warehouse-form-group warehouse-form-full">
-          <label>Remarks</label>
-
-          <textarea
-            name="remarks"
-            value={formData.remarks}
-            onChange={handleChange}
-            placeholder="Remarks"
-            rows="3"
-          />
-        </div>
-
-        {/* DEFAULT */}
-
-        <div className="warehouse-checkbox-group">
-          <label className="warehouse-checkbox-label">
-            <input
-              type="checkbox"
-              name="isDefault"
-              checked={formData.isDefault}
-              onChange={handleChange}
+          <div className="warehouse-field">
+            <Select
+              label="Restaurant"
+              name="restaurant"
+              register={register}
+              error={errors.restaurant?.message}
+              options={restaurantOptions}
             />
+          </div>
 
-            <span>Set as Default Warehouse</span>
-          </label>
-        </div>
+          {/* STORE */}
 
-        {/* ACTIVE */}
-
-        <div className="warehouse-checkbox-group">
-          <label className="warehouse-checkbox-label">
-            <input
-              type="checkbox"
-              name="isActive"
-              checked={formData.isActive}
-              onChange={handleChange}
+          <div className="warehouse-field">
+            <Select
+              label="Store"
+              name="store"
+              register={register}
+              error={errors.store?.message}
+              options={storeOptions}
             />
+          </div>
 
-            <span>Active</span>
-          </label>
+          {/* WAREHOUSE CODE */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Warehouse Code"
+              name="warehouseCode"
+              type="text"
+              placeholder="WH001"
+              register={register}
+              error={errors.warehouseCode?.message}
+            />
+          </div>
+
+          {/* WAREHOUSE NAME */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Warehouse Name"
+              name="warehouseName"
+              type="text"
+              placeholder="Main Warehouse"
+              register={register}
+              error={errors.warehouseName?.message}
+            />
+          </div>
+
+          {/* WAREHOUSE TYPE */}
+
+          <div className="warehouse-field">
+            <Select
+              label="Warehouse Type"
+              name="warehouseType"
+              register={register}
+              error={errors.warehouseType?.message}
+              options={[
+                {
+                  _id: "Main",
+                  label: "Main",
+                },
+                {
+                  _id: "Raw Material",
+                  label: "Raw Material",
+                },
+                {
+                  _id: "Finished Goods",
+                  label: "Finished Goods",
+                },
+                {
+                  _id: "Cold Storage",
+                  label: "Cold Storage",
+                },
+                {
+                  _id: "Dry Storage",
+                  label: "Dry Storage",
+                },
+                {
+                  _id: "General",
+                  label: "General",
+                },
+                {
+                  _id: "Other",
+                  label: "Other",
+                },
+              ]}
+            />
+          </div>
+
+          {/* MANAGER */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Manager ID"
+              name="manager"
+              type="text"
+              placeholder="Enter Manager ObjectId"
+              register={register}
+              error={errors.manager?.message}
+            />
+          </div>
+
+          {/* CONTACT PERSON */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Contact Person"
+              name="contactPerson"
+              type="text"
+              placeholder="Contact person"
+              register={register}
+              error={errors.contactPerson?.message}
+            />
+          </div>
+
+          {/* PHONE */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Phone"
+              name="phone"
+              type="text"
+              placeholder="Phone number"
+              register={register}
+              error={errors.phone?.message}
+            />
+          </div>
+
+          {/* EMAIL */}
+
+          <div className="warehouse-field">
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="warehouse@example.com"
+              register={register}
+              error={errors.email?.message}
+            />
+          </div>
         </div>
       </div>
 
-      {/* ACTIONS */}
+      {/* ======================================================
+          CAPACITY
+      ====================================================== */}
+
+      <div className="warehouse-form-section">
+        <h3>Capacity</h3>
+
+        <div className="warehouse-form-grid">
+          <div className="warehouse-field">
+            <Input
+              label="Capacity"
+              name="capacity"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0"
+              register={register}
+              error={errors.capacity?.message}
+            />
+          </div>
+
+          <div className="warehouse-field">
+            <Select
+              label="Capacity Unit"
+              name="capacityUnit"
+              register={register}
+              error={errors.capacityUnit?.message}
+              options={[
+                { _id: "Piece", label: "Piece" },
+                { _id: "Kg", label: "Kg" },
+                { _id: "Gram", label: "Gram" },
+                { _id: "Liter", label: "Liter" },
+                { _id: "ML", label: "ML" },
+                { _id: "Box", label: "Box" },
+                { _id: "Packet", label: "Packet" },
+                { _id: "Pallet", label: "Pallet" },
+                { _id: "Other", label: "Other" },
+              ]}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================
+          ADDRESS
+      ====================================================== */}
+
+      <div className="warehouse-form-section">
+        <h3>Address Information</h3>
+
+        <div className="warehouse-form-grid">
+          <div className="warehouse-field">
+            <Input
+              label="City"
+              name="city"
+              type="text"
+              placeholder="City"
+              register={register}
+              error={errors.city?.message}
+            />
+          </div>
+
+          <div className="warehouse-field">
+            <Input
+              label="State"
+              name="state"
+              type="text"
+              placeholder="State"
+              register={register}
+              error={errors.state?.message}
+            />
+          </div>
+
+          <div className="warehouse-field">
+            <Input
+              label="Country"
+              name="country"
+              type="text"
+              placeholder="Country"
+              register={register}
+              error={errors.country?.message}
+            />
+          </div>
+
+          <div className="warehouse-field">
+            <Input
+              label="Pincode"
+              name="pincode"
+              type="text"
+              placeholder="Pincode"
+              register={register}
+              error={errors.pincode?.message}
+            />
+          </div>
+
+          <div className="warehouse-field warehouse-full-width">
+            <Input
+              label="Address"
+              name="address"
+              type="text"
+              placeholder="Warehouse address"
+              register={register}
+              error={errors.address?.message}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================
+          DESCRIPTION
+      ====================================================== */}
+
+      <div className="warehouse-form-section">
+        <h3>Description & Remarks</h3>
+
+        <div className="warehouse-form-grid">
+          <div className="warehouse-field warehouse-full-width">
+            <Input
+              label="Description"
+              name="description"
+              type="text"
+              placeholder="Warehouse description"
+              register={register}
+              error={errors.description?.message}
+            />
+          </div>
+
+          <div className="warehouse-field warehouse-full-width">
+            <Input
+              label="Remarks"
+              name="remarks"
+              type="text"
+              placeholder="Remarks"
+              register={register}
+              error={errors.remarks?.message}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================
+          WAREHOUSE SETTINGS
+      ====================================================== */}
+
+      <div className="warehouse-form-section">
+        <h3>Warehouse Settings</h3>
+
+        <div className="warehouse-form-grid">
+          <div className="warehouse-checkbox-field">
+            <label>
+              <input type="checkbox" {...register("isDefault")} />
+              Set as Default Warehouse
+            </label>
+          </div>
+
+          <div className="warehouse-checkbox-field">
+            <label>
+              <input type="checkbox" {...register("isActive")} />
+              Active
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================
+          ACTIONS
+      ====================================================== */}
 
       <div className="warehouse-form-actions">
-        <button
+        <CancelButton
           type="button"
           className="warehouse-cancel-btn"
           onClick={onCancel}
-          disabled={formLoading}
+          disabled={loading}
         >
           Cancel
-        </button>
+        </CancelButton>
 
-        <button
+        <SaveButton
           type="submit"
           className="warehouse-submit-btn"
-          disabled={formLoading}
+          disabled={loading}
         >
-          {formLoading
+          {loading
             ? "Saving..."
-            : initialData
+            : editingWarehouse
               ? "Update Warehouse"
               : "Create Warehouse"}
-        </button>
+        </SaveButton>
       </div>
     </form>
   );

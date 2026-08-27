@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
+import { SaveButton, CancelButton } from "../../components/Common/Button";
 import Input from "../../components/Common/Input";
 import Select from "../../components/Common/Select";
 
@@ -80,6 +80,7 @@ const IngredientStockLedgerForm = ({
   initialData,
   loading,
   onSubmit,
+  onClose,
   ingredientOptions = [],
   batchOptions = [],
   unitOptions = [],
@@ -418,13 +419,13 @@ const IngredientStockLedgerForm = ({
       </div>
 
       <div className="ingredient-stock-ledger-form-actions">
-        <button type="submit" disabled={loading}>
-          {loading
-            ? "Saving..."
-            : initialData
-              ? "Update Ledger"
-              : "Create Ledger"}
-        </button>
+        <CancelButton type="button" onClick={onClose}>
+          Cancel
+        </CancelButton>
+
+        <SaveButton type="submit" disabled={loading}>
+          {loading ? "Saving..." : initialData ? "Update " : "Create "}
+        </SaveButton>
       </div>
     </form>
   );

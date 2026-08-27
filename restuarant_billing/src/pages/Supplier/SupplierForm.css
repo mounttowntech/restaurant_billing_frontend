@@ -1,0 +1,132 @@
+.supplier-form {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.supplier-form-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.supplier-form-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.supplier-form-section-title {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.supplier-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.supplier-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.supplier-full-width {
+  grid-column: 1 / -1;
+}
+
+.supplier-checkbox {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+}
+
+.supplier-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.supplier-checkbox:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.supplier-checkbox span {
+  line-height: 20px;
+}
+
+.supplier-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.supplier-cancel-btn,
+.supplier-submit-btn {
+  min-height: 40px;
+}
+
+/* Tablet / Mobile */
+@media (max-width: 768px) {
+  .supplier-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .supplier-full-width {
+    grid-column: auto;
+  }
+
+  .supplier-form-actions {
+    justify-content: stretch;
+  }
+
+  .supplier-form-actions button {
+    flex: 1;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .supplier-form {
+    padding: 2px;
+  }
+
+  .supplier-form-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .supplier-form-section-title {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .supplier-form-grid {
+    gap: 12px;
+  }
+
+  .supplier-form-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .supplier-form-actions button {
+    width: 100%;
+  }
+}

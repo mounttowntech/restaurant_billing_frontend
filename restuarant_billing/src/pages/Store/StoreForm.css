@@ -1,0 +1,413 @@
+/* =====================================================
+   STORE FORM
+===================================================== */
+
+.store-form {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   FORM SECTION
+===================================================== */
+
+.store-form-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.store-form-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.store-form-section-title {
+  margin: 0 0 16px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #1f2937;
+}
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.store-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* =====================================================
+   FORM FIELD
+===================================================== */
+
+.store-field {
+  width: 100%;
+  min-width: 0;
+}
+
+/* =====================================================
+   FULL WIDTH
+===================================================== */
+
+.store-full-width {
+  grid-column: 1 / -1;
+}
+
+.store-checkbox-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.store-checkbox {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  color: #374151;
+}
+
+.store-checkbox input {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.store-checkbox:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.store-checkbox span {
+  line-height: 20px;
+}
+
+/* =====================================================
+   FEATURE GRID
+===================================================== */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+
+.feature-grid label {
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  color: #374151;
+}
+
+.feature-grid label:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.feature-grid input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+}
+
+/* =====================================================
+   FORM LABEL
+===================================================== */
+
+.store-form label {
+  font-size: 14px;
+  color: #374151;
+}
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.store-form input:not([type="checkbox"]):not([type="radio"]) {
+  width: 100%;
+  min-height: 40px;
+
+  padding: 9px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+}
+
+/* =====================================================
+   INPUT FOCUS
+===================================================== */
+
+.store-form input:not([type="checkbox"]):not([type="radio"]):focus {
+  border-color: #6366f1;
+
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* =====================================================
+   SELECT
+===================================================== */
+
+.store-form select {
+  width: 100%;
+  min-height: 40px;
+
+  padding: 9px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+/* =====================================================
+   SELECT FOCUS
+===================================================== */
+
+.store-form select:focus {
+  border-color: #6366f1;
+
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* =====================================================
+   TEXTAREA
+===================================================== */
+
+.store-form textarea {
+  width: 100%;
+
+  padding: 9px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+
+  resize: vertical;
+}
+
+.store-form textarea:focus {
+  border-color: #6366f1;
+
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* =====================================================
+   PLACEHOLDER
+===================================================== */
+
+.store-form input::placeholder,
+.store-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* =====================================================
+   DISABLED INPUT
+===================================================== */
+
+.store-form input:disabled,
+.store-form select:disabled,
+.store-form textarea:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   HELP TEXT
+===================================================== */
+
+.store-form small {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 11px;
+
+  color: #6b7280;
+}
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.store-form-error {
+  margin-bottom: 18px;
+
+  padding: 11px 14px;
+
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.store-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+/* =====================================================
+   BUTTON HEIGHT
+===================================================== */
+
+.store-cancel-btn,
+.store-submit-btn {
+  min-height: 40px;
+}
+
+/* =====================================================
+   TABLET / MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+  .store-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .store-full-width {
+    grid-column: auto;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .store-form-actions {
+    justify-content: stretch;
+  }
+
+  .store-form-actions button {
+    flex: 1;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+  .store-form {
+    padding: 2px;
+  }
+
+  .store-form-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .store-form-section-title {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .store-form-grid {
+    gap: 12px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .store-form-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .store-form-actions button {
+    width: 100%;
+  }
+}

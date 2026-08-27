@@ -26,6 +26,7 @@ import IngredientStockLedger from "../pages/IngredientStockLedger/IngredientStoc
 import Unit from "../pages/Unit/Unit";
 import Warehouse from "../pages/Warehouse/Warehouse";
 import Ingredient from "../pages/Ingredient/Ingredient";
+import Supplier from "../pages/Supplier/Supplier";
 
 function MainLayout() {
   return (
@@ -53,6 +54,7 @@ function MainLayout() {
           <Route path="/units" element={<Unit />} />
           <Route path="/warehouse" element={<Warehouse />} />
           <Route path="/ingredient" element={<Ingredient />} />
+          <Route path="/suppliers" element={<Supplier />} />
           <Route
             path="/ingredient-stock-ledger"
             element={<IngredientStockLedger />}

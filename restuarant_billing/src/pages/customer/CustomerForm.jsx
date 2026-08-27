@@ -44,6 +44,8 @@ const CustomerForm = ({
   editingCustomer,
   onSubmit,
   onCancel,
+  restaurants = [],
+  stores = [],
   loading = false,
 }) => {
   const {
@@ -255,24 +257,32 @@ const CustomerForm = ({
 
         <div className="customer-form-grid">
           <div className="customer-field">
-            <Input
-              label="Restaurant ID"
+            <Select
+              label="Restaurant"
               name="restaurant"
-              type="text"
-              placeholder="Enter restaurant ObjectId"
               register={register}
               error={errors.restaurant?.message}
+              options={restaurants.map((restaurant) => ({
+                _id: restaurant._id,
+                label:
+                  restaurant.restaurantName ||
+                  restaurant.name ||
+                  restaurant.displayName ||
+                  restaurant._id,
+              }))}
             />
           </div>
 
           <div className="customer-field">
-            <Input
-              label="Store ID"
+            <Select
+              label="Store"
               name="store"
-              type="text"
-              placeholder="Enter store ObjectId"
               register={register}
               error={errors.store?.message}
+              options={stores.map((store) => ({
+                _id: store._id,
+                label: store.storeName || store.name || store._id,
+              }))}
             />
           </div>
         </div>

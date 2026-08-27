@@ -44,7 +44,7 @@ const MenuCategoryForm = ({
   loading = false,
   restaurants = [],
   stores = [],
-  menuCategories = [],
+  // menuCategories = [],
 }) => {
   const {
     register,
@@ -270,50 +270,39 @@ const MenuCategoryForm = ({
         </div>
       </div>
 
-      <div className="menu-category-form-section">
+      {/* <div className="menu-category-form-section">
         <h3>Restaurant & Store</h3>
 
         <div className="menu-category-form-grid">
           <div className="menu-category-field">
-            {editingMenuCategory ? (
-              <Select
-                label="Parent Category"
-                name="parentCategory"
-                register={register}
-                error={errors.parentCategory?.message}
-                options={[
-                  {
-                    _id: "",
-                    label: "No Parent Category",
-                  },
+            <Select
+              label="Parent Category"
+              name="parentCategory"
+              register={register}
+              error={errors.parentCategory?.message}
+              options={[
+                {
+                  _id: "",
+                  label: "No Parent Category",
+                },
 
-                  ...menuCategories
-                    .filter(
-                      (category) => category._id !== editingMenuCategory?._id,
-                    )
-                    .map((category) => ({
-                      _id: category._id,
-                      label:
-                        category.displayName ||
-                        category.categoryName ||
-                        category.categoryCode ||
-                        category._id,
-                    })),
-                ]}
-              />
-            ) : (
-              <Input
-                label="Parent Category ID"
-                name="parentCategory"
-                type="text"
-                placeholder="Enter parent category ObjectId"
-                register={register}
-                error={errors.parentCategory?.message}
-              />
-            )}
+                ...menuCategories
+                  .filter(
+                    (category) => category._id !== editingMenuCategory?._id,
+                  )
+                  .map((category) => ({
+                    _id: category._id,
+                    label:
+                      category.displayName ||
+                      category.categoryName ||
+                      category.categoryCode ||
+                      category._id,
+                  })),
+              ]}
+            />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* =====================================================
           KITCHEN
@@ -529,8 +518,8 @@ const MenuCategoryForm = ({
           {loading
             ? "Saving..."
             : editingMenuCategory
-              ? "Update Menu Category"
-              : "Create Menu Category"}
+              ? "Update "
+              : "Create "}
         </SaveButton>
       </div>
     </form>

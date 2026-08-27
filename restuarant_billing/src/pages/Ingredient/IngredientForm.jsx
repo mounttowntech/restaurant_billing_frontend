@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import Input from "../../components/Common/Input";
 import Select from "../../components/Common/Select";
-import { AddButton } from "../../components/Common/Button";
+import { AddButton, CancelButton } from "../../components/Common/Button";
 
 import "./IngredientForm.css";
 
@@ -11,6 +11,7 @@ const IngredientForm = ({
   onSubmit,
   initialData = null,
   loading = false,
+  onClose,
   storeOptions = [],
   categoryOptions = [],
   supplierOptions = [],
@@ -414,8 +415,12 @@ const IngredientForm = ({
       </div>
 
       <div className="ingredient-form-actions">
+        <CancelButton type="button" onClick={onClose}>
+          Cancel
+        </CancelButton>
+
         <AddButton type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save Ingredient"}
+          {loading ? "Saving..." : "Save "}
         </AddButton>
       </div>
     </form>

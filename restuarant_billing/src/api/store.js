@@ -19,6 +19,7 @@ import warehouseSlice from "../features/warehouse/warehouseSlice";
 import ingredientStockLedgerSlice from "../features/ingredientStockLedger/ingredientStockLedgerSlice";
 import recipeSlice from "../features/recipe/recipeSlice";
 import ingredientSlice from "../features/ingredient/ingredientSlice";
+import supplierSlice from "../features/supplier/supplierSlice";
 
 const store = configureStore({
   reducer: {
@@ -42,6 +43,7 @@ const store = configureStore({
     ingredientStockLedger: ingredientStockLedgerSlice,
     recipe: recipeSlice,
     ingredient: ingredientSlice,
+    supplier: supplierSlice,
   },
 });
 

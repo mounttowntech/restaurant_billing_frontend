@@ -30,7 +30,7 @@ const Product = () => {
     deleteLoading = false,
     error = null,
   } = useSelector((state) => state.product || {});
-
+  const { stores = [] } = useSelector((state) => state.stores || {});
   // =====================================================
   // MODAL STATE
   // =====================================================
@@ -401,6 +401,7 @@ const Product = () => {
           onSubmit={handleSubmitProduct}
           onCancel={handleCloseModal}
           loading={productLoading}
+          stores={stores}
         />
       </Modal>
     </div>

@@ -1,0 +1,200 @@
+/* WarehouseForm.css */
+
+.warehouse-form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.warehouse-form-section {
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.warehouse-form-section h3 {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.warehouse-form-section h4 {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.warehouse-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 20px;
+  width: 100%;
+}
+
+.warehouse-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.warehouse-field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.warehouse-field label span {
+  color: #dc2626;
+}
+
+/* Inputs */
+
+.warehouse-field input,
+.warehouse-field select,
+.warehouse-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.warehouse-field input,
+.warehouse-field select {
+  height: 42px;
+}
+
+.warehouse-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.warehouse-field input:focus,
+.warehouse-field select:focus,
+.warehouse-field textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.warehouse-field input::placeholder,
+.warehouse-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Full width fields */
+
+.warehouse-full-width {
+  grid-column: 1 / -1;
+}
+
+/* Checkbox */
+
+.warehouse-checkbox-field {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+}
+
+.warehouse-checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.warehouse-checkbox-field input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+/* Actions */
+
+.warehouse-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 24px;
+  padding: 18px 0;
+}
+
+.warehouse-cancel-btn,
+.warehouse-submit-btn {
+  min-width: 120px;
+}
+
+/* Disabled */
+
+.warehouse-field input:disabled,
+.warehouse-field select:disabled,
+.warehouse-field textarea:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .warehouse-form-section {
+    padding: 18px;
+  }
+
+  .warehouse-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .warehouse-full-width {
+    grid-column: auto;
+  }
+
+  .warehouse-form-actions {
+    justify-content: stretch;
+  }
+
+  .warehouse-cancel-btn,
+  .warehouse-submit-btn {
+    flex: 1;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .warehouse-form-section {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .warehouse-form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .warehouse-cancel-btn,
+  .warehouse-submit-btn {
+    width: 100%;
+  }
+}
