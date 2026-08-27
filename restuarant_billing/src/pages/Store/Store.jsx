@@ -29,53 +29,6 @@ import {
 
 import "./Store.css";
 
-const emptyFormData = {
-  restaurant: "",
-
-  storeCode: "",
-  storeName: "",
-  branchName: "",
-  managerName: "",
-
-  email: "",
-  phone: "",
-  alternatePhone: "",
-
-  gstNumber: "",
-  fssaiNumber: "",
-
-  address: "",
-  area: "",
-  city: "",
-  state: "",
-  country: "India",
-  pincode: "",
-
-  latitude: "",
-  longitude: "",
-
-  openingTime: "09:00",
-  closingTime: "23:00",
-
-  totalTables: 0,
-  totalSeats: 0,
-  serviceChargePercentage: 0,
-
-  gstEnabled: true,
-  serviceChargeEnabled: false,
-  dineInEnabled: true,
-  takeawayEnabled: true,
-  deliveryEnabled: true,
-  onlineOrderEnabled: false,
-
-  printerName: "",
-  kitchenPrinter: "",
-  billingPrinter: "",
-  logo: "",
-
-  status: "Active",
-};
-
 const Store = () => {
   const dispatch = useDispatch();
 
@@ -83,13 +36,17 @@ const Store = () => {
   // REDUX STATE
   // =====================================================
 
-  const {
-    stores = [],
-    loading = false,
-    error = null,
-  } = useSelector((state) => state.stores || {});
+  const storeState = useSelector((state) => state.stores);
+  const restaurantState = useSelector((state) => state.restaurants);
 
-  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+  const stores = Array.isArray(storeState?.stores) ? storeState.stores : [];
+
+  const restaurants = Array.isArray(restaurantState?.restaurants)
+    ? restaurantState.restaurants
+    : [];
+
+  const loading = storeState?.loading || false;
+  const error = storeState?.error || null;
 
   // =====================================================
   // MODAL STATE
@@ -111,9 +68,6 @@ const Store = () => {
 
   useEffect(() => {
     dispatch(fetchStores());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
 
@@ -150,7 +104,10 @@ const Store = () => {
 
   const handleSubmitStore = async (formData) => {
     try {
-      const validationError = validateStoreForm(formData, !!editingStore?._id);
+      const validationError = validateStoreForm(
+        formData,
+        Boolean(editingStore?._id),
+      );
 
       if (validationError) {
         throw new Error(validationError);
@@ -172,7 +129,6 @@ const Store = () => {
       }
 
       handleCloseModal();
-
       dispatch(fetchStores());
     } catch (error) {
       console.error("Store save failed:", error);
@@ -190,9 +146,7 @@ const Store = () => {
       "Are you sure you want to delete this store?",
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
       await dispatch(deleteStore(id)).unwrap();
@@ -212,9 +166,7 @@ const Store = () => {
       "Are you sure you want to restore this store?",
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
       await dispatch(restoreStore(id)).unwrap();
@@ -240,17 +192,41 @@ const Store = () => {
   };
 
   // =====================================================
+  // GET RESTAURANT NAME
+  // =====================================================
+
+  const getRestaurantName = (restaurant) => {
+    if (!restaurant) {
+      return "-";
+    }
+
+    // Backend returns populated restaurant object
+    if (typeof restaurant === "object") {
+      return (
+        restaurant.restaurantName || restaurant.name || restaurant._id || "-"
+      );
+    }
+
+    // Backend returns only restaurant ID
+    const foundRestaurant = restaurants.find(
+      (item) => String(item?._id) === String(restaurant),
+    );
+
+    return foundRestaurant?.restaurantName || foundRestaurant?.name || "-";
+  };
+
+  // =====================================================
   // SEARCH + FILTER
   // =====================================================
 
   const filteredStores = stores.filter((store) => {
     const searchValue = search.trim().toLowerCase();
 
-    const storeCode = String(store.storeCode || "").toLowerCase();
-    const storeName = String(store.storeName || "").toLowerCase();
-    const branchName = String(store.branchName || "").toLowerCase();
-    const managerName = String(store.managerName || "").toLowerCase();
-    const phone = String(store.phone || "").toLowerCase();
+    const storeCode = String(store?.storeCode || "").toLowerCase();
+    const storeName = String(store?.storeName || "").toLowerCase();
+    const branchName = String(store?.branchName || "").toLowerCase();
+    const managerName = String(store?.managerName || "").toLowerCase();
+    const phone = String(store?.phone || "").toLowerCase();
 
     const searchMatch =
       !searchValue ||
@@ -260,9 +236,10 @@ const Store = () => {
       managerName.includes(searchValue) ||
       phone.includes(searchValue);
 
+    const currentStatus = String(store?.status || "").toLowerCase();
+
     const statusMatch =
-      statusFilter === "All" ||
-      String(store.status || "").toLowerCase() === statusFilter.toLowerCase();
+      statusFilter === "All" || currentStatus === statusFilter.toLowerCase();
 
     return searchMatch && statusMatch;
   });
@@ -274,15 +251,15 @@ const Store = () => {
   const totalStores = stores.length;
 
   const activeStores = stores.filter(
-    (store) => String(store.status || "").toLowerCase() === "active",
+    (store) => String(store?.status || "").toLowerCase() === "active",
   ).length;
 
   const inactiveStores = stores.filter(
-    (store) => String(store.status || "").toLowerCase() === "inactive",
+    (store) => String(store?.status || "").toLowerCase() === "inactive",
   ).length;
 
   const deletedStores = stores.filter(
-    (store) => store.isDeleted === true,
+    (store) => store?.isDeleted === true,
   ).length;
 
   // =====================================================
@@ -291,9 +268,7 @@ const Store = () => {
 
   return (
     <div className="store-container">
-      {/* =================================================
-          HEADER
-      ================================================= */}
+      {/* HEADER */}
 
       <div className="store-header">
         <div>
@@ -311,9 +286,7 @@ const Store = () => {
         </AddButton>
       </div>
 
-      {/* =================================================
-          ERROR
-      ================================================= */}
+      {/* ERROR */}
 
       {error && (
         <div className="store-error-box">
@@ -323,9 +296,7 @@ const Store = () => {
         </div>
       )}
 
-      {/* =================================================
-          SUMMARY
-      ================================================= */}
+      {/* SUMMARY */}
 
       <div className="store-summary-grid">
         <div className="store-summary-card">
@@ -353,14 +324,10 @@ const Store = () => {
         </div>
       </div>
 
-      {/* =================================================
-          TABLE SECTION
-      ================================================= */}
+      {/* TABLE PAGE */}
 
       <div className="store-grid-page">
-        {/* =================================================
-            TOOLBAR
-        ================================================= */}
+        {/* TOOLBAR */}
 
         <div className="store-toolbar">
           <div className="store-search-container">
@@ -384,9 +351,7 @@ const Store = () => {
           </div>
         </div>
 
-        {/* =================================================
-            TABLE
-        ================================================= */}
+        {/* TABLE */}
 
         <div className="store-table-container">
           {loading ? (
@@ -411,44 +376,38 @@ const Store = () => {
 
               <tbody>
                 {filteredStores.map((store) => (
-                  <tr key={store._id}>
+                  <tr key={store?._id}>
                     {/* CODE */}
 
-                    <td>{store.storeCode || "-"}</td>
+                    <td>{store?.storeCode || "-"}</td>
 
                     {/* STORE NAME */}
 
                     <td>
-                      <div className="store-name">{store.storeName || "-"}</div>
+                      <div className="store-name">
+                        {store?.storeName || "-"}
+                      </div>
                     </td>
 
                     {/* BRANCH */}
 
-                    <td>{store.branchName || "-"}</td>
+                    <td>{store?.branchName || "-"}</td>
 
                     {/* MANAGER */}
 
-                    <td>{store.managerName || "-"}</td>
+                    <td>{store?.managerName || "-"}</td>
 
                     {/* PHONE */}
 
-                    <td>{store.phone || "-"}</td>
+                    <td>{store?.phone || "-"}</td>
 
                     {/* CITY */}
 
-                    <td>{store.city || "-"}</td>
+                    <td>{store?.city || "-"}</td>
 
                     {/* RESTAURANT */}
 
-                    <td>
-                      {typeof store.restaurant === "object"
-                        ? store.restaurant?.restaurantName ||
-                          store.restaurant?.name ||
-                          "-"
-                        : restaurants.find(
-                            (restaurant) => restaurant._id === store.restaurant,
-                          )?.restaurantName || "-"}
-                    </td>
+                    <td>{getRestaurantName(store?.restaurant)}</td>
 
                     {/* STATUS */}
 
@@ -456,14 +415,14 @@ const Store = () => {
                       <button
                         type="button"
                         className={`store-status ${
-                          String(store.status || "").toLowerCase() === "active"
+                          String(store?.status || "").toLowerCase() === "active"
                             ? "active"
                             : "inactive"
                         }`}
-                        onClick={() => handleStatusChange(store._id)}
+                        onClick={() => handleStatusChange(store?._id)}
                         disabled={loading}
                       >
-                        {store.status || "Inactive"}
+                        {store?.status || "Inactive"}
                       </button>
                     </td>
 
@@ -479,11 +438,11 @@ const Store = () => {
                           Edit
                         </EditButton>
 
-                        {store.isDeleted ? (
+                        {store?.isDeleted ? (
                           <button
                             type="button"
                             className="store-restore-btn"
-                            onClick={() => handleRestoreStore(store._id)}
+                            onClick={() => handleRestoreStore(store?._id)}
                           >
                             Restore
                           </button>
@@ -491,7 +450,7 @@ const Store = () => {
                           <DeleteButton
                             type="button"
                             className="store-delete-btn"
-                            onClick={() => handleDeleteStore(store._id)}
+                            onClick={() => handleDeleteStore(store?._id)}
                           >
                             Delete
                           </DeleteButton>
@@ -506,9 +465,7 @@ const Store = () => {
         </div>
       </div>
 
-      {/* =================================================
-          ADD / EDIT MODAL
-      ================================================= */}
+      {/* ADD / EDIT MODAL */}
 
       <Modal
         open={showModal}

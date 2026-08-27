@@ -4,7 +4,7 @@ import dashboardSlice from "../features/dashboard/dashboardSlice";
 import posBillingSlice from "../features/posbilling/posBillingSlice";
 import storeSlice from "../features/store/storeSlice";
 import customerSlice from "../features/customer/customerSlice";
-import productSlice from "../features/product/Productslice";
+import productSlice from "../features/product/productSlice";
 import purchaseSlice from "../features/purchase/purchaseSlice";
 import companySlice from "../features/company/companySlice";
 import invoiceSlice from "../features/invoice/invoiceSlice";
@@ -20,6 +20,8 @@ import ingredientStockLedgerSlice from "../features/ingredientStockLedger/ingred
 import recipeSlice from "../features/recipe/recipeSlice";
 import ingredientSlice from "../features/ingredient/ingredientSlice";
 import supplierSlice from "../features/supplier/supplierSlice";
+import roleSlice from "../features/role/roleSlice";
+import tablesSlice from "../features/table/tableSlice";
 
 const store = configureStore({
   reducer: {
@@ -44,6 +46,8 @@ const store = configureStore({
     recipe: recipeSlice,
     ingredient: ingredientSlice,
     supplier: supplierSlice,
+    role: roleSlice,
+    tables: tablesSlice,
   },
 });
 

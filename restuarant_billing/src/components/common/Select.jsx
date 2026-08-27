@@ -3,40 +3,35 @@ const Select = ({
   name,
   register,
   error,
-  // value,
-  // onChange,
+  value,
+  onChange,
   options = [],
   placeholder = "Select option",
   optionValue = "_id",
   optionLabel = "label",
+  required = false,
 }) => {
-  console.log("Select options:", options);
-  // console.log("Select value:", item[optionValue]);
+  const registerProps = typeof register === "function" ? register(name) : {};
+
   return (
     <div className="form-group">
       {label && <label>{label}</label>}
 
       <select
-        {...register(name)}
+        {...registerProps}
+        name={name}
+        value={value}
+        onChange={onChange}
         className="form-control"
-        // value={value}
-        // onChange={onChange}
+        required={required}
       >
         <option value="">{placeholder}</option>
 
-        {options.map(
-          (item, index) => (
-            console.log("Select value:", item[optionValue]),
-            (
-              <option
-                key={item[optionValue] ?? index}
-                value={item[optionValue]}
-              >
-                {item[optionLabel]}
-              </option>
-            )
-          ),
-        )}
+        {options.map((item, index) => (
+          <option key={item[optionValue] ?? index} value={item[optionValue]}>
+            {item[optionLabel]}
+          </option>
+        ))}
       </select>
 
       {error && <p className="error">{error}</p>}

@@ -127,6 +127,28 @@ export const ProductsIcon = (props) => (
   </svg>
 );
 
+export const TablesIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <rect x="4" y="5" width="16" height="4" rx="1" />
+    <path d="M6 9v10" />
+    <path d="M18 9v10" />
+    <path d="M4 14h16" />
+    <path d="M2 11v6" />
+    <path d="M22 11v6" />
+    <path d="M2 14h3" />
+    <path d="M19 14h3" />
+  </svg>
+);
+
 export const StoreIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -513,6 +535,24 @@ export const CloseIcon = (props) => (
   >
     <path d="M18 6L6 18" />
     <path d="M6 6L18 18" />
+  </svg>
+);
+
+export const RoleIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="9" cy="8" r="3" />
+    <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+    <path d="M16 11a3 3 0 1 0 0-6" />
+    <path d="M18 14c1.7.8 3 2.5 3 4.5" />
   </svg>
 );
 

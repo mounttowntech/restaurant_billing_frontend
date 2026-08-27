@@ -27,6 +27,8 @@ import Unit from "../pages/Unit/Unit";
 import Warehouse from "../pages/Warehouse/Warehouse";
 import Ingredient from "../pages/Ingredient/Ingredient";
 import Supplier from "../pages/Supplier/Supplier";
+import Role from "../pages/Role/Role";
+import Tables from "../pages/Table/Table";
 
 function MainLayout() {
   return (
@@ -55,6 +57,8 @@ function MainLayout() {
           <Route path="/warehouse" element={<Warehouse />} />
           <Route path="/ingredient" element={<Ingredient />} />
           <Route path="/suppliers" element={<Supplier />} />
+          <Route path="/roles" element={<Role />} />
+          <Route path="/tables" element={<Tables />} />
           <Route
             path="/ingredient-stock-ledger"
             element={<IngredientStockLedger />}
