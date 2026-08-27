@@ -84,7 +84,7 @@ form h4:not(:first-child) {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   column-gap: var(--sp-6);
   row-gap: var(--sp-5);
 }
@@ -114,6 +114,14 @@ form h4:not(:first-child) {
   .form-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.restaurant-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
 }
 
 /* ==========================================================================

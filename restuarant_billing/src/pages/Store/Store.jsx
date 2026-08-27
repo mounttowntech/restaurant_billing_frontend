@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   fetchStores,
   createStore,
@@ -8,22 +9,29 @@ import {
   restoreStore,
   toggleStoreStatus,
 } from "../../features/store/storeSlice";
+
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+
+import {
+  DeleteButton,
+  EditButton,
+  AddButton,
+} from "../../components/Common/Button";
+
+import Modal from "../../components/Common/Modal";
+import StoreForm from "./StoreForm";
+
 import {
   validateStoreForm,
   buildStorePayload,
   buildStoreUpdatePayload,
 } from "../../validation/storeValidation";
-import StoreForm from "./StoreForm";
-import {
-  EditButton,
-  DeleteButton,
-  AddButton,
-} from "../../components/Common/Button";
+
 import "./Store.css";
-import Modal from "../../components/Common/Modal";
 
 const emptyFormData = {
   restaurant: "",
+
   storeCode: "",
   storeName: "",
   branchName: "",
@@ -48,6 +56,7 @@ const emptyFormData = {
 
   openingTime: "09:00",
   closingTime: "23:00",
+
   totalTables: 0,
   totalSeats: 0,
   serviceChargePercentage: 0,
@@ -70,161 +79,91 @@ const emptyFormData = {
 const Store = () => {
   const dispatch = useDispatch();
 
+  // =====================================================
+  // REDUX STATE
+  // =====================================================
+
   const {
     stores = [],
-    loading,
-    error,
+    loading = false,
+    error = null,
   } = useSelector((state) => state.stores || {});
 
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+
+  // =====================================================
+  // MODAL STATE
+  // =====================================================
+
   const [showModal, setShowModal] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editingStore, setEditingStore] = useState(null);
+
+  // =====================================================
+  // SEARCH / FILTER
+  // =====================================================
+
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
 
-  const [formData, setFormData] = useState(emptyFormData);
-  const [submitError, setSubmitError] = useState("");
-
-  // ==========================================
-  // FETCH STORES
-  // ==========================================
+  // =====================================================
+  // FETCH DATA
+  // =====================================================
 
   useEffect(() => {
-    dispatch(fetchStores({ search, status }));
-  }, [dispatch, search, status]);
+    dispatch(fetchStores());
+  }, [dispatch]);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  useEffect(() => {
+    dispatch(fetchRestaurants());
+  }, [dispatch]);
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  // =====================================================
+  // ADD STORE
+  // =====================================================
 
-    setSubmitError("");
-  };
-
-  // ==========================================
-  // OPEN ADD MODAL
-  // ==========================================
-
-  const handleAdd = () => {
-    setEditId(null);
-    setFormData(emptyFormData);
-    setSubmitError("");
+  const handleAddStore = () => {
+    setEditingStore(null);
     setShowModal(true);
   };
 
-  // ==========================================
-  // EDIT
-  // ==========================================
+  // =====================================================
+  // EDIT STORE
+  // =====================================================
 
-  const handleEdit = (store) => {
-    setEditId(store._id);
-
-    const restaurantId =
-      typeof store.restaurant === "object"
-        ? store.restaurant?._id
-        : store.restaurant;
-
-    setFormData({
-      restaurant: restaurantId || "",
-
-      storeCode: store.storeCode || "",
-
-      storeName: store.storeName || "",
-
-      branchName: store.branchName || "",
-
-      managerName: store.managerName || "",
-
-      email: store.email || "",
-
-      phone: store.phone || "",
-
-      alternatePhone: store.alternatePhone || "",
-
-      gstNumber: store.gstNumber || "",
-
-      fssaiNumber: store.fssaiNumber || "",
-
-      address: store.address || "",
-
-      area: store.area || "",
-
-      city: store.city || "",
-
-      state: store.state || "",
-
-      country: store.country || "India",
-
-      pincode: store.pincode || "",
-
-      latitude: store.latitude ?? "",
-
-      longitude: store.longitude ?? "",
-
-      openingTime: store.openingTime || "09:00",
-
-      closingTime: store.closingTime || "23:00",
-
-      totalTables: store.totalTables ?? 0,
-
-      totalSeats: store.totalSeats ?? 0,
-
-      serviceChargePercentage: store.serviceChargePercentage ?? 0,
-
-      gstEnabled: store.gstEnabled ?? true,
-
-      serviceChargeEnabled: store.serviceChargeEnabled ?? false,
-
-      dineInEnabled: store.dineInEnabled ?? true,
-
-      takeawayEnabled: store.takeawayEnabled ?? true,
-
-      deliveryEnabled: store.deliveryEnabled ?? true,
-
-      onlineOrderEnabled: store.onlineOrderEnabled ?? false,
-
-      printerName: store.printerName || "",
-
-      kitchenPrinter: store.kitchenPrinter || "",
-
-      billingPrinter: store.billingPrinter || "",
-
-      logo: store.logo || "",
-
-      status: store.status || "Active",
-    });
-
-    setSubmitError("");
+  const handleEditStore = (store) => {
+    setEditingStore(store);
     setShowModal(true);
   };
 
-  // ==========================================
-  // SUBMIT
-  // ==========================================
+  // =====================================================
+  // CLOSE MODAL
+  // =====================================================
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingStore(null);
+  };
 
-    const validationError = validateStoreForm(formData, !!editId);
+  // =====================================================
+  // CREATE / UPDATE STORE
+  // =====================================================
 
-    if (validationError) {
-      setSubmitError(validationError);
-      return;
-    }
-
-    const payload = buildStorePayload(formData);
-
+  const handleSubmitStore = async (formData) => {
     try {
-      if (editId) {
-        // Backend does not allow restaurant / storeCode
-        // to be changed during update.
+      const validationError = validateStoreForm(formData, !!editingStore?._id);
+
+      if (validationError) {
+        throw new Error(validationError);
+      }
+
+      const payload = buildStorePayload(formData);
+
+      if (editingStore?._id) {
         const updateData = buildStoreUpdatePayload(payload);
 
         await dispatch(
           updateStore({
-            id: editId,
+            id: editingStore._id,
             store: updateData,
           }),
         ).unwrap();
@@ -232,165 +171,311 @@ const Store = () => {
         await dispatch(createStore(payload)).unwrap();
       }
 
-      setShowModal(false);
-      setEditId(null);
-      dispatch(fetchStores({ search, status }));
-    } catch (err) {
-      setSubmitError(
-        typeof err === "string" ? err : err?.message || "Failed to save store",
-      );
+      handleCloseModal();
+
+      dispatch(fetchStores());
+    } catch (error) {
+      console.error("Store save failed:", error);
+
+      throw error;
     }
   };
 
-  // ==========================================
-  // DELETE
-  // ==========================================
+  // =====================================================
+  // DELETE STORE
+  // =====================================================
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this store?")) {
+  const handleDeleteStore = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this store?",
+    );
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await dispatch(deleteStore(id)).unwrap();
-      dispatch(fetchStores({ search, status }));
-    } catch (err) {
-      console.error("Delete Store Error:", err);
+
+      dispatch(fetchStores());
+    } catch (error) {
+      console.error("Store delete failed:", error);
     }
   };
 
-  // ==========================================
-  // RESTORE
-  // ==========================================
+  // =====================================================
+  // RESTORE STORE
+  // =====================================================
 
-  const handleRestore = async (id) => {
+  const handleRestoreStore = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to restore this store?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await dispatch(restoreStore(id)).unwrap();
-      dispatch(fetchStores({ search, status }));
-    } catch (err) {
-      console.error("Restore Store Error:", err);
+
+      dispatch(fetchStores());
+    } catch (error) {
+      console.error("Store restore failed:", error);
     }
   };
 
-  // ==========================================
-  // TOGGLE STATUS
-  // ==========================================
+  // =====================================================
+  // CHANGE STORE STATUS
+  // =====================================================
 
-  const handleToggleStatus = async (id) => {
+  const handleStatusChange = async (id) => {
     try {
       await dispatch(toggleStoreStatus(id)).unwrap();
-      dispatch(fetchStores({ search, status }));
-    } catch (err) {
-      console.error("Toggle Status Error:", err);
+
+      dispatch(fetchStores());
+    } catch (error) {
+      console.error("Store status update failed:", error);
     }
   };
 
-  // ==========================================
-  // JSX
-  // ==========================================
+  // =====================================================
+  // SEARCH + FILTER
+  // =====================================================
+
+  const filteredStores = stores.filter((store) => {
+    const searchValue = search.trim().toLowerCase();
+
+    const storeCode = String(store.storeCode || "").toLowerCase();
+    const storeName = String(store.storeName || "").toLowerCase();
+    const branchName = String(store.branchName || "").toLowerCase();
+    const managerName = String(store.managerName || "").toLowerCase();
+    const phone = String(store.phone || "").toLowerCase();
+
+    const searchMatch =
+      !searchValue ||
+      storeCode.includes(searchValue) ||
+      storeName.includes(searchValue) ||
+      branchName.includes(searchValue) ||
+      managerName.includes(searchValue) ||
+      phone.includes(searchValue);
+
+    const statusMatch =
+      statusFilter === "All" ||
+      String(store.status || "").toLowerCase() === statusFilter.toLowerCase();
+
+    return searchMatch && statusMatch;
+  });
+
+  // =====================================================
+  // SUMMARY
+  // =====================================================
+
+  const totalStores = stores.length;
+
+  const activeStores = stores.filter(
+    (store) => String(store.status || "").toLowerCase() === "active",
+  ).length;
+
+  const inactiveStores = stores.filter(
+    (store) => String(store.status || "").toLowerCase() === "inactive",
+  ).length;
+
+  const deletedStores = stores.filter(
+    (store) => store.isDeleted === true,
+  ).length;
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
-    <div className="store-page">
-      {/* HEADER */}
+    <div className="store-container">
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
-      <div className="store-page-header">
+      <div className="store-header">
         <div>
-          <h1>Store Management</h1>
-          <p>Manage your restaurant stores</p>
+          <h1 className="store-title">Stores</h1>
+
+          <p>Manage your restaurant stores and their information</p>
         </div>
 
-        <AddButton className="store-add-btn" onClick={handleAdd}>
+        <AddButton
+          type="button"
+          className="store-add-btn"
+          onClick={handleAddStore}
+        >
           + Add Store
         </AddButton>
       </div>
 
-      {/* LIST */}
+      {/* =================================================
+          ERROR
+      ================================================= */}
 
-      <div className="store-list-box">
-        <div className="store-filters">
-          <input
-            type="text"
-            placeholder="Search store name or store code..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+      {error && (
+        <div className="store-error-box">
+          {typeof error === "string"
+            ? error
+            : error?.message || "Something went wrong"}
+        </div>
+      )}
 
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">All Status</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
+      {/* =================================================
+          SUMMARY
+      ================================================= */}
+
+      <div className="store-summary-grid">
+        <div className="store-summary-card">
+          <div className="store-summary-label">Total Stores</div>
+
+          <div className="store-summary-value">{totalStores}</div>
         </div>
 
-        {/* ERROR */}
+        <div className="store-summary-card">
+          <div className="store-summary-label">Active Stores</div>
 
-        {error && <div className="store-error">{error}</div>}
+          <div className="store-summary-value">{activeStores}</div>
+        </div>
 
-        {/* TABLE */}
+        <div className="store-summary-card">
+          <div className="store-summary-label">Inactive Stores</div>
 
-        <div className="store-table-wrapper">
-          <table className="store-table">
-            <thead>
-              <tr>
-                <th>Store Code</th>
-                <th>Store Name</th>
-                <th>Branch</th>
-                <th>Manager</th>
-                <th>Phone</th>
-                <th>City</th>
-                <th>Restaurant</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+          <div className="store-summary-value">{inactiveStores}</div>
+        </div>
 
-            <tbody>
-              {loading ? (
+        <div className="store-summary-card">
+          <div className="store-summary-label">Deleted Stores</div>
+
+          <div className="store-summary-value">{deletedStores}</div>
+        </div>
+      </div>
+
+      {/* =================================================
+          TABLE SECTION
+      ================================================= */}
+
+      <div className="store-grid-page">
+        {/* =================================================
+            TOOLBAR
+        ================================================= */}
+
+        <div className="store-toolbar">
+          <div className="store-search-container">
+            <input
+              type="text"
+              placeholder="Search store..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          <div className="store-filter">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="All">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        {/* =================================================
+            TABLE
+        ================================================= */}
+
+        <div className="store-table-container">
+          {loading ? (
+            <div className="store-loading">Loading stores...</div>
+          ) : filteredStores.length === 0 ? (
+            <div className="store-empty">No stores found.</div>
+          ) : (
+            <table className="store-table">
+              <thead>
                 <tr>
-                  <td colSpan="9" className="store-empty">
-                    Loading stores...
-                  </td>
+                  <th>Code</th>
+                  <th>Store Name</th>
+                  <th>Branch</th>
+                  <th>Manager</th>
+                  <th>Phone</th>
+                  <th>City</th>
+                  <th>Restaurant</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ) : stores.length === 0 ? (
-                <tr>
-                  <td colSpan="9" className="store-empty">
-                    No stores found
-                  </td>
-                </tr>
-              ) : (
-                stores.map((store) => (
+              </thead>
+
+              <tbody>
+                {filteredStores.map((store) => (
                   <tr key={store._id}>
+                    {/* CODE */}
+
+                    <td>{store.storeCode || "-"}</td>
+
+                    {/* STORE NAME */}
+
                     <td>
-                      <strong>{store.storeCode || "-"}</strong>
+                      <div className="store-name">{store.storeName || "-"}</div>
                     </td>
 
-                    <td>{store.storeName || "-"}</td>
+                    {/* BRANCH */}
 
                     <td>{store.branchName || "-"}</td>
 
+                    {/* MANAGER */}
+
                     <td>{store.managerName || "-"}</td>
+
+                    {/* PHONE */}
 
                     <td>{store.phone || "-"}</td>
 
+                    {/* CITY */}
+
                     <td>{store.city || "-"}</td>
 
-                    <td>{store.restaurant?.restaurantName || "-"}</td>
+                    {/* RESTAURANT */}
+
+                    <td>
+                      {typeof store.restaurant === "object"
+                        ? store.restaurant?.restaurantName ||
+                          store.restaurant?.name ||
+                          "-"
+                        : restaurants.find(
+                            (restaurant) => restaurant._id === store.restaurant,
+                          )?.restaurantName || "-"}
+                    </td>
+
+                    {/* STATUS */}
 
                     <td>
                       <button
                         type="button"
-                        className={`store-status ${String(
-                          store.status || "",
-                        ).toLowerCase()}`}
-                        onClick={() => handleToggleStatus(store._id)}
+                        className={`store-status ${
+                          String(store.status || "").toLowerCase() === "active"
+                            ? "active"
+                            : "inactive"
+                        }`}
+                        onClick={() => handleStatusChange(store._id)}
+                        disabled={loading}
                       >
-                        {store.status || "-"}
+                        {store.status || "Inactive"}
                       </button>
                     </td>
 
+                    {/* ACTIONS */}
+
                     <td>
                       <div className="modal-actions">
-                        <EditButton onClick={() => handleEdit(store)}>
+                        <EditButton
+                          type="button"
+                          className="store-edit-btn"
+                          onClick={() => handleEditStore(store)}
+                        >
                           Edit
                         </EditButton>
 
@@ -398,49 +483,47 @@ const Store = () => {
                           <button
                             type="button"
                             className="store-restore-btn"
-                            onClick={() => handleRestore(store._id)}
+                            onClick={() => handleRestoreStore(store._id)}
                           >
                             Restore
                           </button>
                         ) : (
-                          <DeleteButton onClick={() => handleDelete(store._id)}>
+                          <DeleteButton
+                            type="button"
+                            className="store-delete-btn"
+                            onClick={() => handleDeleteStore(store._id)}
+                          >
                             Delete
                           </DeleteButton>
                         )}
                       </div>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-
-        {/* ADD / EDIT MODAL */}
-
-        <Modal
-          open={showModal}
-          title={editId ? "Edit Store" : "Add Store"}
-          size="lg"
-          onClose={() => {
-            setShowModal(false);
-            setEditId(null);
-          }}
-        >
-          <StoreForm
-            editId={editId}
-            formData={formData}
-            loading={loading}
-            submitError={submitError}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            onClose={() => {
-              setShowModal(false);
-              setEditId(null);
-            }}
-          />
-        </Modal>
       </div>
+
+      {/* =================================================
+          ADD / EDIT MODAL
+      ================================================= */}
+
+      <Modal
+        open={showModal}
+        title={editingStore ? "Edit Store" : "Add Store"}
+        onClose={handleCloseModal}
+        size="lg"
+      >
+        <StoreForm
+          editingStore={editingStore}
+          onSubmit={handleSubmitStore}
+          onCancel={handleCloseModal}
+          loading={loading}
+          restaurants={restaurants}
+        />
+      </Modal>
     </div>
   );
 };

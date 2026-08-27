@@ -8,10 +8,6 @@ import { CancelButton, SaveButton } from "../../components/Common/Button";
 import Input from "../../components/Common/Input";
 import Select from "../../components/Common/Select";
 
-// =====================================================
-// INITIAL FORM
-// =====================================================
-
 const initialForm = {
   restaurant: "",
   store: "",
@@ -41,14 +37,12 @@ const initialForm = {
   isActive: true,
 };
 
-// =====================================================
-// CATEGORY FORM
-// =====================================================
-
 const CategoryForm = ({
   editingCategory,
   onSubmit,
   categories = [],
+  restaurants = [],
+  stores = [],
   onCancel,
   loading = false,
 }) => {
@@ -182,49 +176,31 @@ const CategoryForm = ({
           <div className="category-form-grid">
             <div className="category-field">
               <Select
-                label="Restaurant ID"
+                label="Restaurant"
                 name="restaurant"
                 register={register}
                 error={errors.restaurant?.message}
-                options={[
-                  ...[
-                    ...new Map(
-                      categories.map((category) => {
-                        const restaurant =
-                          typeof category.restaurant === "object"
-                            ? category.restaurant
-                            : {
-                                _id: category.restaurant,
-                                restaurantName: category.restaurant,
-                              };
-
-                        return [
-                          restaurant?._id,
-                          {
-                            _id: restaurant?._id,
-                            label:
-                              restaurant?.restaurantName ||
-                              restaurant?.name ||
-                              restaurant?._id ||
-                              "Unknown Restaurant",
-                          },
-                        ];
-                      }),
-                    ).values(),
-                  ],
-                ]}
+                options={restaurants.map((restaurant) => ({
+                  _id: restaurant._id,
+                  label:
+                    restaurant.restaurantName ||
+                    restaurant.name ||
+                    restaurant.displayName ||
+                    restaurant._id,
+                }))}
               />
             </div>
 
             <div className="category-field">
-              <Input
-                label="Store ID"
+              <Select
+                label="Store"
                 name="store"
-                type="text"
-                placeholder="Enter Store ObjectId"
                 register={register}
                 error={errors.store?.message}
-                disabled={!!editingCategory}
+                options={stores.map((store) => ({
+                  _id: store._id,
+                  label: store.storeName || store.name || store._id,
+                }))}
               />
             </div>
           </div>

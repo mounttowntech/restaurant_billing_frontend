@@ -1,139 +1,200 @@
-/* =========================================================
-   MENU CATEGORY FORM
-========================================================= */
+/* MenuCategoryForm.css */
 
 .menu-category-form {
   width: 100%;
+  padding: 4px;
   box-sizing: border-box;
 }
 
-/* =========================================================
-   FORM SECTION
-========================================================= */
-
 .menu-category-form-section {
-  padding: 20px;
-  margin-bottom: 16px;
-  border: 1px solid var(--grey-border);
-  border-radius: 10px;
-  background: #ffffff;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-category-form-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .menu-category-form-section h3 {
-  margin: 0 0 18px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--grey-border);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--dark-blue);
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
 }
-
-/* =========================================================
-   FORM GRID
-========================================================= */
 
 .menu-category-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
+  width: 100%;
 }
-
-/* =========================================================
-   FIELD
-========================================================= */
 
 .menu-category-field {
+  width: 100%;
   min-width: 0;
+  box-sizing: border-box;
 }
+
+/* Exact Input / Select sizing */
+
+.menu-category-field input,
+.menu-category-field select,
+.menu-category-field textarea {
+  width: 100%;
+  height: 42px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.menu-category-field textarea {
+  height: auto;
+  min-height: 90px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.menu-category-field input::placeholder,
+.menu-category-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+.menu-category-field input:focus,
+.menu-category-field select:focus,
+.menu-category-field textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.menu-category-field input:hover,
+.menu-category-field select:hover,
+.menu-category-field textarea:hover {
+  border-color: #c7d2fe;
+}
+
+.menu-category-field select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.menu-category-field input:disabled,
+.menu-category-field select:disabled,
+.menu-category-field textarea:disabled {
+  background: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Full width field */
 
 .menu-category-full-width {
   grid-column: 1 / -1;
 }
 
-/* =========================================================
-   SERVICE TYPES
-========================================================= */
+/* Labels */
 
-.menu-category-service-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+.menu-category-field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
 }
 
-.menu-category-checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 10px 12px;
-  box-sizing: border-box;
-  border: 1px solid var(--grey-border);
-  border-radius: 7px;
-  background: #ffffff;
-  color: var(--dark-blue);
-  font-size: 0.82rem;
-  cursor: pointer;
+.menu-category-field label span {
+  color: #ef4444;
+  margin-left: 2px;
 }
 
-.menu-category-checkbox-label:hover {
-  background: #f8f9fb;
-}
-
-.menu-category-checkbox-label input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  cursor: pointer;
-}
-
-/* =========================================================
-   CHECKBOX FIELD
-========================================================= */
+/* Checkbox */
 
 .menu-category-checkbox-field {
+  min-height: 42px;
   display: flex;
   align-items: center;
-  min-height: 42px;
+  box-sizing: border-box;
 }
 
 .menu-category-checkbox-field label {
+  width: 100%;
+  min-height: 42px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.82rem;
-  color: var(--dark-blue);
+  gap: 9px;
+  margin: 0;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
-.menu-category-checkbox-field input {
+.menu-category-checkbox-field label:hover {
+  border-color: #c7d2fe;
+  background: #f9fafb;
+}
+
+.menu-category-checkbox-field input[type="checkbox"] {
   width: 16px;
   height: 16px;
   margin: 0;
+  padding: 0;
   cursor: pointer;
+  accent-color: #6366f1;
 }
 
-/* =========================================================
-   ACTIONS
-========================================================= */
+/* Form Actions */
 
 .menu-category-form-actions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  padding: 18px 0 4px;
+  margin-top: 24px;
 }
 
 .menu-category-cancel-btn,
 .menu-category-submit-btn {
-  min-width: 110px;
+  min-width: 120px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  box-sizing: border-box;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* Error message support */
 
-@media (max-width: 800px) {
+.menu-category-field .error,
+.menu-category-field small {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
   .menu-category-form-grid {
     grid-template-columns: 1fr;
   }
@@ -142,23 +203,32 @@
     grid-column: auto;
   }
 
-  .menu-category-service-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .menu-category-form-actions {
+    justify-content: stretch;
+  }
+
+  .menu-category-cancel-btn,
+  .menu-category-submit-btn {
+    flex: 1;
   }
 }
 
-@media (max-width: 500px) {
-  .menu-category-form-section {
-    padding: 15px;
+@media (max-width: 480px) {
+  .menu-category-form {
+    padding: 2px;
   }
 
-  .menu-category-service-grid {
-    grid-template-columns: 1fr;
+  .menu-category-form-grid {
+    gap: 14px;
+  }
+
+  .menu-category-form-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
   }
 
   .menu-category-form-actions {
-    flex-direction: column-reverse;
-    align-items: stretch;
+    flex-direction: column;
   }
 
   .menu-category-cancel-btn,

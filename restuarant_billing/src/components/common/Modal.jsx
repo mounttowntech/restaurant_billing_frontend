@@ -18,4 +18,4 @@ export default function Modal({ open, title, children, onClose, size = "md" }) {
       </div>
     </div>
   );
-}
+}   

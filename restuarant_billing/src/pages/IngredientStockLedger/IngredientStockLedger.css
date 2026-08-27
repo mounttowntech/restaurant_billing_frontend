@@ -1,0 +1,176 @@
+.ingredient-stock-ledger-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.ingredient-stock-ledger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.ingredient-stock-ledger-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.ingredient-stock-ledger-subtitle {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ingredient-stock-ledger-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ingredient-stock-ledger-search input {
+  width: 240px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.ingredient-stock-ledger-search input:focus {
+  border-color: #6b7280;
+}
+
+.ingredient-stock-ledger-error {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.ingredient-stock-ledger-table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.ingredient-stock-ledger-table {
+  width: 100%;
+  min-width: 1500px;
+  border-collapse: collapse;
+}
+
+.ingredient-stock-ledger-table th {
+  padding: 14px 12px;
+  text-align: left;
+  white-space: nowrap;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ingredient-stock-ledger-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.ingredient-stock-ledger-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.ledger-code {
+  font-weight: 600;
+}
+
+.transaction-type {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  font-size: 12px;
+}
+
+.stock-in {
+  font-weight: 600;
+}
+
+.stock-out {
+  font-weight: 600;
+}
+
+.ledger-status {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ledger-status.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ledger-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.ledger-status.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ingredient-stock-ledger-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ingredient-stock-ledger-loading {
+  padding: 50px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.ingredient-stock-ledger-empty {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.ingredient-stock-ledger-empty h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.ingredient-stock-ledger-empty p {
+  margin: 0;
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .ingredient-stock-ledger-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ingredient-stock-ledger-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ingredient-stock-ledger-search input {
+    width: 100%;
+  }
+}

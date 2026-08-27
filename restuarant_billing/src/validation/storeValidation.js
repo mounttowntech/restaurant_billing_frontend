@@ -5,6 +5,7 @@
  * @returns {string|null} an error message, or null when valid
  */
 export const validateStoreForm = (formData, isEdit = false) => {
+  console.log("formData:", formData, "isEdit:", isEdit);
   if (!isEdit && !String(formData.restaurant || "").trim()) {
     return "Restaurant ID is required";
   }

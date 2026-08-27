@@ -30,7 +30,8 @@ const Customer = () => {
     deleteLoading = false,
     error = null,
   } = useSelector((state) => state.customer || {});
-
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
   // =====================================================
   // MODAL STATE
   // =====================================================
@@ -359,6 +360,8 @@ const Customer = () => {
           onSubmit={handleSubmitCustomer}
           onCancel={handleCloseModal}
           loading={customerLoading}
+          restaurants={restaurants}
+          stores={stores}
         />
       </Modal>
     </div>

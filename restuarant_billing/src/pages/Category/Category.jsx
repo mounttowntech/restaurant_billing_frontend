@@ -36,6 +36,8 @@ const Category = () => {
     error = null,
   } = useSelector((state) => state.category || {});
 
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
   // =====================================================
   // MODAL STATE
   // =====================================================
@@ -510,6 +512,8 @@ const Category = () => {
           onSubmit={handleSubmitCategory}
           onCancel={handleCloseModal}
           loading={categoryLoading}
+          restaurants={restaurants}
+          stores={stores}
         />
       </Modal>
     </div>

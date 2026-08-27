@@ -177,9 +177,9 @@ const storeSlice = createSlice({
       .addCase(fetchStores.fulfilled, (state, action) => {
         state.loading = false;
 
-        console.log("REDUX STORE PAYLOAD:", action.payload);
-
-        state.stores = Array.isArray(action.payload) ? action.payload : [];
+        state.stores = Array.isArray(action.payload)
+          ? action.payload
+          : action.payload?.data || [];
       })
 
       .addCase(fetchStores.rejected, (state, action) => {

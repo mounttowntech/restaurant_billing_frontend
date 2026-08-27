@@ -92,6 +92,24 @@ export const POSIcon = (props) => (
   </svg>
 );
 
+export const WarehouseIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M3 21V9l9-5 9 5v12" />
+    <path d="M3 21h18" />
+    <path d="M7 21v-7h10v7" />
+    <path d="M10 21v-4h4v4" />
+  </svg>
+);
+
 export const ProductsIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -243,6 +261,65 @@ export const CategoryIcon = (props) => (
   </svg>
 );
 
+export const KOTIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 3h14v18H5z" />
+    <path d="M8 7h8" />
+    <path d="M8 11h8" />
+    <path d="M8 14h5" />
+    <path d="M8 17h6" />
+    <path d="M16 14v3" />
+  </svg>
+);
+
+export const RecipeIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M6 3h12v18H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+    <path d="M8 7h8" />
+    <path d="M8 11h8" />
+    <path d="M8 15h5" />
+    <path d="M15 18h1" />
+  </svg>
+);
+
+export const IngredientStockLedgerIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 3h14v18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+    <path d="M8 7h8" />
+    <path d="M8 11h8" />
+    <path d="M8 15h5" />
+    <path d="M15 14v5" />
+    <path d="m13.5 17.5 1.5 1.5 1.5-1.5" />
+  </svg>
+);
+
 export const OrderIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
@@ -258,6 +335,31 @@ export const OrderIcon = (props) => (
     <path d="M9 3v-.5A2.5 2.5 0 0 1 11.5 0h1A2.5 2.5 0 0 1 15 2.5V3" />
     <path d="M8 10h8" />
     <path d="M8 14h5" />
+  </svg>
+);
+
+export const UnitIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M5 4h14l-1.5 15H6.5L5 4Z" />
+
+    <path d="M8 8h3" />
+    <path d="M8 12h3" />
+    <path d="M8 16h3" />
+
+    <path d="M15 8h2" />
+    <path d="M14.5 12h2" />
+    <path d="M14 16h2" />
+
+    <path d="M4 4h16" />
   </svg>
 );
 
@@ -411,6 +513,23 @@ export const CloseIcon = (props) => (
   >
     <path d="M18 6L6 18" />
     <path d="M6 6L18 18" />
+  </svg>
+);
+
+export const IngredientIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M12 21c-3.5-3-6-6.5-6-10a6 6 0 0 1 12 0c0 3.5-2.5 7-6 10Z" />
+    <path d="M12 11v6" />
+    <path d="M9 8c1 1 2 1.5 3 1.5S14 9 15 8" />
   </svg>
 );
 

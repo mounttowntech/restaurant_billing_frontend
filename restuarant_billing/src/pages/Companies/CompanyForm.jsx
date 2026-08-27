@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { CancelButton, SaveButton } from "../../components/Common/Button";
 import {
   createCompany,
   updateCompany,
@@ -561,16 +561,16 @@ const CompanyForm = ({ initialData = null, onSuccess, onCancel }) => {
       ================================================= */}
 
       <div className="company-form-actions">
-        <button
+        <CancelButton
           type="button"
           className="company-cancel-button"
           onClick={onCancel}
           disabled={loading}
         >
           Cancel
-        </button>
+        </CancelButton>
 
-        <button
+        <SaveButton
           type="submit"
           className="company-submit-button"
           disabled={loading}
@@ -580,7 +580,7 @@ const CompanyForm = ({ initialData = null, onSuccess, onCancel }) => {
             : isEditing
               ? "Update Company"
               : "Create Company"}
-        </button>
+        </SaveButton>
       </div>
     </form>
   );
