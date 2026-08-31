@@ -13,6 +13,7 @@ const IngredientForm = ({
   loading = false,
   onClose,
   storeOptions = [],
+  restaurantOptions = [],
   categoryOptions = [],
   supplierOptions = [],
   unitOptions = [],
@@ -25,6 +26,7 @@ const IngredientForm = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
+      restaurant: "",
       store: "",
       ingredientCode: "",
       ingredientName: "",
@@ -61,6 +63,7 @@ const IngredientForm = ({
   useEffect(() => {
     if (initialData) {
       reset({
+        restaurant: initialData.restaurant?._id || initialData.restaurant || "",
         store: initialData.store?._id || initialData.store || "",
         ingredientCode: initialData.ingredientCode || "",
         ingredientName: initialData.ingredientName || "",
@@ -97,12 +100,15 @@ const IngredientForm = ({
   const submitHandler = (data) => {
     const payload = {
       ...data,
+      restaurant: data.restaurant,
+
+      unit: data.unit,
 
       purchaseUnit: data.purchaseUnit || null,
 
-      category: data.category || null,
+      category: data.category,
 
-      supplier: data.supplier || null,
+      supplier: data.supplier,
 
       purchaseUnitConversion: Number(data.purchaseUnitConversion || 1),
 
@@ -147,11 +153,24 @@ const IngredientForm = ({
 
         <div className="ingredient-form-grid">
           <Select
+            label="Restaurant Code *"
+            name="restaurant"
+            register={register}
+            error={errors.restaurant?.message}
+            options={restaurantOptions}
+            optionValue="value"
+            optionLabel="label"
+            required
+          />
+
+          <Select
             label="Store"
             name="store"
             register={register}
             error={errors.store?.message}
             options={storeOptions}
+            optionValue="value"
+            optionLabel="label"
           />
 
           <Input
@@ -184,6 +203,8 @@ const IngredientForm = ({
             register={register}
             error={errors.category?.message}
             options={categoryOptions}
+            optionValue="value"
+            optionLabel="label"
           />
 
           <Select
@@ -192,6 +213,8 @@ const IngredientForm = ({
             register={register}
             error={errors.supplier?.message}
             options={supplierOptions}
+            optionValue="value"
+            optionLabel="label"
           />
         </div>
       </div>
@@ -201,11 +224,14 @@ const IngredientForm = ({
 
         <div className="ingredient-form-grid">
           <Select
-            label="Stock Unit"
+            label="Stock Unit *"
             name="unit"
             register={register}
             error={errors.unit?.message}
             options={unitOptions}
+            optionValue="value"
+            optionLabel="label"
+            required
           />
 
           <Select

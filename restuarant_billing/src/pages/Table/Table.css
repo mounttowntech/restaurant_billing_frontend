@@ -169,12 +169,12 @@
   color: #c62828;
 }
 
-.table-actions {
+/* .table-actions {
   display: flex;
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-}
+} */
 
 .table-action-btn {
   min-height: 32px;
@@ -243,7 +243,7 @@
     font-size: 20px;
   }
 
-  .table-actions {
+  /* .table-actions {
     flex-wrap: wrap;
-  }
+  } */
 }

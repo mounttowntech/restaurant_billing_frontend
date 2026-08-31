@@ -15,20 +15,24 @@ const Select = ({
 
   return (
     <div className="form-group">
-      {label && <label>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}
 
       <select
+        id={name}
         {...registerProps}
         name={name}
-        value={value}
-        onChange={onChange}
         className="form-control"
         required={required}
+        value={value !== undefined ? value : undefined}
+        onChange={onChange}
       >
         <option value="">{placeholder}</option>
 
         {options.map((item, index) => (
-          <option key={item[optionValue] ?? index} value={item[optionValue]}>
+          <option
+            key={item[optionValue] || index}
+            value={item[optionValue] || ""}
+          >
             {item[optionLabel]}
           </option>
         ))}

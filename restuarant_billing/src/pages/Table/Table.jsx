@@ -323,7 +323,7 @@ const Table = () => {
                   </td>
 
                   <td>
-                    <div className="table-actions">
+                    <div className="modal-actions">
                       <EditButton onClick={() => handleEdit(table)} />
 
                       <DeleteButton onClick={() => handleDelete(table._id)} />
