@@ -25,6 +25,7 @@
 
 .ingredient-form-grid {
   display: grid;
+  color: #000;
   grid-template-columns: repeat(
     2,
     minmax(0, 1fr)

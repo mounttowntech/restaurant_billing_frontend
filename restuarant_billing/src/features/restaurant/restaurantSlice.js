@@ -97,7 +97,7 @@ const restaurantSlice = createSlice({
           ? action.payload
           : action.payload?.data || [];
       })
-      
+
       .addCase(fetchRestaurants.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;

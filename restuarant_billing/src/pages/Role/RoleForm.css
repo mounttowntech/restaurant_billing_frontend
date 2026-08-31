@@ -1,0 +1,322 @@
+/* =========================================================
+   ROLE FORM
+========================================================= */
+
+.role-form {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+.role-permission-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.role-permission-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.role-permission-table th,
+.role-permission-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+  font-size: 14px;
+}
+
+.role-permission-table th {
+  background: #f8fafc;
+  color: #374151;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.role-permission-table th:first-child,
+.role-permission-table td:first-child {
+  width: 30%;
+  text-align: left;
+}
+
+.role-permission-table th:not(:first-child),
+.role-permission-table td:not(:first-child) {
+  width: 11.66%;
+}
+
+.role-permission-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.role-permission-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.role-permission-table td:first-child {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* Permission checkboxes */
+.role-permission-table input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #2563eb;
+  vertical-align: middle;
+}
+
+/* Custom scrollbar */
+.role-permission-table-container::-webkit-scrollbar {
+  height: 7px;
+}
+
+.role-permission-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.role-permission-table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.role-permission-table-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .role-permission-table-container {
+    overflow-x: auto;
+  }
+
+  .role-permission-table {
+    min-width: 650px;
+  }
+
+  .role-permission-table th,
+  .role-permission-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+.role-form-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.role-form-section:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.role-form-section h3 {
+  margin: 0 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.role-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.role-field {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.role-full-width {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.role-checkbox-field {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+.role-checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.role-checkbox-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* =========================================================
+   PERMISSIONS
+========================================================= */
+
+.role-permissions-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.role-permissions-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+}
+
+.role-permissions-table thead {
+  background: #f9fafb;
+}
+
+.role-permissions-table th {
+  padding: 12px 10px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.role-permissions-table th:first-child {
+  text-align: left;
+}
+
+.role-permissions-table td {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.role-permissions-table td:first-child {
+  text-align: left;
+}
+
+.role-permission-module {
+  font-weight: 500;
+  color: #111827;
+}
+
+.role-permissions-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   ADD PERMISSION BUTTON
+========================================================= */
+
+.role-add-permission-btn {
+  margin-top: 14px;
+  padding: 8px 14px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.role-add-permission-btn:hover {
+  background: #eff6ff;
+}
+
+/* =========================================================
+   REMOVE PERMISSION
+========================================================= */
+
+.role-remove-permission-btn {
+  padding: 5px 9px;
+  border: 1px solid #dc2626;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.role-remove-permission-btn:hover {
+  background: #fef2f2;
+}
+
+/* =========================================================
+   EMPTY PERMISSIONS
+========================================================= */
+
+.role-no-permissions {
+  padding: 20px;
+  border: 1px dashed #d1d5db;
+  border-radius: 7px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.role-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+}
+
+.role-cancel-btn,
+.role-submit-btn {
+  min-width: 110px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+  .role-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-full-width {
+    grid-column: auto;
+  }
+
+  .role-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .role-cancel-btn,
+  .role-submit-btn {
+    width: 100%;
+  }
+}

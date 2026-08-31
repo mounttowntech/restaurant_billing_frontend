@@ -9,7 +9,9 @@ import {
   RestaurantIcon,
   ProductsIcon,
   WarehouseIcon,
+  RoleIcon,
   UnitIcon,
+  TablesIcon,
   StoreIcon,
   CompaniesIcon,
   CustomersIcon,
@@ -45,9 +47,19 @@ const Sidebar = () => {
       icon: RestaurantIcon,
     },
     {
+      name: "Tables",
+      path: "/tables",
+      icon: TablesIcon,
+    },
+    {
       name: "Menu Categories",
       path: "/menu-categories",
       icon: MenuCategoriesIcon,
+    },
+    {
+      name: "Roles",
+      path: "/roles",
+      icon: RoleIcon,
     },
     {
       name: "Ingredients",

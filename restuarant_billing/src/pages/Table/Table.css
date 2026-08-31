@@ -1,0 +1,249 @@
+.table-page {
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.table-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.table-page-header h2 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.table-page-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.table-toolbar input {
+  flex: 1;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.table-toolbar select {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  outline: none;
+  background: #fff;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.table-error {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff1f1;
+  border: 1px solid #f1b5b5;
+  color: #c62828;
+}
+
+.table-table-container {
+  width: 100%;
+  max-height: 400px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table-data-table {
+  width: 100%;
+  min-width: 1200px;
+  border-collapse: collapse;
+}
+
+.table-data-table th {
+  padding: 13px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid #e5e5e5;
+  background: var(--yellow-light);
+  color: #521923;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.table-data-table td {
+  padding: 13px 14px;
+  font-size: 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.table-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-data-table tbody tr:hover {
+  background: var(--yellow-light);
+}
+
+.table-status-select {
+  min-width: 120px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.status-available {
+  background: #e8f7ed;
+  color: #218739;
+}
+
+.status-occupied {
+  background: #fff0f0;
+  color: #c62828;
+}
+
+.status-reserved {
+  background: #fff4df;
+  color: #a56a00;
+}
+
+.status-cleaning {
+  background: #eaf3ff;
+  color: #2878c8;
+}
+
+.status-out-service {
+  background: #eeeeee;
+  color: #666;
+}
+
+.table-active-btn {
+  min-width: 75px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.table-active-btn.active {
+  background: #e8f7ed;
+  color: #218739;
+}
+
+.table-active-btn.inactive {
+  background: #fff0f0;
+  color: #c62828;
+}
+
+/* .table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+} */
+
+.table-action-btn {
+  min-height: 32px;
+  padding: 6px 11px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.table-action-btn.release {
+  color: #c62828;
+  border-color: #f1b5b5;
+}
+
+.table-action-btn.release:hover {
+  background: #fff1f1;
+}
+
+.table-action-btn.clean {
+  color: #2878c8;
+  border-color: #b9d7f5;
+}
+
+.table-action-btn.clean:hover {
+  background: #eaf3ff;
+}
+
+.table-empty {
+  padding: 40px 20px !important;
+  text-align: center !important;
+  color: #888;
+}
+
+@media (max-width: 900px) {
+  .table-page {
+    padding: 18px;
+  }
+
+  .table-page-header {
+    flex-direction: column;
+  }
+
+  .table-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-toolbar input {
+    width: 100%;
+  }
+
+  .table-toolbar select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .table-page {
+    padding: 12px;
+  }
+
+  .table-page-header h2 {
+    font-size: 20px;
+  }
+
+  /* .table-actions {
+    flex-wrap: wrap;
+  } */
+}

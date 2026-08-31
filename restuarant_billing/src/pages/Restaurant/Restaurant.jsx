@@ -8,6 +8,7 @@ import {
   deleteRestaurant,
   toggleRestaurantStatus,
 } from "../../features/restaurant/restaurantSlice";
+import { fetchCompanies } from "../../features/company/companySlice";
 import RestaurantForm from "./RestaurantForm";
 import {
   EditButton,
@@ -76,6 +77,7 @@ const Restaurant = () => {
     loading,
     error,
   } = useSelector((state) => state.restaurants);
+  const { companies = [] } = useSelector((state) => state.company);
 
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -85,6 +87,12 @@ const Restaurant = () => {
 
   useEffect(() => {
     dispatch(fetchRestaurants());
+    dispatch(
+      fetchCompanies({
+        page: 1,
+        limit: 1000,
+      }),
+    );
   }, [dispatch]);
 
   const handleChange = (e) => {
@@ -194,66 +202,62 @@ const Restaurant = () => {
     setShowModal(true);
   };
 
-  // ==========================================
-  // SUBMIT
-  // ==========================================
+  const handleSubmit = async (data) => {
+    try {
+      const payload = {
+        ...formData,
+        ...data,
+        companyId: data?.companyId || formData?.companyId || "",
+        restaurantCode: data?.restaurantCode || formData?.restaurantCode || "",
+        restaurantName: data?.restaurantName || formData?.restaurantName || "",
+        legalName: data?.legalName || formData?.legalName || "",
+        ownerName: data?.ownerName || formData?.ownerName || "",
+        phone: data?.phone || formData?.phone || "",
+      };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+      if (!payload.companyId) {
+        console.error("Company ID is required");
+        return;
+      }
 
-    if (!formData.companyId) {
-      alert("Company ID is required");
-      return;
+      if (!payload.restaurantCode) {
+        console.error("Restaurant Code is required");
+        return;
+      }
+
+      if (!payload.restaurantName) {
+        console.error("Restaurant Name is required");
+        return;
+      }
+
+      if (!payload.ownerName) {
+        console.error("Owner Name is required");
+        return;
+      }
+
+      if (!payload.phone) {
+        console.error("Phone is required");
+        return;
+      }
+
+      if (editId) {
+        await dispatch(
+          updateRestaurant({
+            id: editId,
+            data: payload,
+          }),
+        ).unwrap();
+      } else {
+        await dispatch(createRestaurant(payload)).unwrap();
+      }
+
+      setShowModal(false);
+      setEditId(null);
+      setFormData(emptyFormData);
+      dispatch(fetchRestaurants());
+    } catch (error) {
+      console.error("Restaurant save error:", error);
     }
-
-    if (!formData.restaurantCode) {
-      alert("Restaurant code is required");
-      return;
-    }
-
-    if (!formData.restaurantName) {
-      alert("Restaurant name is required");
-      return;
-    }
-
-    if (!formData.ownerName) {
-      alert("Owner name is required");
-      return;
-    }
-
-    if (!formData.phone) {
-      alert("Phone is required");
-      return;
-    }
-
-    const payload = {
-      ...formData,
-
-      serviceChargePercentage: Number(formData.serviceChargePercentage) || 0,
-
-      latitude: formData.latitude === "" ? null : Number(formData.latitude),
-
-      longitude: formData.longitude === "" ? null : Number(formData.longitude),
-    };
-
-    if (editId) {
-      // Backend does not allow companyId
-      // to be changed during update.
-      const updateData = { ...payload };
-      delete updateData.companyId;
-
-      dispatch(
-        updateRestaurant({
-          id: editId,
-          restaurant: updateData,
-        }),
-      );
-    } else {
-      dispatch(createRestaurant(payload));
-    }
-
-    setShowModal(false);
-    setEditId(null);
   };
 
   // ==========================================
@@ -285,9 +289,25 @@ const Restaurant = () => {
       restaurant.ownerName?.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // ==========================================
-  // JSX
-  // ==========================================
+  const restaurantOptions = restaurants.map((item) => ({
+    label:
+      item.restaurantCode ||
+      item.code ||
+      item.restaurantName ||
+      item.name ||
+      item._id,
+    value: item._id,
+  }));
+
+  const companyOptions = companies.map((item) => ({
+    label:
+      item.companyId ||
+      item.companyCode ||
+      item.name ||
+      item.companyName ||
+      item._id,
+    value: item._id,
+  }));
 
   return (
     <div className="restaurant-container-wrapper">
@@ -408,6 +428,8 @@ const Restaurant = () => {
             editId={editId}
             formData={formData}
             loading={loading}
+            restaurantOptions={restaurantOptions}
+            companyOptions={companyOptions}
             onChange={handleChange}
             onSubmit={handleSubmit}
             onClose={() => {

@@ -12,8 +12,10 @@ import Modal from "../../components/Common/Modal";
 import IngredientForm from "./IngredientForm";
 import { fetchStores } from "../../features/store/storeSlice";
 import { fetchCategories } from "../../features/category/categorySlice";
-// import { fetchSuppliers } from "../../features/supplier/supplierSlice";
+import { fetchSuppliers } from "../../features/supplier/supplierSlice";
 import { fetchUnits } from "../../features/unit/unitSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+
 import {
   fetchIngredients,
   searchIngredients,
@@ -36,8 +38,9 @@ const Ingredient = () => {
   } = useSelector((state) => state.ingredient);
   const { stores = [] } = useSelector((state) => state.stores);
   const { categories = [] } = useSelector((state) => state.category);
-  // const { suppliers = [] } = useSelector((state) => state.supplier);
+  const { suppliers = [] } = useSelector((state) => state.supplier);
   const { units = [] } = useSelector((state) => state.unit);
+  const { restaurants = [] } = useSelector((state) => state.restaurants);
 
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -46,6 +49,12 @@ const Ingredient = () => {
   useEffect(() => {
     dispatch(fetchIngredients());
 
+    dispatch(
+      fetchRestaurants({
+        page: 1,
+        limit: 1000,
+      }),
+    );
     dispatch(
       fetchStores({
         page: 1,
@@ -60,12 +69,12 @@ const Ingredient = () => {
       }),
     );
 
-    // dispatch(
-    //   fetchSuppliers({
-    //     page: 1,
-    //     limit: 1000,
-    //   }),
-    // );
+    dispatch(
+      fetchSuppliers({
+        page: 1,
+        limit: 1000,
+      }),
+    );
 
     dispatch(
       fetchUnits({
@@ -114,13 +123,23 @@ const Ingredient = () => {
     value: item._id,
   }));
 
-  // const supplierOptions = suppliers.map((item) => ({
-  //   label: item.supplierName || item.name || "Unnamed Supplier",
-  //   value: item._id,
-  // }));
+  const supplierOptions = suppliers.map((item) => ({
+    label: item.supplierName || item.name || "Unnamed Supplier",
+    value: item._id,
+  }));
 
   const unitOptions = units.map((item) => ({
     label: item.unitName || item.name || item.unitCode || "Unnamed Unit",
+    value: item._id,
+  }));
+
+  const restaurantOptions = restaurants.map((item) => ({
+    label:
+      item.restaurantCode ||
+      item.code ||
+      item.restaurantName ||
+      item.name ||
+      item._id,
     value: item._id,
   }));
 
@@ -320,9 +339,10 @@ const Ingredient = () => {
             initialData={editData}
             loading={ingredientLoading}
             onSubmit={handleSubmit}
+            restaurantOptions={restaurantOptions}
             storeOptions={storeOptions}
             categoryOptions={categoryOptions}
-            // supplierOptions={supplierOptions}
+            supplierOptions={supplierOptions}
             unitOptions={unitOptions}
           />
         )}
