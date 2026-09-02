@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { menuItemService } from "./menuItemService";
+import * as menuItemService from "./menuItemService";
 
 // ==========================================================
 // FETCH MENU ITEMS
@@ -11,6 +11,7 @@ export const fetchMenuItems = createAsyncThunk(
 
   async (filters = {}, { rejectWithValue }) => {
     try {
+      console.log("filters", filters);
       const response = await menuItemService.getMenuItems(filters);
 
       return response.data;
@@ -220,6 +221,26 @@ export const fetchCategoryWiseMenu = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to fetch category menu",
+      );
+    }
+  },
+);
+
+// ==========================================================
+// CREATE POS ORDER
+// ==========================================================
+
+export const createPOSOrder = createAsyncThunk(
+  "menuItem/createPOSOrder",
+
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await menuItemService.createPOSOrder(data);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create POS order",
       );
     }
   },
@@ -485,6 +506,24 @@ const menuItemSlice = createSlice({
 
       .addCase(fetchCategoryWiseMenu.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+
+      // =====================================================
+      // CREATE POS ORDER
+      // =====================================================
+      .addCase(createPOSOrder.pending, (state) => {
+        state.actionLoading = true;
+        state.error = null;
+      })
+
+      .addCase(createPOSOrder.fulfilled, (state, action) => {
+        state.actionLoading = false;
+        state.menuItem = action.payload;
+      })
+
+      .addCase(createPOSOrder.rejected, (state, action) => {
+        state.actionLoading = false;
         state.error = action.payload;
       });
   },

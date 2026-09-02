@@ -118,6 +118,16 @@ export const updateMenuItemStatus = async (id, status) => {
   return response.data;
 };
 
+
+export const createPOSOrder = async (data) => {
+  const response = await API.post(
+    "/orders/pos/create",
+    data
+  );
+
+  return response.data;
+};
+
 // ==========================================================
 // Service Object
 // ==========================================================

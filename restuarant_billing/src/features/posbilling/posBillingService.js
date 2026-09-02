@@ -4,7 +4,8 @@ import API from "../../services/api";
 // CREATE POS BILL
 // ==================================================
 
-export const createPOSBillApi = async (data) => {
+export const 
+createPOSBillApi = async (data) => {
   const response = await API.post("/pos-billing/create", data);
 
   return response.data.data;
