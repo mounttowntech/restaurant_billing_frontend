@@ -64,100 +64,76 @@ const CategoryForm = ({
       return;
     }
 
-    const selectedCategory = categories.find(
-      (category) =>
-        category._id === editingCategory._id ||
-        category._id === editingCategory.id ||
-        category.categoryCode === editingCategory.categoryCode,
-    );
-
-    if (!selectedCategory) {
-      return;
-    }
-
-    setValue("categoryCode", selectedCategory.categoryCode || "");
-
-    setValue("categoryName", selectedCategory.categoryName || "");
-
-    setValue(
-      "parentCategory",
-      typeof selectedCategory.parentCategory === "object"
-        ? selectedCategory.parentCategory?._id || ""
-        : selectedCategory.parentCategory || "",
-    );
-
-    setValue("description", selectedCategory.description || "");
+    const parentCategoryId =
+      typeof editingCategory.parentCategory === "object"
+        ? editingCategory.parentCategory?._id || ""
+        : categories.find(
+            (category) =>
+              category._id === editingCategory.parentCategory ||
+              category.categoryName === editingCategory.parentCategory,
+          )?._id ||
+          editingCategory.parentCategory ||
+          "";
 
     setValue(
       "restaurant",
-      typeof selectedCategory.restaurant === "object"
-        ? selectedCategory.restaurant?._id || ""
-        : selectedCategory.restaurant || "",
+      typeof editingCategory.restaurant === "object"
+        ? editingCategory.restaurant?._id || ""
+        : editingCategory.restaurant || "",
     );
 
     setValue(
       "store",
-      typeof selectedCategory.store === "object"
-        ? selectedCategory.store?._id || null
-        : selectedCategory.store || null,
+      typeof editingCategory.store === "object"
+        ? editingCategory.store?._id || ""
+        : editingCategory.store || "",
     );
 
+    setValue("categoryCode", editingCategory.categoryCode || "");
+    setValue("categoryName", editingCategory.categoryName || "");
+    setValue("parentCategory", parentCategoryId);
+    setValue("description", editingCategory.description || "");
     setValue(
       "kitchenCategory",
-      selectedCategory.kitchenCategory || "Main Kitchen",
+      editingCategory.kitchenCategory || "Main Kitchen",
     );
-
-    setValue("displayOrder", selectedCategory.displayOrder ?? 0);
-
-    setValue("gstPercentage", selectedCategory.gstPercentage ?? 5);
-
-    setValue("colorCode", selectedCategory.colorCode || "#2196F3");
-
-    setValue("isVegCategory", selectedCategory.isVegCategory ?? false);
-
-    setValue("isAvailable", selectedCategory.isAvailable ?? true);
-
-    setValue("isActive", selectedCategory.isActive ?? true);
-
-    setValue("image", selectedCategory.image || "");
-
-    setValue("icon", selectedCategory.icon || "");
+    setValue("displayOrder", editingCategory.displayOrder ?? 0);
+    setValue("gstPercentage", editingCategory.gstPercentage ?? 5);
+    setValue("colorCode", editingCategory.colorCode || "#2196F3");
+    setValue("isVegCategory", editingCategory.isVegCategory ?? false);
+    setValue("isAvailable", editingCategory.isAvailable ?? true);
+    setValue("isActive", editingCategory.isActive ?? true);
+    setValue("image", editingCategory.image || "");
+    setValue("icon", editingCategory.icon || "");
   }, [editingCategory, categories, setValue]);
 
   const onFormSubmit = async (data) => {
+    const parentCategoryId =
+      data.parentCategory &&
+      categories.find(
+        (category) =>
+          category._id === data.parentCategory ||
+          category.categoryName === data.parentCategory,
+      )?._id;
+
     const payload = {
-      restaurant: data.restaurant?.trim(),
-
-      store: data.store?.trim(),
-
+      restaurant: data.restaurant || "",
+      store: data.store || "",
       categoryCode: data.categoryCode?.trim().toUpperCase(),
-
       categoryName: data.categoryName?.trim(),
-
-      parentCategory: data.parentCategory?.trim() || null,
-
+      parentCategory: parentCategoryId || null,
       description: data.description?.trim() || "",
-
       image: data.image?.trim() || "",
-
       icon: data.icon?.trim() || "",
-
       kitchenCategory: data.kitchenCategory,
-
       displayOrder: Number(data.displayOrder || 0),
-
       gstPercentage: Number(data.gstPercentage || 0),
-
       colorCode: data.colorCode?.trim() || "#2196F3",
-
       isVegCategory: Boolean(data.isVegCategory),
-
       isAvailable: Boolean(data.isAvailable),
-
       isActive: Boolean(data.isActive),
     };
-    console.log("FORM DATA:", data);
-    console.log("CATEGORY PAYLOAD:", payload);
+
     await onSubmit(payload);
   };
 
@@ -181,13 +157,15 @@ const CategoryForm = ({
                 register={register}
                 error={errors.restaurant?.message}
                 options={restaurants.map((restaurant) => ({
-                  _id: restaurant._id,
+                  value: restaurant._id,
                   label:
                     restaurant.restaurantName ||
                     restaurant.name ||
                     restaurant.displayName ||
                     restaurant._id,
                 }))}
+                optionValue="value"
+                optionLabel="label"
               />
             </div>
 
@@ -198,9 +176,16 @@ const CategoryForm = ({
                 register={register}
                 error={errors.store?.message}
                 options={stores.map((store) => ({
-                  _id: store._id,
-                  label: store.storeName || store.name || store._id,
+                  value: store._id,
+                  label:
+                    store.storeName ||
+                    store.name ||
+                    store.storeCode ||
+                    store.code ||
+                    store._id,
                 }))}
+                optionValue="value"
+                optionLabel="label"
               />
             </div>
           </div>

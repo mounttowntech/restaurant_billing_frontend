@@ -201,7 +201,9 @@
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
   background: #f9fafb;
-  color: #374151;
+  text-transform: uppercase;
+    color: #521923;
+    background: var(--yellow-light);
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
@@ -216,7 +218,7 @@
 }
 
 .orders-table tbody tr:hover {
-  background: #fafafa;
+  background: var(--yellow-light);
 }
 
 .orders-status {

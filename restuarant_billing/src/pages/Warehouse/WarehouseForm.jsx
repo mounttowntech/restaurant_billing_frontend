@@ -256,8 +256,6 @@ const WarehouseForm = ({
         <h3>Basic Information</h3>
 
         <div className="warehouse-form-grid">
-          {/* RESTAURANT */}
-
           <div className="warehouse-field">
             <Select
               label="Restaurant"
@@ -267,8 +265,6 @@ const WarehouseForm = ({
               options={restaurantOptions}
             />
           </div>
-
-          {/* STORE */}
 
           <div className="warehouse-field">
             <Select

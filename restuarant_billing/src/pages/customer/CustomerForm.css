@@ -265,14 +265,6 @@
   color: var(--muted);
 }
 
-.customer-search input:focus {
-  border-color: var(--purple);
-
-  box-shadow:
-    0 0 0 3px rgba(79, 70, 229, 0.14);
-}
-
-
 /* =========================================================
    FILTER
 ========================================================= */
@@ -305,13 +297,6 @@
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
-}
-
-.customer-filter select:focus {
-  border-color: var(--purple);
-
-  box-shadow:
-    0 0 0 3px rgba(79, 70, 229, 0.14);
 }
 
 
@@ -1192,27 +1177,7 @@
     font-size: 0.74rem;
   }
 }
-
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
-
-.customer-add-btn:focus-visible,
-.customer-edit-btn:focus-visible,
-.customer-delete-btn:focus-visible,
-.customer-status-select:focus-visible,
-.customer-search input:focus-visible,
-.customer-filter select:focus-visible,
-.customer-cancel-btn:focus-visible,
-.customer-submit-btn:focus-visible,
-.customer-field input:focus-visible,
-.customer-field select:focus-visible,
-.customer-field textarea:focus-visible {
-  outline: 2px solid var(--purple);
-
-  outline-offset: 2px;
-}
+/* 
 
 
 /* =========================================================

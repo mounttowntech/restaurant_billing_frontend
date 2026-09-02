@@ -22,6 +22,11 @@ import {
   updateMenuItemStatus,
   searchMenuItems,
 } from "../../features/menuItem/menuItemSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchRecipes } from "../../features/recipe/recipeSlice";
+import { fetchMenuCategories } from "../../features/menuCategory/menuCategorySlice";
+import { fetchCategories } from "../../features/category/categorySlice";
 
 import "./MenuItem.css";
 
@@ -36,6 +41,15 @@ const MenuItem = () => {
     actionLoading = false,
     error = null,
   } = useSelector((state) => state.menuItem || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants);
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const menuCategories = useSelector(
+    (state) =>
+      state.menuCategory?.menuCategories ||
+      state.menuCategories?.menuCategories ||
+      [],
+  );
+  const { categories = [] } = useSelector((state) => state.category);
 
   // =====================================================
   // MODAL STATE
@@ -70,6 +84,39 @@ const MenuItem = () => {
   }, [dispatch]);
 
   console.log("Menu Items are :", menuItems);
+
+  useEffect(() => {
+    dispatch(
+      fetchRestaurants({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchStores({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchMenuCategories({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchCategories({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchRecipes({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+  }, [dispatch]);
 
   // =====================================================
   // OPEN ADD MODAL
@@ -254,6 +301,39 @@ const MenuItem = () => {
     (item) => item.status === "Active",
   ).length;
 
+  const restaurantOptions = restaurants.map((item) => ({
+    label:
+      item.restaurantCode ||
+      item.code ||
+      item.restaurantName ||
+      item.name ||
+      item._id,
+    value: item._id,
+  }));
+
+  const storeOptions = stores.map((item) => ({
+    label: item.storeName || item.name || item.storeCode || "Unnamed Store",
+    value: item._id,
+  }));
+
+  const menuCategoryOptions = menuCategories.map((item) => ({
+    label: item.categoryName || item.name || item._id,
+    value: item._id,
+  }));
+
+  const categoryOptions = categories.map((item) => ({
+    label: item.categoryName || item.name || "Unnamed Category",
+    value: item._id,
+  }));
+
+  const recipeOptions = useSelector(
+    (state) =>
+      state.recipe?.recipes?.map((item) => ({
+        label: item.recipeName || item.name || "Unnamed Recipe",
+        value: item._id,
+      })) || [],
+  );
+
   return (
     <div className="menu-item-page">
       {/* =================================================
@@ -416,7 +496,7 @@ const MenuItem = () => {
 
                     <td>
                       {menuItem.menuCategory?.categoryName ||
-                        menuItem.menuCategory ||
+                        menuItem.menuCategory?.name ||
                         "-"}
                     </td>
 
@@ -500,6 +580,11 @@ const MenuItem = () => {
           editingMenuItem={editingMenuItem}
           onSubmit={handleSubmitMenuItem}
           onCancel={handleCloseModal}
+          restaurantOptions={restaurantOptions}
+          storeOptions={storeOptions}
+          categoryOptions={categoryOptions}
+          recipeOptions={recipeOptions}
+          menuCategoryOptions={menuCategoryOptions}
           loading={menuItemLoading}
         />
       </Modal>

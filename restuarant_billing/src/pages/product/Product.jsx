@@ -6,7 +6,7 @@ import {
   AddButton,
 } from "../../components/Common/Button";
 import "./Product.css";
-
+import { fetchStores } from "../../features/store/storeSlice";
 import Modal from "../../components/Common/Modal";
 
 import ProductForm from "./ProductForm";
@@ -57,6 +57,7 @@ const Product = () => {
     dispatch(fetchProducts());
     console.log("STEP 1 - Product.jsx useEffect RUNNING");
     console.log("STEP 2 - dispatching fetchProducts()");
+    dispatch(fetchStores());
   }, [dispatch]);
   console.log("Products is :", products);
   // =====================================================
@@ -104,9 +105,7 @@ const Product = () => {
       }
 
       handleCloseModal();
-
-      // Refresh list after create/update
-      dispatch(fetchProducts());
+      await dispatch(fetchProducts()).unwrap();
     } catch (error) {
       console.error("Product save failed:", error);
     }

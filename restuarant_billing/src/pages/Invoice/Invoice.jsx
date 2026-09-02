@@ -17,7 +17,12 @@ import {
   refundInvoice,
   restoreInvoice,
 } from "../../features/invoice/invoiceSlice";
-
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchCustomers } from "../../features/customer/customerSlice";
+import { fetchOrders } from "../../features/order/orderSlice";
+import { fetchTables } from "../../features/table/tableSlice";
+import { fetchMenuItems } from "../../features/menuItem/menuItemSlice";
 import InvoiceForm from "./InvoiceForm";
 
 import "./Invoice.css";
@@ -34,14 +39,21 @@ const Invoice = () => {
     error,
   } = useSelector((state) => state.invoice || {});
 
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+  const { customers = [] } = useSelector((state) => state.customer || {});
+  const { orders = [] } = useSelector((state) => state.order || {});
+  const { tables = [] } = useSelector((state) => state.tables || {});
+  const { menuItems = [] } = useSelector((state) => state.menuItem || {});
+
+  console.log("TABLES are :", tables);
+  const state = useSelector((state) => state);
+  console.log("STATE is :", state);
+
   const [showForm, setShowForm] = useState(false);
-
   const [editingInvoice, setEditingInvoice] = useState(null);
-
   const [search, setSearch] = useState("");
-
   const [paymentFilter, setPaymentFilter] = useState("All");
-
   const [statusFilter, setStatusFilter] = useState("All");
 
   useEffect(() => {
@@ -77,6 +89,15 @@ const Invoice = () => {
       return matchesSearch && matchesPayment && matchesStatus;
     });
   }, [invoices, search, paymentFilter, statusFilter]);
+
+  useEffect(() => {
+    dispatch(fetchStores({ page: 1, limit: 1000 }));
+    dispatch(fetchRestaurants({ page: 1, limit: 1000 }));
+    dispatch(fetchCustomers({ page: 1, limit: 1000 }));
+    dispatch(fetchOrders({ page: 1, limit: 1000 }));
+    dispatch(fetchTables({ page: 1, limit: 1000 }));
+    dispatch(fetchMenuItems({ page: 1, limit: 1000 }));
+  }, [dispatch]);
 
   const handleEdit = (invoice) => {
     setEditingInvoice(invoice);
@@ -402,6 +423,12 @@ const Invoice = () => {
             editingInvoice={editingInvoice}
             onSubmit={handleSubmitInvoice}
             onCancel={handleFormClose}
+            restaurants={restaurants}
+            stores={stores}
+            customers={customers}
+            orders={orders}
+            menuItems={menuItems}
+            tables={tables}
             loading={loading}
           />
         </Modal>

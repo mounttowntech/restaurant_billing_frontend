@@ -240,7 +240,6 @@ const CustomerForm = ({
               register={register}
               error={errors.gender?.message}
               options={[
-                { _id: "", label: "Select Gender" },
                 { _id: "Male", label: "Male" },
                 { _id: "Female", label: "Female" },
                 { _id: "Other", label: "Other" },

@@ -18,6 +18,8 @@ import {
   deleteCategory,
   changeCategoryStatus,
 } from "../../features/category/categorySlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchStores } from "../../features/store/storeSlice";
 
 import "./Category.css";
 
@@ -62,9 +64,16 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-
     console.log("STEP 1 - Category.jsx useEffect RUNNING");
     console.log("STEP 2 - dispatching fetchCategories()");
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchRestaurants());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchStores());
   }, [dispatch]);
 
   console.log("Categories are :", categories);
@@ -399,7 +408,7 @@ const Category = () => {
               </thead>
 
               <tbody>
-                {filteredCategories.slice(0, 2).map((category) => (
+                {filteredCategories.map((category) => (
                   <tr key={category._id}>
                     {/* CODE */}
 
