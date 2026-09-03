@@ -24,8 +24,8 @@ const UnitForm = ({
   const [formData, setFormData] = useState(initialForm);
 
   /* ==========================================================
-     Edit Data
-  ========================================================== */
+Edit Data
+========================================================== */
 
   useEffect(() => {
     if (!initialData) {
@@ -53,10 +53,11 @@ const UnitForm = ({
   }, [initialData]);
 
   /* ==========================================================
-     Base Units
+Base Units
 
-     Only show units belonging to selected restaurant.
-  ========================================================== */
+ Only show units belonging to selected restaurant.
+
+========================================================== */
 
   const baseUnits = useMemo(() => {
     if (!formData.restaurant) {
@@ -71,8 +72,8 @@ const UnitForm = ({
   }, [units, formData.restaurant]);
 
   /* ==========================================================
-     Change Handler
-  ========================================================== */
+Change Handler
+========================================================== */
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -85,10 +86,11 @@ const UnitForm = ({
   };
 
   /* ==========================================================
-     Restaurant Change
+Restaurant Change
 
-     Reset base unit when restaurant changes.
-  ========================================================== */
+ Reset base unit when restaurant changes.
+
+========================================================== */
 
   const handleRestaurantChange = (event) => {
     const restaurantId = event.target.value;
@@ -101,8 +103,8 @@ const UnitForm = ({
   };
 
   /* ==========================================================
-     Submit
-  ========================================================== */
+Submit
+========================================================== */
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -132,8 +134,8 @@ const UnitForm = ({
     <form className="unit-form" onSubmit={handleSubmit}>
       <div className="unit-form-grid">
         {/* ====================================================
-            Restaurant
-        ==================================================== */}
+Restaurant
+==================================================== */}
 
         <div className="unit-form-group">
           <label>
@@ -160,8 +162,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Unit Name
-        ==================================================== */}
+        Unit Name
+    ==================================================== */}
 
         <div className="unit-form-group">
           <label>
@@ -179,8 +181,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Unit Code
-        ==================================================== */}
+        Unit Code
+    ==================================================== */}
 
         <div className="unit-form-group">
           <label>
@@ -199,8 +201,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Unit Type
-        ==================================================== */}
+        Unit Type
+    ==================================================== */}
 
         <div className="unit-form-group">
           <label>
@@ -226,8 +228,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Conversion Value
-        ==================================================== */}
+        Conversion Value
+    ==================================================== */}
 
         <div className="unit-form-group">
           <label>
@@ -246,8 +248,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Base Unit
-        ==================================================== */}
+        Base Unit
+    ==================================================== */}
 
         <div className="unit-form-group">
           <label>Base Unit</label>
@@ -273,8 +275,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Description
-        ==================================================== */}
+        Description
+    ==================================================== */}
 
         <div className="unit-form-group unit-form-full">
           <label>Description</label>
@@ -289,8 +291,8 @@ const UnitForm = ({
         </div>
 
         {/* ====================================================
-            Status
-        ==================================================== */}
+        Status
+    ==================================================== */}
 
         <div className="unit-form-group unit-status-group">
           <label>Status</label>
@@ -313,8 +315,8 @@ const UnitForm = ({
       </div>
 
       {/* ======================================================
-          Buttons
-      ====================================================== */}
+      Buttons
+  ====================================================== */}
 
       <div className="unit-form-actions">
         <CancelButton

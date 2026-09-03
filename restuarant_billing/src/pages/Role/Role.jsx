@@ -333,7 +333,19 @@ const Role = () => {
 
                     <td>
                       {Array.isArray(role.permissions)
-                        ? role.permissions.length
+                        ? role.permissions.reduce(
+                            (total, permission) =>
+                              total +
+                              [
+                                permission.canView,
+                                permission.canCreate,
+                                permission.canEdit,
+                                permission.canDelete,
+                                permission.canPrint,
+                                permission.canExport,
+                              ].filter(Boolean).length,
+                            0,
+                          )
                         : 0}
                     </td>
 

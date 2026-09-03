@@ -23,7 +23,8 @@ import {
   markPreferred,
   removePreferred,
 } from "../../features/supplier/supplierSlice";
-
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
 const Supplier = () => {
   const dispatch = useDispatch();
 
@@ -63,6 +64,20 @@ const Supplier = () => {
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(
+      fetchRestaurants({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchStores({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+  }, [dispatch]);
   // =====================================================
   // OPEN ADD SUPPLIER MODAL
   // =====================================================

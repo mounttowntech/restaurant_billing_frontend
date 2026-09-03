@@ -241,9 +241,9 @@
   padding: 13px 16px;
 
   border-bottom: 1px solid #e5e7eb;
-
-  color: #6b7280;
-
+text-transform: uppercase;
+    color: #521923;
+    background: var(--yellow-light);
   font-size: 12px;
   font-weight: 600;
   text-align: left;
@@ -270,7 +270,7 @@
 }
 
 .store-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--yellow-light);
 }
 
 .store-table tbody tr:last-child td {

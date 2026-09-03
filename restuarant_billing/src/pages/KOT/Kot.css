@@ -153,8 +153,9 @@
   text-align: left;
   font-size: 13px;
   font-weight: 600;
-  color: #4b5563;
-  background: #f9fafb;
+  text-transform: uppercase;
+    color: #521923;
+    background: var(--yellow-light);
   border-bottom: 1px solid #e5e7eb;
   white-space: nowrap;
 }
@@ -168,7 +169,7 @@
 }
 
 .kot-table tbody tr:hover {
-  background: #fafafa;
+  background: var(--yellow-light);
 }
 
 /* ==========================================================

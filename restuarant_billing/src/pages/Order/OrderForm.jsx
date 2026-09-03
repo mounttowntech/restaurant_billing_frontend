@@ -441,7 +441,6 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
               onChange={handleChange}
             >
               <option value="Dine In">Dine In</option>
-
               <option value="Takeaway">Takeaway</option>
 
               <option value="Delivery">Delivery</option>

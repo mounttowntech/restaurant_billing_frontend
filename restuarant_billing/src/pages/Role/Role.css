@@ -178,7 +178,9 @@
   white-space: nowrap;
   font-size: 13px;
   font-weight: 600;
-  color: #374151;
+  text-transform: uppercase;
+    color: #521923;
+    background: var(--yellow-light);
 }
 
 .role-table td {
@@ -190,7 +192,7 @@
 }
 
 .role-table tbody tr:hover {
-  background: #f9fafb;
+  background: var(--yellow-light);
 }
 
 .role-table tbody tr:last-child td {

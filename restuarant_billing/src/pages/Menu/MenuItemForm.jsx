@@ -56,6 +56,11 @@ const initialForm = {
 const MenuItemForm = ({
   editingMenuItem,
   onSubmit,
+  restaurantOptions = [],
+  menuCategoryOptions = [],
+  storeOptions = [],
+  recipeOptions = [],
+  categoryOptions = [],
   onCancel,
   loading = false,
 }) => {
@@ -176,6 +181,9 @@ const MenuItemForm = ({
   // =====================================================
 
   const onFormSubmit = async (data) => {
+    if (!data.menuCategory?.trim()) {
+      return;
+    }
     const payload = {
       menuCode: data.menuCode.trim().toUpperCase(),
 
@@ -362,57 +370,62 @@ const MenuItemForm = ({
 
         <div className="menu-item-form-grid">
           <div className="menu-item-field">
-            <Input
-              label="Restaurant ID"
+            <Select
+              label="Restaurant Code *"
               name="restaurant"
-              type="text"
-              placeholder="Restaurant ObjectId"
               register={register}
               error={errors.restaurant?.message}
-              disabled={!!editingMenuItem}
+              options={restaurantOptions}
+              optionValue="value"
+              optionLabel="label"
+              required
             />
           </div>
 
           <div className="menu-item-field">
-            <Input
-              label="Store ID"
+            <Select
+              label="Store"
               name="store"
-              type="text"
-              placeholder="Store ObjectId"
               register={register}
               error={errors.store?.message}
-              disabled={!!editingMenuItem}
+              options={storeOptions}
+              optionValue="value"
+              optionLabel="label"
             />
           </div>
 
           <div className="menu-item-field">
-            <Input
-              label="Menu Category ID"
+            <Select
+              label="Menu Category"
               name="menuCategory"
-              type="text"
-              placeholder="MenuCategory ObjectId"
               register={register}
               error={errors.menuCategory?.message}
+              options={menuCategoryOptions}
+              optionValue="value"
+              optionLabel="label"
             />
           </div>
-
           <div className="menu-item-field">
-            <Input
+            <Select
               label="Category ID"
               name="category"
-              type="text"
-              placeholder="Category ObjectId"
               register={register}
+              error={errors.category?.message}
+              options={categoryOptions}
+              optionValue="value"
+              optionLabel="label"
             />
           </div>
 
           <div className="menu-item-field">
-            <Input
+            <Select
               label="Recipe ID"
               name="recipe"
-              type="text"
-              placeholder="Recipe ObjectId"
               register={register}
+              error={errors.recipe?.message}
+              options={recipeOptions}
+              optionValue="value"
+              optionLabel="label"
             />
           </div>
         </div>

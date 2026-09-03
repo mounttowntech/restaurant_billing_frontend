@@ -3,14 +3,15 @@ const Select = ({
   name,
   register,
   error,
-  value,
-  onChange,
+  // value,
+  // onChange,
   options = [],
   placeholder = "Select option",
   optionValue = "_id",
   optionLabel = "label",
   required = false,
 }) => {
+  console.log("options value : ", options);
   const registerProps = typeof register === "function" ? register(name) : {};
 
   return (
@@ -23,8 +24,8 @@ const Select = ({
         name={name}
         className="form-control"
         required={required}
-        value={value !== undefined ? value : undefined}
-        onChange={onChange}
+        // value={value !== undefined ? value : undefined}
+        // onChange={onChange}
       >
         <option value="">{placeholder}</option>
 

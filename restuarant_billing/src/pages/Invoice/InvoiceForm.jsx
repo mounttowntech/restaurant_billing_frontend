@@ -39,6 +39,12 @@ const initialItem = {
 const InvoiceForm = ({
   editingInvoice,
   onSubmit,
+  restaurants = [],
+  stores = [],
+  customers = [],
+  orders = [],
+  menuItems = [],
+  tables = [],
   onCancel,
   loading = false,
 }) => {
@@ -107,7 +113,7 @@ const InvoiceForm = ({
           editingInvoice.items.map((item) => ({
             menuItem:
               typeof item.menuItem === "object"
-                ? item.menuItem?._id || ""
+                ? item.menuItem._id || item.menuItem.id || ""
                 : item.menuItem || "",
 
             menuName: item.menuName || "",
@@ -244,6 +250,7 @@ const InvoiceForm = ({
     await onSubmit(payload);
   };
 
+  console.log("MENU ITEMS are :", menuItems);
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <div className="modal-body">
@@ -262,40 +269,52 @@ const InvoiceForm = ({
               error={errors.invoiceNo?.message}
             />
 
-            <Input
-              label="Restaurant ID"
+            <Select
+              label="Restaurant"
               name="restaurant"
-              type="text"
-              placeholder="Restaurant ObjectId"
               register={register}
               error={errors.restaurant?.message}
+              options={restaurants.map((restaurant) => ({
+                _id: restaurant._id,
+                label:
+                  restaurant.restaurantName ||
+                  restaurant.name ||
+                  restaurant.displayName ||
+                  restaurant._id,
+              }))}
             />
 
-            <Input
-              label="Store ID"
+            <Select
+              label="Store"
               name="store"
-              type="text"
-              placeholder="Store ObjectId"
               register={register}
               error={errors.store?.message}
+              options={stores.map((store) => ({
+                _id: store._id,
+                label: store.storeName || store.name || store._id,
+              }))}
             />
 
-            <Input
-              label="Order ID"
+            <Select
+              label="Order"
               name="order"
-              type="text"
-              placeholder="Order ObjectId"
               register={register}
               error={errors.order?.message}
+              options={orders.map((order) => ({
+                _id: order._id,
+                label: order.orderNo || order._id,
+              }))}
             />
 
-            <Input
-              label="Table ID"
+            <Select
+              label="Table "
               name="table"
-              type="text"
-              placeholder="Table ObjectId"
               register={register}
               error={errors.table?.message}
+              options={tables.map((table) => ({
+                _id: table._id,
+                label: table.tableName || table.name || table._id,
+              }))}
             />
 
             <Select
@@ -339,13 +358,19 @@ const InvoiceForm = ({
           </div>
 
           <div className="form-grid">
-            <Input
-              label="Customer ID"
+            <Select
+              label="Customer"
               name="customer"
-              type="text"
-              placeholder="Customer ObjectId"
               register={register}
               error={errors.customer?.message}
+              options={customers.map((customer) => ({
+                _id: customer._id,
+                label:
+                  customer.customerName ||
+                  customer.name ||
+                  customer.displayName ||
+                  customer._id,
+              }))}
             />
 
             <Input
@@ -407,15 +432,19 @@ const InvoiceForm = ({
               </div>
 
               <div className="form-grid">
-                <Input
-                  label="Menu Item ID"
+                <Select
+                  label="Menu Item"
                   name={`menuItem-${index}`}
-                  type="text"
-                  placeholder="Menu Item ObjectId"
-                  value={item.menuItem}
-                  onChange={(e) =>
-                    handleItemChange(index, "menuItem", e.target.value)
-                  }
+                  register={register}
+                  error={errors.customer?.message}
+                  options={menuItems.map((menuItem) => ({
+                    _id: menuItem._id,
+                    label:
+                      menuItem.menuName ||
+                      menuItem.name ||
+                      menuItem.displayName ||
+                      menuItem._id,
+                  }))}
                 />
 
                 <Input

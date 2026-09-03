@@ -72,9 +72,10 @@ const ProductForm = ({
             : editingProduct.category || "",
 
         store:
-          typeof editingProduct.store === "object"
-            ? editingProduct.store?._id || ""
-            : editingProduct.store || "",
+          editingProduct.store?._id ||
+          editingProduct.store ||
+          editingProduct.storeId ||
+          "",
 
         purchasePrice: editingProduct.purchasePrice || 0,
         sellingPrice: editingProduct.sellingPrice || 0,
@@ -125,8 +126,6 @@ const ProductForm = ({
       description: data.description?.trim() || undefined,
       category: data.category?.trim() || undefined,
 
-      // storeId is required by the create endpoint; editingProduct updates
-      // ignore it since store cannot be changed after creation
       storeId: data.store.trim(),
 
       purchasePrice: Number(data.purchasePrice || 0),

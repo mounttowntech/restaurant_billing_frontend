@@ -17,7 +17,7 @@ const initialForm = {
   floor: "Ground Floor",
   section: "",
   capacity: 4,
-  shape: "Square",
+  shape: "",
   qrCode: "",
   notes: "",
   statusColor: "#4CAF50",
@@ -37,12 +37,14 @@ const TableForm = ({
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: initialForm,
   });
 
   useEffect(() => {
+    console.log("formData : ", watch("shape"));
     if (editId && formData) {
       reset({
         restaurant: formData.restaurant?._id || formData.restaurant || "",
@@ -53,7 +55,7 @@ const TableForm = ({
         floor: formData.floor || "Ground Floor",
         section: formData.section || "",
         capacity: formData.capacity || 4,
-        shape: formData.shape || "Square",
+        shape: formData.shape || "",
         qrCode: formData.qrCode || "",
         notes: formData.notes || "",
         statusColor: formData.statusColor || "#4CAF50",
@@ -76,15 +78,15 @@ const TableForm = ({
 
   const shapeOptions = [
     {
-      value: "Square",
+      _id: "Square",
       label: "Square",
     },
     {
-      value: "Rectangle",
+      _id: "Rectangle",
       label: "Rectangle",
     },
     {
-      value: "Round",
+      _id: "Round",
       label: "Round",
     },
   ];
@@ -94,8 +96,11 @@ const TableForm = ({
       ...data,
       tableNumber: Number(data.tableNumber),
       capacity: Number(data.capacity),
+      shape: data.shape || formData.shape || "",
     });
   };
+
+  console.log("formData : ", watch("shape"));
 
   return (
     <form className="table-form" onSubmit={handleSubmit(submitHandler)}>
@@ -201,6 +206,12 @@ const TableForm = ({
               label="Shape"
               name="shape"
               register={register}
+              error={errors.shape?.message}
+              // value={formData.shape || ""}
+              // onChange={(e) => {
+              //   const selectedShape = e.target.value;
+              //   reset({ ...formData, shape: selectedShape });
+              // }}
               options={shapeOptions}
             />
           </div>

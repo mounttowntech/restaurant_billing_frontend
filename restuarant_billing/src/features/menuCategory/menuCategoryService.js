@@ -59,7 +59,7 @@ export const updateMenuCategory = async (id, data) => {
 // ==========================================================
 
 export const deleteMenuCategory = async (id) => {
-  const response = await API.delete(`/menucategories/delete/${id}`);
+  const response = await API.delete(`/menucategories/${id}`);
 
   return response.data;
 };

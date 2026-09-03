@@ -27,7 +27,7 @@ import {
 const MenuCategory = () => {
   const dispatch = useDispatch();
 
-  const {
+  let {
     menuCategories = [],
     loading = false,
     menuCategoryLoading = false,
@@ -41,6 +41,7 @@ const MenuCategory = () => {
 
   const [editingMenuCategory, setEditingMenuCategory] = useState(null);
 
+  menuCategories = menuCategories.filter((category) => category.isDeleted !== true);
   // =====================================================
   // SEARCH / FILTER
   // =====================================================
