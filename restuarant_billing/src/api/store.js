@@ -22,6 +22,7 @@ import ingredientSlice from "../features/ingredient/ingredientSlice";
 import supplierSlice from "../features/supplier/supplierSlice";
 import roleSlice from "../features/role/roleSlice";
 import tablesSlice from "../features/table/tableSlice";
+import addonSlice from "../features/addOns/addOnsSlice";
 
 const store = configureStore({
   reducer: {
@@ -48,6 +49,7 @@ const store = configureStore({
     supplier: supplierSlice,
     role: roleSlice,
     tables: tablesSlice,
+    addon: addonSlice,
   },
 });
 

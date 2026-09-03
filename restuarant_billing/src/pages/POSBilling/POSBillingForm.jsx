@@ -500,6 +500,12 @@ export default function POSBillingForm({
   const [error, setError] =
     useState("");
 
+  const [addonModalOpen, setAddonModalOpen] = useState(false);
+
+const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+
+const [selectedAddons, setSelectedAddons] = useState([]);
+
   /* ========================================================
      LOAD MENU
   ======================================================== */
@@ -626,6 +632,7 @@ console.log("table_response", response);
   ======================================================== */
 
   const getPrice = (item) => {
+    console.log("getPrice", orderType, item);
     switch (orderType) {
       case "Takeaway":
         return Number(
@@ -653,67 +660,304 @@ console.log("table_response", response);
      ADD TO CART
   ======================================================== */
 
-  const addToCart = (menuItem) => {
-    const price = getPrice(menuItem);
+  // const addToCart = (menuItem) => {
+  //   const price = getPrice(menuItem);
 
-    setCart((currentCart) => {
-      const existing =
-        currentCart.find(
+  //   setCart((currentCart) => {
+  //     const existing =
+  //       currentCart.find(
+  //         (item) =>
+  //           item.menuItem ===
+  //           menuItem._id
+  //       );
+
+  //     if (existing) {
+  //       return currentCart.map(
+  //         (item) =>
+  //           item.menuItem ===
+  //           menuItem._id
+  //             ? {
+  //                 ...item,
+  //                 quantity:
+  //                   item.quantity + 1,
+  //               }
+  //             : item
+  //       );
+  //     }
+
+  //     return [
+  //       ...currentCart,
+  //       {
+  //         menuItem:
+  //           menuItem._id,
+
+  //         menuCode:
+  //           menuItem.menuCode,
+
+  //         menuName:
+  //           menuItem.menuName,
+
+  //         quantity: 1,
+
+  //         unitPrice: price,
+
+  //         gstPercentage:
+  //           Number(
+  //             menuItem.gstPercentage || 0
+  //           ),
+
+  //         discountPercentage:
+  //           Number(
+  //             menuItem.discountPercentage ||
+  //               0
+  //           ),
+
+  //         variant: null,
+
+  //         addons: [],
+
+  //         remarks: "",
+  //       },
+  //     ];
+  //   });
+  // };
+
+  const addToCart = (menuItem) => {
+  const price = getPrice(menuItem);
+
+  /* ======================================================
+     HAS ADDONS
+  ====================================================== */
+
+  if (
+    Array.isArray(menuItem.addons) &&
+    menuItem.addons.length > 0
+  ) {
+    setSelectedMenuItem(menuItem);
+    setAddonModalOpen(true);
+
+    return;
+  }
+
+  /* ======================================================
+     NO ADDONS
+  ====================================================== */
+
+  addItemToCart(
+    menuItem,
+    [],
+    null
+  );
+};
+
+const addItemToCart = (
+  menuItem,
+  selectedAddons = [],
+  selectedVariant = null
+) => {
+  console.log("addItemToCart", menuItem, selectedAddons, selectedVariant);
+  let price = getPrice(menuItem);
+
+  /* ======================================================
+     VARIANT PRICE
+  ====================================================== */
+
+  if (selectedVariant) {
+    price = Number(
+      selectedVariant.price || price
+    );
+  }
+
+  /* ======================================================
+     ADDON PRICE
+  ====================================================== */
+
+  const addonTotal =
+    selectedAddons.reduce(
+      (total, addon) =>
+        total +
+        Number(addon.price || 0),
+      0
+    );
+
+  price += addonTotal;
+
+  /* ======================================================
+     CART ITEM
+  ====================================================== */
+
+  setCart((currentCart) => {
+    const existing =
+      currentCart.find(
+        (item) =>
+          item.menuItem ===
+            menuItem._id &&
+          JSON.stringify(
+            item.addons || []
+          ) ===
+            JSON.stringify(
+              selectedAddons || []
+            ) &&
+          JSON.stringify(
+            item.variant || null
+          ) ===
+            JSON.stringify(
+              selectedVariant || null
+            )
+      );
+
+    /* ====================================================
+       EXISTING SAME CONFIGURATION
+    ==================================================== */
+
+    if (existing) {
+      return currentCart.map(
+        (item) =>
+          item.menuItem ===
+            menuItem._id &&
+          JSON.stringify(
+            item.addons || []
+          ) ===
+            JSON.stringify(
+              selectedAddons || []
+            ) &&
+          JSON.stringify(
+            item.variant || null
+          ) ===
+            JSON.stringify(
+              selectedVariant || null
+            )
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + 1,
+              }
+            : item
+      );
+    }
+
+    /* ====================================================
+       NEW CART ITEM
+    ==================================================== */
+
+    return [
+      ...currentCart,
+      {
+        menuItem:
+          menuItem._id,
+
+        menuCode:
+          menuItem.menuCode,
+
+        menuName:
+          menuItem.menuName,
+
+        quantity: 1,
+
+        unitPrice: price,
+
+        basePrice:
+          getPrice(menuItem),
+
+        gstPercentage:
+          Number(
+            menuItem.gstPercentage || 0
+          ),
+
+        discountPercentage:
+          Number(
+            menuItem.discountPercentage ||
+              0
+          ),
+
+        variant:
+          selectedVariant
+            ? {
+                name:
+                  selectedVariant.name,
+                price:
+                  Number(
+                    selectedVariant.price ||
+                      0
+                  ),
+              }
+            : null,
+
+        addons:
+          selectedAddons.map(
+            (addon) => ({
+              addon:
+                addon._id,
+
+              addonName:
+                addon.addonName,
+
+              price:
+                Number(
+                  addon.price || 0
+                ),
+            })
+          ),
+
+        remarks: "",
+      },
+    ];
+  });
+};
+
+
+const toggleAddon = (addon) => {
+  setSelectedAddons(
+    (current) => {
+      const exists =
+        current.some(
           (item) =>
-            item.menuItem ===
-            menuItem._id
+            item._id ===
+            addon._id
         );
 
-      if (existing) {
-        return currentCart.map(
+      if (exists) {
+        return current.filter(
           (item) =>
-            item.menuItem ===
-            menuItem._id
-              ? {
-                  ...item,
-                  quantity:
-                    item.quantity + 1,
-                }
-              : item
+            item._id !==
+            addon._id
         );
       }
 
       return [
-        ...currentCart,
-        {
-          menuItem:
-            menuItem._id,
-
-          menuCode:
-            menuItem.menuCode,
-
-          menuName:
-            menuItem.menuName,
-
-          quantity: 1,
-
-          unitPrice: price,
-
-          gstPercentage:
-            Number(
-              menuItem.gstPercentage || 0
-            ),
-
-          discountPercentage:
-            Number(
-              menuItem.discountPercentage ||
-                0
-            ),
-
-          variant: null,
-
-          addons: [],
-
-          remarks: "",
-        },
+        ...current,
+        addon,
       ];
-    });
-  };
+    }
+  );
+};
+
+const confirmAddons = () => {
+  if (!selectedMenuItem) {
+    return;
+  }
+
+  addItemToCart(
+    selectedMenuItem,
+    selectedAddons,
+    null
+  );
+
+  setAddonModalOpen(false);
+
+  setSelectedMenuItem(null);
+
+  setSelectedAddons([]);
+};
+
+const closeAddonModal = () => {
+  setAddonModalOpen(false);
+
+  setSelectedMenuItem(null);
+
+  setSelectedAddons([]);
+};
+
 
   /* ========================================================
      CHANGE QUANTITY
@@ -888,17 +1132,28 @@ console.log("table_response", response);
           remarks,
         };
 
-        const response =
-          await createPOSOrder(
-            payload
-          );
+        const response =  await dispatch(createPOSOrder(payload));
+        console.log("createPOSOrder response", response);
 
-        if (!response?.success) {
+        if(createPOSOrder?.fulfilled.match(response)) {
+          alert("Order created successfully");
+
+        }
+
+        if (createPOSOrder?.rejected.match(response)) {
+          const errorData = response.payload || {};
           throw new Error(
-            response?.message ||
+            errorData?.message ||
               "Order creation failed"
           );
         }
+
+        // if (!response?.success) {
+        //   throw new Error(
+        //     response?.message ||
+        //       "Order creation failed"
+        //   );
+        // }
 
         setCart([]);
         setSelectedTable("");
@@ -908,7 +1163,7 @@ console.log("table_response", response);
 
         if (onOrderCreated) {
           onOrderCreated(
-            response.data
+            response.payload
           );
         }
       } catch (err) {
@@ -935,6 +1190,8 @@ console.log("table_response", response);
         maximumFractionDigits: 2,
       }
     ).format(value);
+
+    console.log("filteredMenu render", filteredMenu);
 
   return (
     <div className="pos-container">
@@ -1390,6 +1647,146 @@ console.log("table_response", response);
 
         </div>
       </div>
+
+      {addonModalOpen &&
+        selectedMenuItem && (
+          <div className="addon-modal-overlay">
+
+            <div className="addon-modal">
+
+              <div className="addon-modal-header">
+
+                <div>
+                  <h2>
+                    {selectedMenuItem.menuName}
+                  </h2>
+
+                  <p>
+                    Select add-ons
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={
+                    closeAddonModal
+                  }
+                >
+                  ×
+                </button>
+
+              </div>
+
+              <div className="addon-list">
+
+                {selectedMenuItem.addons?.map(
+                  (addon) => {
+
+                    const checked =
+                      selectedAddons.some(
+                        (item) =>
+                          item._id ===
+                          addon._id
+                      );
+
+                    return (
+                      <label
+                        key={
+                          addon._id
+                        }
+                        className={`addon-option ${checked
+                            ? "selected"
+                            : ""
+                          }`}
+                      >
+
+                        <input
+                          type="checkbox"
+                          checked={
+                            checked
+                          }
+                          onChange={() =>
+                            toggleAddon(
+                              addon
+                            )
+                          }
+                        />
+
+                        <div className="addon-info">
+
+                          <strong>
+                            {
+                              addon.addonName
+                            }
+                          </strong>
+
+                          <span>
+                            +
+                            {money(
+                              addon.price
+                            )}
+                          </span>
+
+                        </div>
+
+                      </label>
+                    );
+                  }
+                )}
+
+              </div>
+
+              <div className="addon-total">
+
+                <span>
+                  Add-ons Total
+                </span>
+
+                <strong>
+                  {money(
+                    selectedAddons.reduce(
+                      (
+                        total,
+                        addon
+                      ) =>
+                        total +
+                        Number(
+                          addon.price ||
+                          0
+                        ),
+                      0
+                    )
+                  )}
+                </strong>
+
+              </div>
+
+              <div className="addon-modal-actions">
+
+                <button
+                  type="button"
+                  onClick={
+                    closeAddonModal
+                  }
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  onClick={
+                    confirmAddons
+                  }
+                >
+                  Add to Cart
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
     </div>
   );
 }

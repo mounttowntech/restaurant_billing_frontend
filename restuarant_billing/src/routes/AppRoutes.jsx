@@ -29,6 +29,7 @@ import Ingredient from "../pages/Ingredient/Ingredient";
 import Supplier from "../pages/Supplier/Supplier";
 import Role from "../pages/Role/Role";
 import Tables from "../pages/Table/Table";
+import Addon from "../pages/Add-ons/AddonList";
 
 function MainLayout() {
   return (
@@ -63,6 +64,7 @@ function MainLayout() {
             path="/ingredient-stock-ledger"
             element={<IngredientStockLedger />}
           />
+          <Route path="/add-ons" element={<Addon />} />
         </Routes>
       </main>
     </div>

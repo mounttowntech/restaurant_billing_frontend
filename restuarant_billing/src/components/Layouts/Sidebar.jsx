@@ -27,6 +27,7 @@ import {
   ReturnsIcon,
   menuItemIcon,
   ReportsIcon,
+  AddonIcon,
 } from "./SidebarIcons";
 
 const Sidebar = () => {
@@ -140,6 +141,11 @@ const Sidebar = () => {
       name: "Menu Items",
       path: "/menu-items",
       icon: menuItemIcon,
+    },
+    {
+      name: "Add-ons",
+      path: "/add-ons",
+      icon: AddonIcon,
     },
     {
       name: "Reports",

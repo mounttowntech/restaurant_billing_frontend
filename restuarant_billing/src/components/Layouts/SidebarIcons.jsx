@@ -592,3 +592,20 @@ export const MenuCategoriesIcon = (props) => (
     <circle cx="7" cy="19" r="1" />
   </svg>
 );
+
+//AddonIcon
+export const AddonIcon = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M12 2v20" />
+    <path d="M5 12h14" />
+  </svg>
+);

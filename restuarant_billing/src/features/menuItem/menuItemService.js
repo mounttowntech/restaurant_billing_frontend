@@ -120,12 +120,17 @@ export const updateMenuItemStatus = async (id, status) => {
 
 
 export const createPOSOrder = async (data) => {
+  try {
   const response = await API.post(
     "/orders/pos/create",
     data
   );
 
   return response.data;
+} catch (error) {
+  console.error("Error creating POS order:", error);
+  throw error?.response?.data || error; // Rethrow the error to be handled by the caller
+}
 };
 
 // ==========================================================

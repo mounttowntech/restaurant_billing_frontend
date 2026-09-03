@@ -837,9 +837,11 @@
 }
 
 .pos-container {
-  min-height: 100vh;
-  padding: 24px;
-  background: #f5f6f8;
+    min-height: 100vh;
+    padding: 56px;
+    width: 100%;
+    max-width: 100%;
+    /* background: #f5f6f8; */
 }
 
 .pos-header {
@@ -1327,6 +1329,179 @@
   .pos-selected-items table {
     min-width: 550px;
   }
+}
+
+.addon-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+
+  padding: 20px;
+}
+
+.addon-modal {
+  width: 100%;
+  max-width: 480px;
+
+  background: #fff;
+
+  border-radius: 16px;
+
+  padding: 20px;
+
+  box-shadow:
+    0 20px 60px
+      rgba(0, 0, 0, 0.2);
+}
+
+.addon-modal-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  border-bottom: 1px solid #eee;
+
+  padding-bottom: 15px;
+
+  margin-bottom: 15px;
+}
+
+.addon-modal-header h2 {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.addon-modal-header p {
+  margin: 5px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+.addon-modal-header button {
+  border: 0;
+
+  background: transparent;
+
+  font-size: 26px;
+
+  cursor: pointer;
+}
+
+.addon-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  max-height: 350px;
+
+  overflow-y: auto;
+}
+
+.addon-option {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  padding: 13px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.addon-option:hover {
+  border-color: #999;
+}
+
+.addon-option.selected {
+  border-color: #111827;
+
+  background: #f5f5f5;
+}
+
+.addon-option input {
+  width: 18px;
+
+  height: 18px;
+}
+
+.addon-info {
+  flex: 1;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.addon-info strong {
+  font-size: 14px;
+}
+
+.addon-info span {
+  font-weight: 600;
+}
+
+.addon-total {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 15px 0;
+
+  margin-top: 10px;
+
+  border-top: 1px solid #eee;
+
+  font-size: 16px;
+}
+
+.addon-modal-actions {
+  display: flex;
+
+  gap: 10px;
+}
+
+.addon-modal-actions button {
+  flex: 1;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  border: 1px solid #ddd;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.addon-modal-actions button:last-child {
+  background: #111827;
+
+  color: #fff;
+
+  border-color: #111827;
 }
 
 
