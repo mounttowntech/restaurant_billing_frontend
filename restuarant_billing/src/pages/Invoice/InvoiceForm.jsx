@@ -52,6 +52,8 @@ const InvoiceForm = ({
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: initialForm,
@@ -64,6 +66,7 @@ const InvoiceForm = ({
   ========================================================= */
 
   useEffect(() => {
+    console.log("Editing Invoice:", editingInvoice);
     if (editingInvoice) {
       reset({
         invoiceNo: editingInvoice.invoiceNo || "",
@@ -109,34 +112,30 @@ const InvoiceForm = ({
       });
 
       if (editingInvoice.items && editingInvoice.items.length > 0) {
-        setItems(
-          editingInvoice.items.map((item) => ({
-            menuItem:
-              typeof item.menuItem === "object"
-                ? item.menuItem._id || item.menuItem.id || ""
-                : item.menuItem || "",
+        const formattedItems = editingInvoice.items.map((item, index) => {
+          const menuItemId =
+            typeof item.menuItem === "object"
+              ? item.menuItem?._id || item.menuItem?.id || ""
+              : item.menuItem || "";
 
+          setValue(`menuItem-${index}`, menuItemId);
+
+          return {
+            menuItem: menuItemId,
             menuName: item.menuName || "",
-
             menuCode: item.menuCode || "",
-
             quantity: item.quantity || 1,
-
             unitPrice: item.unitPrice || 0,
-
             discountPercentage: item.discountPercentage || 0,
-
             gstPercentage: item.gstPercentage ?? 5,
-
             cgstPercentage: item.cgstPercentage ?? 2.5,
-
             sgstPercentage: item.sgstPercentage ?? 2.5,
-
             igstPercentage: item.igstPercentage ?? 0,
-
             remarks: item.remarks || "",
-          })),
-        );
+          };
+        });
+
+        setItems(formattedItems);
       } else {
         setItems([initialItem]);
       }
@@ -144,7 +143,7 @@ const InvoiceForm = ({
       reset(initialForm);
       setItems([initialItem]);
     }
-  }, [editingInvoice, reset]);
+  }, [editingInvoice, reset, setValue]);
 
   /* =========================================================
      ITEM CHANGE
@@ -195,6 +194,8 @@ const InvoiceForm = ({
   ========================================================= */
 
   const onFormSubmit = async (data) => {
+    console.log("Form Data:", data);
+    console.log("Invoice Items:", items);
     const payload = {
       invoiceNo: data.invoiceNo.trim(),
 
@@ -222,8 +223,9 @@ const InvoiceForm = ({
 
       remarks: data.remarks?.trim() || undefined,
 
-      items: items.map((item) => ({
-        menuItem: item.menuItem,
+      items: items.map((item, index) => ({
+        // menuItem-0 get the menuItem value from the form data using the name `menuItem-${index}`. If not found, use the existing item.menuItem or default to an empty string.
+        menuItem: item.menuItem || data[`menuItem-${index}`] || "",
 
         menuName: item.menuName,
 
@@ -251,6 +253,13 @@ const InvoiceForm = ({
   };
 
   console.log("MENU ITEMS are :", menuItems);
+  console.log("set ITEMS are :", items);
+  console.log(
+    "WATCH ITEMS are :",
+    watch("menuItem-0"),
+    watch("menuItem-1"),
+    watch("menuItem-2"),
+  );
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <div className="modal-body">
@@ -436,7 +445,12 @@ const InvoiceForm = ({
                   label="Menu Item"
                   name={`menuItem-${index}`}
                   register={register}
-                  error={errors.customer?.message}
+                  error={errors[`menuItem-${index}`]?.message}
+                  // value={
+                  //   typeof item.menuItem === "object"
+                  //     ? item.menuItem?._id || item.menuItem?.id || ""
+                  //     : item.menuItem || ""
+                  // }
                   options={menuItems.map((menuItem) => ({
                     _id: menuItem._id,
                     label:

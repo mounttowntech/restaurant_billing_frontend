@@ -399,7 +399,17 @@ const RecipeForm = ({ editingRecipe, onSubmit, onCancel, loading = false }) => {
             />
           </div>
 
-          {/* STORE */}
+          <div>
+            <Select
+              label="Menu Item"
+              name="menuItem"
+              register={register}
+              error={errors.menuItem?.message}
+              options={menuItemOptions}
+              onClick={loadMenuItems}
+              onFocus={loadMenuItems}
+            />
+          </div>
 
           <div className="recipe-field">
             <Select

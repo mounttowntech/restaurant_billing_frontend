@@ -9,8 +9,6 @@ export const getCompanies = async (filters = {}) => {
     params: filters,
   });
 
-  console.log("COMPANY API RESPONSE:", response.data);
-
   return response.data;
 };
 

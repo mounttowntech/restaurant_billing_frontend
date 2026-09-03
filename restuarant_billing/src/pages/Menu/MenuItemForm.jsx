@@ -247,6 +247,7 @@ const MenuItemForm = ({
     await onSubmit(payload);
   };
 
+  console.log("RESTAURANT OPTIONS are the :", restaurantOptions);
   return (
     <form className="menu-item-form" onSubmit={handleSubmit(onFormSubmit)}>
       {/* =====================================================
@@ -371,14 +372,18 @@ const MenuItemForm = ({
         <div className="menu-item-form-grid">
           <div className="menu-item-field">
             <Select
-              label="Restaurant Code *"
+              label="Restaurant"
               name="restaurant"
               register={register}
               error={errors.restaurant?.message}
-              options={restaurantOptions}
-              optionValue="value"
-              optionLabel="label"
-              required
+              options={restaurantOptions.map((restaurant) => ({
+                _id: restaurant.value || restaurant._id,
+                label:
+                  restaurant.label ||
+                  restaurant.value ||
+                  restaurant.displayName ||
+                  restaurant._id,
+              }))}
             />
           </div>
 

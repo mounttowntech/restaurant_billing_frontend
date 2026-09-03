@@ -9,7 +9,7 @@ import {
 
 import Modal from "../../components/Common/Modal";
 
-import KotForm from "./KOTForm";
+import KotForm from "./KotForm";
 
 import {
   fetchKOTs,
@@ -22,7 +22,7 @@ import {
   markKOTServed,
   markKOTPrinted,
 } from "../../features/kot/kotSlice";
-
+import { fetchTables } from "../../features/table/tableSlice";
 import "./Kot.css";
 
 const KOT = () => {
@@ -36,6 +36,10 @@ const KOT = () => {
     actionLoading = false,
     error = null,
   } = useSelector((state) => state.kot || {});
+  const { tables = [] } = useSelector((state) => state.tables || {});
+
+  const state = useSelector((state) => state);
+  console.log("KOT STATE Is :", state);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -55,6 +59,7 @@ const KOT = () => {
 
   useEffect(() => {
     dispatch(fetchKOTs());
+    dispatch(fetchTables());
   }, [dispatch]);
 
   // ==========================================================
@@ -222,7 +227,7 @@ const KOT = () => {
     (kot) => kot.kitchenStatus === "Served",
   ).length;
 
-  console.log("KOTS FROM REDUX:", kots);
+  console.log("KOT TABLES:", tables);
 
   return (
     <div className="kot-page">
@@ -356,8 +361,8 @@ const KOT = () => {
                   <th>KOT No</th>
                   <th>Type</th>
                   <th>Table</th>
-                  <th>Waiter</th>
-                  <th>Chef</th>
+                  {/* <th>Waiter</th>
+                  <th>Chef</th> */}
                   <th>Items</th>
                   <th>Quantity</th>
                   <th>Priority</th>
@@ -383,7 +388,7 @@ const KOT = () => {
                         "-"}
                     </td>
 
-                    <td>
+                    {/* <td>
                       {kot.waiter?.name ||
                         kot.waiter?.waiterName ||
                         kot.waiter?._id ||
@@ -395,7 +400,7 @@ const KOT = () => {
                         kot.chef?.chefName ||
                         kot.chef?._id ||
                         "-"}
-                    </td>
+                    </td> */}
 
                     <td>
                       <div className="kot-items-count">{kot.totalItems}</div>
@@ -519,6 +524,7 @@ const KOT = () => {
           editingKOT={editingKOT}
           onSubmit={handleSubmitKOT}
           onCancel={handleCloseModal}
+          tables={tables}
           loading={kotLoading}
         />
       </Modal>

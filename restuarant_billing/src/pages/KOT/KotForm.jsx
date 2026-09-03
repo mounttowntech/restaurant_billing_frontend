@@ -32,10 +32,10 @@ const initialForm = {
   store: "",
   order: "",
   customer: "",
-  reservation: "",
+  // reservation: "",
   table: "",
-  waiter: "",
-  chef: "",
+  // waiter: "",
+  // chef: "",
   kotType: "Dine In",
   priority: "Normal",
   kotDate: "",
@@ -53,7 +53,7 @@ const initialForm = {
       servedQuantity: 0,
       estimatedPreparationTime: 15,
       kitchenStatus: "Pending",
-      chefRemarks: "",
+      // chefRemarks: "",
       remarks: "",
     },
   ],
@@ -77,7 +77,13 @@ const getId = (value) => {
 // COMPONENT
 // ==========================================================
 
-const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
+const KotForm = ({
+  editingKOT,
+  onSubmit,
+  onCancel,
+  tables = [],
+  loading = false,
+}) => {
   const dispatch = useDispatch();
 
   const {
@@ -211,13 +217,16 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
 
       customer: getId(editingKOT.customer),
 
-      reservation: getId(editingKOT.reservation),
+      // reservation: getId(editingKOT.reservation),
 
-      table: getId(editingKOT.table),
+      table:
+        typeof editingKOT.table === "object"
+          ? editingKOT.table?._id || ""
+          : editingKOT.table || "",
 
-      waiter: getId(editingKOT.waiter),
+      // waiter: getId(editingKOT.waiter),
 
-      chef: getId(editingKOT.chef),
+      // chef: getId(editingKOT.chef),
 
       kotType: editingKOT.kotType || "Dine In",
 
@@ -254,7 +263,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
 
               kitchenStatus: item.kitchenStatus || "Pending",
 
-              chefRemarks: item.chefRemarks || "",
+              // chefRemarks: item.chefRemarks || "",
 
               remarks: item.remarks || "",
             }))
@@ -293,7 +302,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
       servedQuantity: 0,
       estimatedPreparationTime: 15,
       kitchenStatus: "Pending",
-      chefRemarks: "",
+      // chefRemarks: "",
       remarks: "",
     });
   };
@@ -314,13 +323,13 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
 
       customer: data.customer || undefined,
 
-      reservation: data.reservation || undefined,
+      // reservation: data.reservation || undefined,
 
       table: data.table || undefined,
 
-      waiter: data.waiter || undefined,
+      // waiter: data.waiter || undefined,
 
-      chef: data.chef || undefined,
+      // chef: data.chef || undefined,
 
       kotType: data.kotType,
 
@@ -351,7 +360,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
 
         kitchenStatus: item.kitchenStatus || "Pending",
 
-        chefRemarks: item.chefRemarks?.trim() || undefined,
+        // chefRemarks: item.chefRemarks?.trim() || undefined,
 
         remarks: item.remarks?.trim() || undefined,
       })),
@@ -359,7 +368,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
 
     await onSubmit(payload);
   };
-
+  console.log("KOT FORM  :", tables);
   return (
     <form className="kot-form" onSubmit={handleSubmit(onFormSubmit)}>
       {/* ======================================================
@@ -492,7 +501,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
             />
           </div>
 
-          <div className="kot-field">
+          {/* <div className="kot-field">
             <Input
               label="Reservation ID"
               name="reservation"
@@ -501,20 +510,22 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
               register={register}
               error={errors.reservation?.message}
             />
-          </div>
+          </div> */}
 
           <div className="kot-field">
-            <Input
-              label="Table ID"
+            <Select
+              label="Table "
               name="table"
-              type="text"
-              placeholder="Table ObjectId"
               register={register}
               error={errors.table?.message}
+              options={tables.map((table) => ({
+                _id: table._id,
+                label: table.tableName || table.name || table._id,
+              }))}
             />
           </div>
 
-          <div className="kot-field">
+          {/* <div className="kot-field">
             <Input
               label="Waiter ID"
               name="waiter"
@@ -523,9 +534,9 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
               register={register}
               error={errors.waiter?.message}
             />
-          </div>
+          </div> */}
 
-          <div className="kot-field">
+          {/* <div className="kot-field">
             <Input
               label="Chef ID"
               name="chef"
@@ -534,7 +545,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
               register={register}
               error={errors.chef?.message}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -702,7 +713,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
                   />
                 </div>
 
-                <div className="kot-field kot-full-width">
+                {/* <div className="kot-field kot-full-width">
                   <Input
                     label="Chef Remarks"
                     name={`items.${index}.chefRemarks`}
@@ -711,7 +722,7 @@ const KotForm = ({ editingKOT, onSubmit, onCancel, loading = false }) => {
                     register={register}
                     error={errors.items?.[index]?.chefRemarks?.message}
                   />
-                </div>
+                </div> */}
 
                 <div className="kot-field kot-full-width">
                   <Input

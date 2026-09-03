@@ -19,7 +19,8 @@ import {
   changeCustomerStatus,
   searchCustomers,
 } from "../../features/customer/customerSlice";
-
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
 const Customer = () => {
   const dispatch = useDispatch();
 
@@ -54,6 +55,18 @@ const Customer = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    dispatch(
+      fetchRestaurants({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+    dispatch(
+      fetchStores({
+        page: 1,
+        limit: 1000,
+      }),
+    );
   }, [dispatch]);
 
   // =====================================================

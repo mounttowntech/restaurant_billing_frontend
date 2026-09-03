@@ -9,12 +9,16 @@ import {
   SaveButton,
   PaymentButton,
 } from "../../components/Common/Button";
+
+import Modal from "../../components/Common/Modal";
+
+import PurchaseForm from "./PurchaseForm";
+
 import {
   fetchPurchases,
   createPurchase,
   updatePurchase,
   deletePurchase,
-  restorePurchase,
   receivePurchase,
   cancelPurchase,
   updatePaymentStatus,
@@ -23,18 +27,22 @@ import {
   fetchPurchaseSummary,
 } from "../../features/purchase/purchaseSlice";
 
-import PurchaseForm from "./PurchaseForm";
-import Modal from "../../components/Common/Modal";
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchSuppliers } from "../../features/supplier/supplierSlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchWarehouses } from "../../features/warehouse/warehouseSlice";
+import { fetchIngredients } from "../../features/ingredient/ingredientSlice";
+// import { fetchBatches } from "../../features/batch/batchSlice.js";
+import { fetchUnits } from "../../features/unit/unitSlice";
+
 import "./Purchase.css";
 
 const Purchase = () => {
   const dispatch = useDispatch();
+
   const {
     purchases = [],
-    selectedPurchase,
     totalRecords = 0,
-    currentPage = 1,
-    totalPages = 0,
     loading = false,
     error = null,
     success = false,
@@ -42,7 +50,24 @@ const Purchase = () => {
     summary = {},
   } = useSelector((state) => state.purchase || {});
 
-  const [showForm, setShowForm] = useState(false);
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+
+  const { stores = [] } = useSelector((state) => state.stores || {});
+
+  const { suppliers = [] } = useSelector((state) => state.supplier || {});
+
+  const { warehouses = [] } = useSelector((state) => state.warehouse || {});
+
+  const { ingredients = [] } = useSelector((state) => state.ingredient || {});
+
+  // const { batches = [] } = useSelector((state) => state.batch || {});
+
+  const { units = [] } = useSelector((state) => state.unit || {});
+
+  const state = useSelector((state) => state);
+  console.log("STATE VALUES ARE :", state);
+
+  const [showModal, setShowModal] = useState(false);
 
   const [editingPurchase, setEditingPurchase] = useState(null);
 
@@ -67,6 +92,69 @@ const Purchase = () => {
     purchaseStatus: "",
   });
 
+  useEffect(() => {
+    dispatch(
+      fetchPurchases({
+        page,
+        limit,
+        ...filters,
+      }),
+    );
+
+    dispatch(fetchPurchaseSummary());
+  }, [dispatch, page, limit, filters]);
+
+  useEffect(() => {
+    dispatch(
+      fetchRestaurants({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+
+    dispatch(
+      fetchStores({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+
+    dispatch(
+      fetchSuppliers({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+
+    dispatch(
+      fetchWarehouses({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+
+    dispatch(
+      fetchIngredients({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+
+    // dispatch(
+    //   fetchBatches({
+    //     page: 1,
+    //     limit: 1000,
+    //   }),
+    // );
+
+    dispatch(
+      fetchUnits({
+        page: 1,
+        limit: 1000,
+      }),
+    );
+  }, [dispatch]);
+
   const loadPurchases = () => {
     dispatch(
       fetchPurchases({
@@ -77,54 +165,32 @@ const Purchase = () => {
     );
   };
 
-  useEffect(() => {
-    loadPurchases();
-
-    dispatch(fetchPurchaseSummary());
-  }, [
-    page,
-    filters.supplier,
-    filters.restaurant,
-    filters.store,
-    filters.warehouse,
-    filters.paymentStatus,
-    filters.purchaseStatus,
-  ]);
-
-  // SEARCH
-
-  const handleSearch = () => {
-    if (!search.trim()) {
-      setPage(1);
-      loadPurchases();
-      return;
-    }
-
-    dispatch(searchPurchase(search.trim()));
+  const handleAddPurchase = () => {
+    setEditingPurchase(null);
+    setShowModal(true);
   };
 
-  // CLEAR SEARCH
-
-  const clearSearch = () => {
-    setSearch("");
-    setPage(1);
-
-    dispatch(
-      fetchPurchases({
-        page: 1,
-        limit,
-        ...filters,
-      }),
-    );
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingPurchase(null);
   };
 
-  // CREATE
+  const handleSubmitPurchase = async (formData) => {
+    console.log("Purchase form data:", formData);
 
-  const handleCreate = async (data) => {
-    const result = await dispatch(createPurchase(data));
+    try {
+      if (editingPurchase?._id) {
+        await dispatch(
+          updatePurchase({
+            id: editingPurchase._id,
+            purchase: formData,
+          }),
+        ).unwrap();
+      } else {
+        await dispatch(createPurchase(formData)).unwrap();
+      }
 
-    if (createPurchase.fulfilled.match(result)) {
-      setShowForm(false);
+      handleCloseModal();
 
       dispatch(
         fetchPurchases({
@@ -135,31 +201,28 @@ const Purchase = () => {
       );
 
       dispatch(fetchPurchaseSummary());
+    } catch (error) {
+      console.error("Purchase save failed:", error);
     }
   };
 
-  // UPDATE
-  const handleUpdate = async (data) => {
-    if (!editingPurchase?._id) return;
+  const handleEditPurchase = async (id) => {
+    try {
+      const result = await dispatch(fetchPurchaseById(id)).unwrap();
 
-    const result = await dispatch(
-      updatePurchase({
-        id: editingPurchase._id,
-        purchase: data,
-      }),
-    );
+      console.log("RESULT IS handleEditPurchase :", result);
 
-    if (updatePurchase.fulfilled.match(result)) {
-      setEditingPurchase(null);
-      setShowForm(false);
-      loadPurchases();
-      dispatch(fetchPurchaseSummary());
+      const purchase = result?.data || result?.purchase || result;
+      console.log("Editing purchase:", purchase);
+
+      setEditingPurchase(purchase);
+      setShowModal(true);
+    } catch (error) {
+      console.error("Purchase fetch failed:", error);
     }
   };
 
-  // DELETE
-
-  const handleDelete = async (id) => {
+  const handleDeletePurchase = async (id) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this purchase?",
     );
@@ -168,93 +231,64 @@ const Purchase = () => {
       return;
     }
 
-    await dispatch(deletePurchase(id));
+    try {
+      await dispatch(deletePurchase(id)).unwrap();
 
-    loadPurchases();
+      loadPurchases();
+
+      dispatch(fetchPurchaseSummary());
+    } catch (error) {
+      console.error("Purchase delete failed:", error);
+    }
   };
 
-  // RESTORE
-
-  const handleRestore = async (id) => {
-    await dispatch(restorePurchase(id));
-
-    loadPurchases();
-  };
-
-  // RECEIVE
-
-  const handleReceive = async (id) => {
+  const handleReceivePurchase = async (id) => {
     const confirmed = window.confirm("Mark this purchase as received?");
 
     if (!confirmed) {
       return;
     }
 
-    await dispatch(receivePurchase(id));
+    try {
+      await dispatch(receivePurchase(id)).unwrap();
 
-    loadPurchases();
+      loadPurchases();
+
+      dispatch(fetchPurchaseSummary());
+    } catch (error) {
+      console.error("Purchase receive failed:", error);
+    }
   };
 
-  const handleCancel = async (id) => {
+  const handleCancelPurchase = async (id) => {
     const confirmed = window.confirm("Cancel this purchase?");
 
     if (!confirmed) {
       return;
     }
 
-    await dispatch(cancelPurchase(id));
+    try {
+      await dispatch(cancelPurchase(id)).unwrap();
 
-    loadPurchases();
-  };
+      loadPurchases();
 
-  const handleEdit = async (id) => {
-    const result = await dispatch(fetchPurchaseById(id));
-
-    if (fetchPurchaseById.fulfilled.match(result)) {
-      console.log("EDIT PURCHASE RESPONSE:", result.payload);
-
-      const purchase =
-        result.payload?.data || result.payload?.purchase || result.payload;
-
-      setEditingPurchase(purchase || null);
-
-      setShowForm(true);
+      dispatch(fetchPurchaseSummary());
+    } catch (error) {
+      console.error("Purchase cancel failed:", error);
     }
   };
 
-  const openPaymentModal = (purchase) => {
-    setPaymentModal(purchase);
+  const handleSearch = (e) => {
+    const value = e.target.value;
 
-    setPaidAmount(purchase.paidAmount || 0);
+    setSearch(value);
 
-    setPaymentMethod(purchase.paymentMethod || "Cash");
-  };
-
-  const closePaymentModal = () => {
-    setPaymentModal(null);
-    setPaidAmount("");
-    setPaymentMethod("Cash");
-  };
-
-  const handlePayment = async () => {
-    if (!paymentModal?._id) {
+    if (!value.trim()) {
+      loadPurchases();
       return;
     }
 
-    const result = await dispatch(
-      updatePaymentStatus({
-        id: paymentModal._id,
-        data: {
-          paidAmount: Number(paidAmount),
-          paymentMethod,
-        },
-      }),
-    );
-
-    if (updatePaymentStatus.fulfilled.match(result)) {
-      closePaymentModal();
-      loadPurchases();
-    }
+    dispatch(searchPurchase(value));
   };
 
   const handleFilterChange = (e) => {
@@ -262,11 +296,12 @@ const Purchase = () => {
 
     setPage(1);
 
-    setFilters((prev) => ({
-      ...prev,
+    setFilters((previous) => ({
+      ...previous,
       [name]: value,
     }));
   };
+
   const resetFilters = () => {
     setFilters({
       supplier: "",
@@ -280,22 +315,46 @@ const Purchase = () => {
     setPage(1);
   };
 
-  const openCreateForm = () => {
-    setEditingPurchase(null);
-    setShowForm(true);
+  const openPaymentModal = (purchase) => {
+    setPaymentModal(purchase);
+
+    setPaidAmount(purchase.paidAmount || 0);
+
+    setPaymentMethod(purchase.paymentMethod || "Cash");
   };
 
-  const closeForm = () => {
-    setShowForm(false);
-    setEditingPurchase(null);
+  const closePaymentModal = () => {
+    setPaymentModal(null);
+
+    setPaidAmount("");
+
+    setPaymentMethod("Cash");
   };
 
-  const goToPage = (nextPage) => {
-    if (nextPage < 1 || nextPage > totalPages) {
+  const handlePayment = async () => {
+    if (!paymentModal?._id) {
       return;
     }
 
-    setPage(nextPage);
+    try {
+      await dispatch(
+        updatePaymentStatus({
+          id: paymentModal._id,
+          data: {
+            paidAmount: Number(paidAmount),
+            paymentMethod,
+          },
+        }),
+      ).unwrap();
+
+      closePaymentModal();
+
+      loadPurchases();
+
+      dispatch(fetchPurchaseSummary());
+    } catch (error) {
+      console.error("Payment update failed:", error);
+    }
   };
 
   const formatDate = (date) => {
@@ -310,6 +369,42 @@ const Purchase = () => {
     return `₹${Number(value || 0).toFixed(2)}`;
   };
 
+  const restaurantOptions = restaurants.map((item) => ({
+    label: item.restaurantName || item.restaurantCode || item.name || item._id,
+    value: item._id,
+  }));
+
+  const storeOptions = stores.map((item) => ({
+    label: item.storeName || item.storeCode || item.name || item._id,
+    value: item._id,
+  }));
+
+  const supplierOptions = suppliers.map((item) => ({
+    label: item.supplierName || item.name || item.supplierCode || item._id,
+    value: item._id,
+  }));
+
+  const warehouseOptions = warehouses.map((item) => ({
+    label: item.warehouseName || item.name || item.warehouseCode || item._id,
+    value: item._id,
+  }));
+
+  const ingredientOptions = ingredients.map((item) => ({
+    label: item.ingredientName || item.name || item.ingredientCode || item._id,
+    value: item._id,
+  }));
+
+  // const batchOptions = batches.map((item) => ({
+  //   label: item.batchNumber || item.batchCode || item.name || item._id,
+  //   value: item._id,
+  // }));
+
+  const unitOptions = units.map((item) => ({
+    label: item.unitName || item.name || item.unitCode || item._id,
+    value: item._id,
+  }));
+
+  console.log("restaurantOptions is :", restaurantOptions);
   return (
     <div className="purchase-page">
       <div className="purchase-page-header">
@@ -319,10 +414,16 @@ const Purchase = () => {
           <p>Manage purchases, suppliers, payments and stock receiving.</p>
         </div>
 
-        <AddButton className="purchase-add-btn" onClick={openCreateForm}>
+        <AddButton
+          type="button"
+          className="purchase-add-btn"
+          onClick={handleAddPurchase}
+        >
           + Add Purchase
         </AddButton>
       </div>
+
+      {error && <div className="purchase-error">{error}</div>}
 
       <div className="purchase-summary-cards">
         <div className="summary-card">
@@ -350,188 +451,200 @@ const Purchase = () => {
         </div>
       </div>
 
-      <Modal
-        open={showForm}
-        title={editingPurchase ? "Update Purchase" : "Create Purchase"}
-        onClose={closeForm}
-        size="lg"
-      >
-        <PurchaseForm
-          initialData={editingPurchase}
-          onSubmit={editingPurchase ? handleUpdate : handleCreate}
-          onCancel={closeForm}
-          loading={loading}
-        />
-      </Modal>
-
       <div className="purchase-toolbar">
         <div className="purchase-search">
           <input
             type="text"
             placeholder="Search purchase number, invoice or ingredient..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
+            onChange={handleSearch}
           />
-
-          <div className="purchase-filters">
-            <select
-              name="paymentStatus"
-              value={filters.paymentStatus}
-              onChange={handleFilterChange}
-            >
-              <option value="">Payment Status</option>
-
-              <option value="Pending">Pending</option>
-
-              <option value="Partial">Partial</option>
-
-              <option value="Paid">Paid</option>
-            </select>
-
-            <button onClick={resetFilters}>Reset</button>
-          </div>
-          {/* <button onClick={handleSearch}>Search</button>
-
-          {search && <button onClick={clearSearch}>Clear</button>} */}
         </div>
 
-        <div className="purchase-table-wrapper">
+        <div className="purchase-filters">
+          <select
+            name="paymentStatus"
+            value={filters.paymentStatus}
+            onChange={handleFilterChange}
+          >
+            <option value="">All Payment Status</option>
+
+            <option value="Pending">Pending</option>
+
+            <option value="Partial">Partial</option>
+
+            <option value="Paid">Paid</option>
+          </select>
+
+          <select
+            name="purchaseStatus"
+            value={filters.purchaseStatus}
+            onChange={handleFilterChange}
+          >
+            <option value="">All Purchase Status</option>
+
+            <option value="Draft">Draft</option>
+
+            <option value="Ordered">Ordered</option>
+
+            <option value="Received">Received</option>
+
+            <option value="Cancelled">Cancelled</option>
+          </select>
+
+          <button type="button" onClick={resetFilters}>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div className="purchase-table-wrapper">
+        {loading ? (
+          <div className="purchase-loading">Loading purchases...</div>
+        ) : purchases.length === 0 ? (
+          <div className="purchase-empty">No purchases found.</div>
+        ) : (
           <table className="purchase-table">
             <thead>
               <tr>
                 <th>Purchase No</th>
-
                 <th>Date</th>
-
                 <th>Supplier</th>
-
                 <th>Store</th>
-
                 <th>Invoice</th>
-
                 <th>Items</th>
-
                 <th>Grand Total</th>
-
                 <th>Paid</th>
-
                 <th>Due</th>
-
                 <th>Payment</th>
-
                 <th>Status</th>
-
                 <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="12" className="empty-cell">
-                    Loading purchases...
+              {purchases.map((purchase) => (
+                <tr key={purchase._id}>
+                  <td>
+                    <strong>{purchase.purchaseNo || "-"}</strong>
+                  </td>
+
+                  <td>{formatDate(purchase.purchaseDate)}</td>
+
+                  <td>
+                    {purchase.supplier?.supplierName ||
+                      purchase.supplier?.name ||
+                      "-"}
+                  </td>
+
+                  <td>
+                    {purchase.store?.storeName || purchase.store?.name || "-"}
+                  </td>
+
+                  <td>{purchase.invoiceNumber || "-"}</td>
+
+                  <td>{purchase.totalItems ?? purchase.items?.length ?? 0}</td>
+
+                  <td>{formatMoney(purchase.grandTotal)}</td>
+
+                  <td>{formatMoney(purchase.paidAmount)}</td>
+
+                  <td>{formatMoney(purchase.dueAmount)}</td>
+
+                  <td>
+                    <span
+                      className={`payment-status ${String(
+                        purchase.paymentStatus || "",
+                      ).toLowerCase()}`}
+                    >
+                      {purchase.paymentStatus || "Pending"}
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      className={`purchase-status ${String(
+                        purchase.purchaseStatus || "",
+                      ).toLowerCase()}`}
+                    >
+                      {purchase.purchaseStatus || "-"}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="modal-actions">
+                      <EditButton
+                        type="button"
+                        onClick={() => handleEditPurchase(purchase._id)}
+                      >
+                        Edit
+                      </EditButton>
+
+                      {purchase.purchaseStatus !== "Received" &&
+                        purchase.purchaseStatus !== "Cancelled" && (
+                          <button
+                            type="button"
+                            onClick={() => handleReceivePurchase(purchase._id)}
+                          >
+                            Receive
+                          </button>
+                        )}
+
+                      {purchase.purchaseStatus !== "Received" &&
+                        purchase.purchaseStatus !== "Cancelled" && (
+                          <button
+                            type="button"
+                            onClick={() => handleCancelPurchase(purchase._id)}
+                          >
+                            Cancel
+                          </button>
+                        )}
+
+                      <PaymentButton
+                        type="button"
+                        onClick={() => openPaymentModal(purchase)}
+                      >
+                        Payment
+                      </PaymentButton>
+
+                      <DeleteButton
+                        type="button"
+                        onClick={() => handleDeletePurchase(purchase._id)}
+                      >
+                        Delete
+                      </DeleteButton>
+                    </div>
                   </td>
                 </tr>
-              ) : purchases.length === 0 ? (
-                <tr>
-                  <td colSpan="12" className="empty-cell">
-                    No purchases found.
-                  </td>
-                </tr>
-              ) : (
-                purchases.map((purchase) => (
-                  <tr key={purchase._id}>
-                    <td>
-                      <strong>{purchase.purchaseNo}</strong>
-                    </td>
-
-                    <td>{formatDate(purchase.purchaseDate)}</td>
-
-                    <td>{purchase.supplier?.supplierName || "-"}</td>
-
-                    <td>{purchase.store?.storeName || "-"}</td>
-
-                    <td>{purchase.invoiceNumber || "-"}</td>
-
-                    <td>
-                      {purchase.totalItems ?? purchase.items?.length ?? 0}
-                    </td>
-
-                    <td>{formatMoney(purchase.grandTotal)}</td>
-
-                    <td>{formatMoney(purchase.paidAmount)}</td>
-
-                    <td>{formatMoney(purchase.dueAmount)}</td>
-
-                    <td>
-                      <span
-                        className={`payment-status ${String(
-                          purchase.paymentStatus || "",
-                        ).toLowerCase()}`}
-                      >
-                        {purchase.paymentStatus || "Pending"}
-                      </span>
-                    </td>
-
-                    <td>
-                      <span
-                        className={`purchase-status ${String(
-                          purchase.purchaseStatus || "",
-                        ).toLowerCase()}`}
-                      >
-                        {purchase.purchaseStatus || "-"}
-                      </span>
-                    </td>
-
-                    <td>
-                      <div className="modal-actions">
-                        <EditButton onClick={() => handleEdit(purchase._id)}>
-                          Edit
-                        </EditButton>
-
-                        {purchase.purchaseStatus !== "Received" &&
-                          purchase.purchaseStatus !== "Cancelled" && (
-                            <button onClick={() => handleReceive(purchase._id)}>
-                              Receive
-                            </button>
-                          )}
-
-                        {purchase.purchaseStatus !== "Received" &&
-                          purchase.purchaseStatus !== "Cancelled" && (
-                            <button onClick={() => handleCancel(purchase._id)}>
-                              Cancel
-                            </button>
-                          )}
-
-                        <PaymentButton
-                          onClick={() => openPaymentModal(purchase)}
-                        >
-                          Payment
-                        </PaymentButton>
-
-                        <DeleteButton
-                          onClick={() => handleDelete(purchase._id)}
-                        >
-                          Delete
-                        </DeleteButton>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
-        </div>
+        )}
       </div>
 
-      {error && <div className="purchase-error">{error}</div>}
-
       {success && message && <div className="purchase-success">{message}</div>}
+
+      <Modal
+        open={showModal}
+        title={editingPurchase ? "Edit Purchase" : "Add Purchase"}
+        onClose={handleCloseModal}
+        size="lg"
+      >
+        <PurchaseForm
+          editingPurchase={editingPurchase}
+          onSubmit={handleSubmitPurchase}
+          onCancel={handleCloseModal}
+          supplierOptions={supplierOptions}
+          restaurantOptions={restaurantOptions}
+          storeOptions={storeOptions}
+          warehouseOptions={warehouseOptions}
+          ingredientOptions={ingredientOptions}
+          // batchOptions={batchOptions}
+          unitOptions={unitOptions}
+          purchaseUnitOptions={unitOptions}
+          loading={loading}
+        />
+      </Modal>
 
       <Modal
         open={!!paymentModal}

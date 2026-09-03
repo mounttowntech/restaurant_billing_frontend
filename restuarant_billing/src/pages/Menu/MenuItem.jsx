@@ -302,12 +302,7 @@ const MenuItem = () => {
   ).length;
 
   const restaurantOptions = restaurants.map((item) => ({
-    label:
-      item.restaurantCode ||
-      item.code ||
-      item.restaurantName ||
-      item.name ||
-      item._id,
+    label: item.restaurantName || item.restaurantCode || item.name || item._id,
     value: item._id,
   }));
 
