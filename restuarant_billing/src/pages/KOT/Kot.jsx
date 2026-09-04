@@ -439,7 +439,7 @@ const KOT = () => {
                     </td>
 
                     <td>
-                      <div className="kot-actions">
+                      <div className="modal-actions">
                         {kot.kitchenStatus === "Pending" && (
                           <button
                             type="button"

@@ -281,7 +281,7 @@ const Warehouse = () => {
       found?.name || found?.fullName || found?.username || found?.email || "-"
     );
   };
-
+  console.log("selectedWarehouse are the :", selectedWarehouse);
   return (
     <div className="warehouse-page">
       {/* ====================================================

@@ -40,18 +40,18 @@ const initialForm = {
 };
 
 const WarehouseForm = ({
-  editingWarehouse,
+  initialData,
   onSubmit,
-  warehouses = [],
   restaurants = [],
   stores = [],
   onCancel,
   loading = false,
 }) => {
+  // console.log("initialData in form : ", initialData);
   const {
     register,
     handleSubmit,
-    setValue,
+    reset,
     watch,
     formState: { errors },
   } = useForm({
@@ -60,100 +60,63 @@ const WarehouseForm = ({
 
   const selectedRestaurant = watch("restaurant");
 
-  // ==========================================================
-  // EDIT WAREHOUSE
-  // ==========================================================
-
   useEffect(() => {
-    if (!editingWarehouse) {
+    if (!initialData) {
+      reset(initialForm);
       return;
     }
 
-    const selectedWarehouse = warehouses.find(
-      (warehouse) =>
-        warehouse._id === editingWarehouse._id ||
-        warehouse._id === editingWarehouse.id ||
-        warehouse.warehouseCode === editingWarehouse.warehouseCode,
-    );
+    reset({
+      restaurant:
+        typeof initialData.restaurant === "object"
+          ? initialData.restaurant?._id || ""
+          : initialData.restaurant || "",
 
-    if (!selectedWarehouse) {
-      return;
-    }
+      store:
+        typeof initialData.store === "object"
+          ? initialData.store?._id || ""
+          : initialData.store || "",
 
-    setValue(
-      "restaurant",
-      typeof selectedWarehouse.restaurant === "object"
-        ? selectedWarehouse.restaurant?._id || ""
-        : selectedWarehouse.restaurant || "",
-    );
+      warehouseCode: initialData.warehouseCode || "",
 
-    setValue(
-      "store",
-      typeof selectedWarehouse.store === "object"
-        ? selectedWarehouse.store?._id || ""
-        : selectedWarehouse.store || "",
-    );
+      warehouseName: initialData.warehouseName || "",
 
-    setValue("warehouseCode", selectedWarehouse.warehouseCode || "");
+      warehouseType: initialData.warehouseType || "General",
 
-    setValue("warehouseName", selectedWarehouse.warehouseName || "");
+      manager:
+        typeof initialData.manager === "object"
+          ? initialData.manager?._id || ""
+          : initialData.manager || "",
 
-    setValue("warehouseType", selectedWarehouse.warehouseType || "General");
+      contactPerson: initialData.contactPerson || "",
 
-    setValue(
-      "manager",
-      typeof selectedWarehouse.manager === "object"
-        ? selectedWarehouse.manager?._id || ""
-        : selectedWarehouse.manager || "",
-    );
+      phone: initialData.phone || "",
 
-    setValue("contactPerson", selectedWarehouse.contactPerson || "");
+      email: initialData.email || "",
 
-    setValue("phone", selectedWarehouse.phone || "");
+      address: initialData.address || "",
 
-    setValue("email", selectedWarehouse.email || "");
+      city: initialData.city || "",
 
-    setValue("address", selectedWarehouse.address || "");
+      state: initialData.state || "",
 
-    setValue("city", selectedWarehouse.city || "");
+      country: initialData.country || "India",
 
-    setValue("state", selectedWarehouse.state || "");
+      pincode: initialData.pincode || "",
 
-    setValue("country", selectedWarehouse.country || "India");
+      capacity: initialData.capacity ?? 0,
 
-    setValue("pincode", selectedWarehouse.pincode || "");
+      capacityUnit: initialData.capacityUnit || "Piece",
 
-    setValue("capacity", selectedWarehouse.capacity ?? 0);
+      isDefault: initialData.isDefault ?? false,
 
-    setValue("capacityUnit", selectedWarehouse.capacityUnit || "Piece");
+      isActive: initialData.isActive ?? true,
 
-    setValue("isDefault", selectedWarehouse.isDefault ?? false);
+      description: initialData.description || "",
 
-    setValue("isActive", selectedWarehouse.isActive ?? true);
-
-    setValue("description", selectedWarehouse.description || "");
-
-    setValue("remarks", selectedWarehouse.remarks || "");
-  }, [editingWarehouse, warehouses, setValue]);
-
-  // ==========================================================
-  // WAREHOUSE OPTIONS
-  // ==========================================================
-
-  const warehouseOptions = warehouses.map((warehouse) => ({
-    _id: warehouse._id,
-    label:
-      warehouse.warehouseName ||
-      warehouse.name ||
-      warehouse.displayName ||
-      warehouse.warehouseCode ||
-      warehouse.code ||
-      warehouse._id,
-  }));
-
-  // ==========================================================
-  // RESTAURANT OPTIONS
-  // ==========================================================
+      remarks: initialData.remarks || "",
+    });
+  }, [initialData, reset]);
 
   const restaurantOptions = restaurants.map((restaurant) => ({
     _id: restaurant._id,
@@ -236,15 +199,8 @@ const WarehouseForm = ({
       remarks: data.remarks?.trim() || "",
     };
 
-    console.log("WAREHOUSE FORM DATA:", data);
-    console.log("WAREHOUSE PAYLOAD:", payload);
-
     await onSubmit(payload);
   };
-
-  // ==========================================================
-  // RENDER
-  // ==========================================================
 
   return (
     <form className="warehouse-form" onSubmit={handleSubmit(onFormSubmit)}>
@@ -582,7 +538,7 @@ const WarehouseForm = ({
         >
           {loading
             ? "Saving..."
-            : editingWarehouse
+            : initialData
               ? "Update Warehouse"
               : "Create Warehouse"}
         </SaveButton>

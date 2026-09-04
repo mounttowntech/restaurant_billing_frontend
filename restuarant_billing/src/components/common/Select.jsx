@@ -11,7 +11,7 @@ const Select = ({
   optionLabel = "label",
   required = false,
 }) => {
-  console.log("options value : ", options);
+  // console.log("options value : ", options);
   const registerProps = typeof register === "function" ? register(name) : {};
 
   return (

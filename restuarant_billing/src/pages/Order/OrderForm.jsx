@@ -1,48 +1,58 @@
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { createOrder } from "../../features/order/orderSlice";
-
-import API from "../../services/api";
+import { useForm } from "react-hook-form";
 
 import "./OrderForm.css";
-import { AddButton, CancelButton } from "../../components/Common/Button";
 
-const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
-  const dispatch = useDispatch();
+import {
+  AddButton,
+  CancelButton,
+  SaveButton,
+} from "../../components/Common/Button";
+import Input from "../../components/Common/Input";
+import Select from "../../components/Common/Select";
 
-  const { orderLoading, error } = useSelector((state) => state.order || {});
+const initialForm = {
+  orderNo: "",
 
-  const [restaurants, setRestaurants] = useState([]);
-  const [stores, setStores] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [tables, setTables] = useState([]);
-  const [menuItems, setMenuItems] = useState([]);
+  restaurant: "",
+  store: "",
+  customer: "",
+  table: "",
+  waiter: "",
 
-  const [loadingData, setLoadingData] = useState(false);
+  orderType: "Dine In",
 
-  const [form, setForm] = useState({
-    orderNo: `ORD-${Date.now()}`,
+  paymentMethod: "Cash",
+  paidAmount: 0,
 
-    restaurant: "",
-    store: "",
+  serviceCharge: 0,
+  packingCharge: 0,
+  deliveryCharge: 0,
+  tipAmount: 0,
+  roundOffAmount: 0,
 
-    customer: "",
-    table: "",
-    waiter: "",
+  remarks: "",
+};
 
-    orderType: "Dine In",
-
-    paymentMethod: "Cash",
-    paidAmount: 0,
-
-    serviceCharge: 0,
-    packingCharge: 0,
-    deliveryCharge: 0,
-    tipAmount: 0,
-    roundOffAmount: 0,
-
-    remarks: "",
+const OrderForm = ({
+  editingOrder,
+  onSubmit,
+  restaurantOptions = [],
+  storeOptions = [],
+  customerOptions = [],
+  tableOptions = [],
+  menuItemOptions = [],
+  onCancel,
+  loading = false,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: initialForm,
   });
 
   const [items, setItems] = useState([]);
@@ -52,76 +62,158 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
   const [itemDiscount, setItemDiscount] = useState(0);
   const [gstPercentage, setGstPercentage] = useState(5);
 
-  // ==========================================================
-  // LOAD MASTER DATA
-  // ==========================================================
+  const orderType = watch("orderType");
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setLoadingData(true);
+    if (editingOrder) {
+      reset({
+        orderNo: editingOrder.orderNo || "",
 
-        const [
-          restaurantResponse,
-          storeResponse,
-          customerResponse,
-          tableResponse,
-          menuResponse,
-        ] = await Promise.all([
-          API.get("/restaurants/all"),
-          API.get("/store/all"),
-          API.get("/customers/all"),
-          API.get("/tables/all"),
-          API.get("/menu-items/all"),
-        ]);
+        restaurant:
+          typeof editingOrder.restaurant === "object"
+            ? editingOrder.restaurant?._id || ""
+            : editingOrder.restaurant || "",
 
-        setRestaurants(
-          restaurantResponse.data?.data || restaurantResponse.data || [],
-        );
+        store:
+          typeof editingOrder.store === "object"
+            ? editingOrder.store?._id || ""
+            : editingOrder.store || "",
 
-        setStores(storeResponse.data?.data || storeResponse.data || []);
+        customer:
+          typeof editingOrder.customer === "object"
+            ? editingOrder.customer?._id || ""
+            : editingOrder.customer || "",
 
-        setCustomers(
-          customerResponse.data?.data || customerResponse.data || [],
-        );
+        table:
+          typeof editingOrder.table === "object"
+            ? editingOrder.table?._id || ""
+            : editingOrder.table || "",
 
-        setTables(tableResponse.data?.data || tableResponse.data || []);
+        waiter:
+          typeof editingOrder.waiter === "object"
+            ? editingOrder.waiter?._id || ""
+            : editingOrder.waiter || "",
 
-        setMenuItems(menuResponse.data?.data || menuResponse.data || []);
-      } catch (err) {
-        console.error("Failed to load order form data:", err);
-      } finally {
-        setLoadingData(false);
-      }
-    };
+        orderType: editingOrder.orderType || "Dine In",
 
-    loadData();
-  }, []);
+        paymentMethod: editingOrder.paymentMethod || "Cash",
 
-  // ==========================================================
-  // HANDLE FORM
-  // ==========================================================
+        paidAmount: Number(editingOrder.paidAmount || 0),
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+        serviceCharge: Number(editingOrder.serviceCharge || 0),
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+        packingCharge: Number(editingOrder.packingCharge || 0),
 
-  // ==========================================================
-  // SELECTED MENU ITEM
-  // ==========================================================
+        deliveryCharge: Number(editingOrder.deliveryCharge || 0),
+
+        tipAmount: Number(editingOrder.tipAmount || 0),
+
+        roundOffAmount: Number(editingOrder.roundOffAmount || 0),
+
+        remarks: editingOrder.remarks || "",
+      });
+
+      setItems(
+        (editingOrder.items || []).map((item) => ({
+          menuItem:
+            typeof item.menuItem === "object"
+              ? item.menuItem?._id || ""
+              : item.menuItem || "",
+
+          menuCode: item.menuCode || "",
+
+          menuName:
+            item.menuName ||
+            item.menuItem?.menuName ||
+            item.menuItem?.name ||
+            item.menuItem?.itemName ||
+            "",
+
+          quantity: Number(item.quantity || 1),
+
+          unitPrice: Number(item.unitPrice || 0),
+
+          discountPercentage: Number(item.discountPercentage || 0),
+
+          discountAmount: Number(item.discountAmount || 0),
+
+          taxableAmount: Number(item.taxableAmount || 0),
+
+          gstPercentage: Number(item.gstPercentage || 0),
+
+          cgstAmount: Number(item.cgstAmount || 0),
+
+          sgstAmount: Number(item.sgstAmount || 0),
+
+          igstAmount: Number(item.igstAmount || 0),
+
+          gstAmount: Number(item.gstAmount || 0),
+
+          totalAmount: Number(item.totalAmount || 0),
+
+          remarks: item.remarks || "",
+        })),
+      );
+    } else {
+      reset({
+        ...initialForm,
+        orderNo: "",
+      });
+
+      setItems([]);
+      setSelectedMenuItem("");
+      setQuantity(1);
+      setItemDiscount(0);
+      setGstPercentage(5);
+    }
+  }, [editingOrder, reset]);
 
   const selectedItem = useMemo(() => {
-    return menuItems.find((item) => item._id === selectedMenuItem);
-  }, [menuItems, selectedMenuItem]);
+    return menuItemOptions.find((item) => {
+      const id = item.value || item._id;
+      return id === selectedMenuItem;
+    });
+  }, [menuItemOptions, selectedMenuItem]);
 
-  // ==========================================================
-  // ADD ITEM
-  // ==========================================================
+  const getMenuItemPrice = (item) => {
+    return Number(
+      item?.dineInPrice ??
+        item?.sellingPrice ??
+        item?.price ??
+        item?.salePrice ??
+        0,
+    );
+  };
+
+  const getMenuItemName = (item) => {
+    return (
+      item?.label ||
+      item?.menuName ||
+      item?.name ||
+      item?.itemName ||
+      "Menu Item"
+    );
+  };
+
+  const calculateItem = (price, qty, discountPercentage, gstPercent) => {
+    const subtotal = Number(price) * Number(qty);
+
+    const discountAmount = (subtotal * Number(discountPercentage || 0)) / 100;
+
+    const taxableAmount = subtotal - discountAmount;
+
+    const gstAmount = (taxableAmount * Number(gstPercent || 0)) / 100;
+
+    return {
+      discountAmount,
+      taxableAmount,
+      cgstAmount: gstAmount / 2,
+      sgstAmount: gstAmount / 2,
+      igstAmount: 0,
+      gstAmount,
+      totalAmount: taxableAmount + gstAmount,
+    };
+  };
 
   const handleAddItem = () => {
     if (!selectedItem) {
@@ -129,50 +221,59 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
       return;
     }
 
+    const menuItemId = selectedItem.value || selectedItem._id;
+
     const existingIndex = items.findIndex(
-      (item) => item.menuItem === selectedItem._id,
+      (item) => item.menuItem === menuItemId,
     );
 
     if (existingIndex !== -1) {
-      const updatedItems = [...items];
+      setItems((prev) =>
+        prev.map((item, index) => {
+          if (index !== existingIndex) {
+            return item;
+          }
 
-      updatedItems[existingIndex] = {
-        ...updatedItems[existingIndex],
-        quantity:
-          Number(updatedItems[existingIndex].quantity) + Number(quantity),
-      };
+          const newQuantity = Number(item.quantity) + Number(quantity);
 
-      setItems(updatedItems);
+          const calculated = calculateItem(
+            item.unitPrice,
+            newQuantity,
+            item.discountPercentage,
+            item.gstPercentage,
+          );
+
+          return {
+            ...item,
+            quantity: newQuantity,
+            ...calculated,
+          };
+        }),
+      );
+
+      setSelectedMenuItem("");
+      setQuantity(1);
+      setItemDiscount(0);
+      setGstPercentage(5);
+
       return;
     }
 
-    const price = Number(
-      selectedItem.sellingPrice ??
-        selectedItem.price ??
-        selectedItem.salePrice ??
-        0,
+    const price = getMenuItemPrice(selectedItem);
+
+    const calculated = calculateItem(
+      price,
+      quantity,
+      itemDiscount,
+      gstPercentage,
     );
 
-    const discountAmount =
-      (price * Number(quantity) * Number(itemDiscount)) / 100;
-
-    const taxableAmount = price * Number(quantity) - discountAmount;
-
-    const gstAmount = (taxableAmount * Number(gstPercentage)) / 100;
-
-    const cgstAmount = gstAmount / 2;
-    const sgstAmount = gstAmount / 2;
-
     const newItem = {
-      menuItem: selectedItem._id,
+      menuItem: menuItemId,
 
       menuCode: selectedItem.menuCode || selectedItem.code || "",
 
-      menuName:
-        selectedItem.name ||
-        selectedItem.itemName ||
-        selectedItem.menuName ||
-        "Menu Item",
+      menuName: getMenuItemName(selectedItem),
 
       quantity: Number(quantity),
 
@@ -180,23 +281,11 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
 
       discountPercentage: Number(itemDiscount),
 
-      discountAmount,
-
-      taxableAmount,
-
       gstPercentage: Number(gstPercentage),
 
-      cgstAmount,
-
-      sgstAmount,
-
-      igstAmount: 0,
-
-      gstAmount,
-
-      totalAmount: taxableAmount + gstAmount,
-
       remarks: "",
+
+      ...calculated,
     };
 
     setItems((prev) => [...prev, newItem]);
@@ -207,17 +296,9 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
     setGstPercentage(5);
   };
 
-  // ==========================================================
-  // REMOVE ITEM
-  // ==========================================================
-
   const handleRemoveItem = (index) => {
     setItems((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
   };
-
-  // ==========================================================
-  // CHANGE ITEM QUANTITY
-  // ==========================================================
 
   const handleQuantityChange = (index, value) => {
     const newQuantity = Math.max(1, Number(value) || 1);
@@ -228,40 +309,21 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
           return item;
         }
 
-        const subtotal = Number(item.unitPrice) * newQuantity;
-
-        const discountAmount =
-          (subtotal * Number(item.discountPercentage || 0)) / 100;
-
-        const taxableAmount = subtotal - discountAmount;
-
-        const gstAmount =
-          (taxableAmount * Number(item.gstPercentage || 0)) / 100;
+        const calculated = calculateItem(
+          item.unitPrice,
+          newQuantity,
+          item.discountPercentage,
+          item.gstPercentage,
+        );
 
         return {
           ...item,
-
           quantity: newQuantity,
-
-          discountAmount,
-
-          taxableAmount,
-
-          cgstAmount: gstAmount / 2,
-
-          sgstAmount: gstAmount / 2,
-
-          gstAmount,
-
-          totalAmount: taxableAmount + gstAmount,
+          ...calculated,
         };
       }),
     );
   };
-
-  // ==========================================================
-  // SUMMARY
-  // ==========================================================
 
   const subTotal = useMemo(() => {
     return items.reduce(
@@ -278,41 +340,38 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
     );
   }, [items]);
 
-  const taxableAmount = subTotal - totalDiscount;
-
   const totalGST = useMemo(() => {
     return items.reduce((sum, item) => sum + Number(item.gstAmount || 0), 0);
   }, [items]);
 
-  const grandTotal =
-    taxableAmount +
-    totalGST +
-    Number(form.serviceCharge || 0) +
-    Number(form.packingCharge || 0) +
-    Number(form.deliveryCharge || 0) +
-    Number(form.tipAmount || 0) +
-    Number(form.roundOffAmount || 0);
+  const taxableAmount = subTotal - totalDiscount;
 
-  const dueAmount = grandTotal - Number(form.paidAmount || 0);
+  const serviceCharge = Number(watch("serviceCharge") || 0);
+  const packingCharge = Number(watch("packingCharge") || 0);
+  const deliveryCharge = Number(watch("deliveryCharge") || 0);
+  const tipAmount = Number(watch("tipAmount") || 0);
+  const roundOffAmount = Number(watch("roundOffAmount") || 0);
+  const paidAmount = Number(watch("paidAmount") || 0);
 
-  // ==========================================================
-  // CREATE ORDER
-  // ==========================================================
+  const additionalCharges =
+    serviceCharge + packingCharge + deliveryCharge + tipAmount + roundOffAmount;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const grandTotal = taxableAmount + totalGST + additionalCharges;
 
-    if (!form.restaurant) {
+  const dueAmount = grandTotal - paidAmount;
+
+  const onFormSubmit = async (data) => {
+    if (!data.restaurant?.trim()) {
       alert("Please select restaurant.");
       return;
     }
 
-    if (!form.store) {
+    if (!data.store?.trim()) {
       alert("Please select store.");
       return;
     }
 
-    if (!form.orderNo.trim()) {
+    if (!data.orderNo?.trim()) {
       alert("Please enter order number.");
       return;
     }
@@ -322,70 +381,87 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
       return;
     }
 
-    if (form.orderType === "Dine In" && !form.table) {
-      alert("Please select a table for Dine In.");
+    if (data.orderType === "Dine In" && !data.table?.trim()) {
+      alert("Please select a table.");
       return;
     }
 
     const payload = {
-      orderNo: form.orderNo.trim(),
+      orderNo: data.orderNo.trim(),
 
-      restaurant: form.restaurant,
+      restaurant: data.restaurant.trim(),
 
-      store: form.store,
+      store: data.store.trim(),
 
-      customer: form.customer || undefined,
+      customer: data.customer?.trim() || undefined,
 
-      table: form.orderType === "Dine In" ? form.table || undefined : undefined,
+      table:
+        data.orderType === "Dine In"
+          ? data.table?.trim() || undefined
+          : undefined,
 
-      waiter: form.waiter || undefined,
+      waiter: data.waiter?.trim() || undefined,
 
-      orderType: form.orderType,
+      orderType: data.orderType,
 
-      items,
+      items: items.map((item) => ({
+        menuItem: item.menuItem,
 
-      serviceCharge: Number(form.serviceCharge || 0),
+        menuCode: item.menuCode,
 
-      packingCharge: Number(form.packingCharge || 0),
+        menuName: item.menuName,
 
-      deliveryCharge: Number(form.deliveryCharge || 0),
+        quantity: Number(item.quantity),
 
-      tipAmount: Number(form.tipAmount || 0),
+        unitPrice: Number(item.unitPrice),
 
-      roundOffAmount: Number(form.roundOffAmount || 0),
+        discountPercentage: Number(item.discountPercentage || 0),
 
-      paymentMethod: form.paymentMethod,
+        discountAmount: Number(item.discountAmount || 0),
 
-      paidAmount: Number(form.paidAmount || 0),
+        taxableAmount: Number(item.taxableAmount || 0),
+
+        gstPercentage: Number(item.gstPercentage || 0),
+
+        cgstAmount: Number(item.cgstAmount || 0),
+
+        sgstAmount: Number(item.sgstAmount || 0),
+
+        igstAmount: Number(item.igstAmount || 0),
+
+        gstAmount: Number(item.gstAmount || 0),
+
+        totalAmount: Number(item.totalAmount || 0),
+
+        remarks: item.remarks || "",
+      })),
+
+      serviceCharge: Number(data.serviceCharge || 0),
+
+      packingCharge: Number(data.packingCharge || 0),
+
+      deliveryCharge: Number(data.deliveryCharge || 0),
+
+      tipAmount: Number(data.tipAmount || 0),
+
+      roundOffAmount: Number(data.roundOffAmount || 0),
+
+      paymentMethod: data.paymentMethod,
+
+      paidAmount: Number(data.paidAmount || 0),
 
       paymentStatus:
-        Number(form.paidAmount || 0) >= grandTotal
+        Number(data.paidAmount || 0) >= grandTotal
           ? "Paid"
-          : Number(form.paidAmount || 0) > 0
+          : Number(data.paidAmount || 0) > 0
             ? "Partial"
             : "Pending",
 
-      remarks: form.remarks,
+      remarks: data.remarks?.trim() || undefined,
     };
 
-    try {
-      const createdOrder = await dispatch(createOrder(payload)).unwrap();
-
-      alert("Order created successfully.");
-
-      if (onSuccess) {
-        onSuccess(createdOrder);
-      }
-    } catch (err) {
-      console.error("Create order failed:", err);
-
-      alert(err || "Failed to create order.");
-    }
+    await onSubmit(payload);
   };
-
-  // ==========================================================
-  // FORMAT MONEY
-  // ==========================================================
 
   const formatMoney = (value) => {
     return `₹${Number(value || 0).toLocaleString("en-IN", {
@@ -395,155 +471,92 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
   };
 
   return (
-    <form className="order-form" onSubmit={handleSubmit}>
-      <div className="order-form-header">
-        <div>
-          <h2>Create Order</h2>
-
-          <p>Create a restaurant order and send it to the order workflow.</p>
-        </div>
-      </div>
-
-      {error && <div className="order-form-error">{error}</div>}
-
-      {loadingData && (
-        <div className="order-form-loading">Loading restaurant data...</div>
-      )}
-
-      {/* ======================================================
-          BASIC INFORMATION
-      ====================================================== */}
-
-      <section className="order-form-section">
-        <div className="order-form-section-title">
-          <h3>Order Information</h3>
-        </div>
+    <form className="order-form" onSubmit={handleSubmit(onFormSubmit)}>
+      <div className="order-form-section">
+        <h3>Order Information</h3>
 
         <div className="order-form-grid">
           <div className="order-form-field">
-            <label>Order Number *</label>
-
-            <input
-              type="text"
+            <Input
+              label="Order Number"
               name="orderNo"
-              value={form.orderNo}
-              onChange={handleChange}
-              required
+              type="text"
+              placeholder="ORD001"
+              register={register}
+              error={errors.orderNo?.message}
             />
           </div>
 
           <div className="order-form-field">
-            <label>Order Type *</label>
-
-            <select
+            <Select
+              label="Order Type"
               name="orderType"
-              value={form.orderType}
-              onChange={handleChange}
-            >
-              <option value="Dine In">Dine In</option>
-              <option value="Takeaway">Takeaway</option>
-
-              <option value="Delivery">Delivery</option>
-
-              <option value="Online">Online</option>
-
-              <option value="QR Order">QR Order</option>
-            </select>
+              register={register}
+              error={errors.orderType?.message}
+              options={[
+                { _id: "Dine In", label: "Dine In" },
+                { _id: "Takeaway", label: "Takeaway" },
+                { _id: "Delivery", label: "Delivery" },
+                { _id: "Online", label: "Online" },
+                { _id: "QR Order", label: "QR Order" },
+              ]}
+            />
           </div>
 
           <div className="order-form-field">
-            <label>Restaurant *</label>
-
-            <select
+            <Select
+              label="Restaurant"
               name="restaurant"
-              value={form.restaurant}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Restaurant</option>
-
-              {restaurants.map((restaurant) => (
-                <option key={restaurant._id} value={restaurant._id}>
-                  {restaurant.name || restaurant.restaurantName || "Restaurant"}
-                </option>
-              ))}
-            </select>
+              register={register}
+              error={errors.restaurant?.message}
+              options={restaurantOptions}
+              optionValue="value"
+              optionLabel="label"
+            />
           </div>
 
           <div className="order-form-field">
-            <label>Store *</label>
-
-            <select
+            <Select
+              label="Store"
               name="store"
-              value={form.store}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Store</option>
-
-              {stores.map((store) => (
-                <option key={store._id} value={store._id}>
-                  {store.name || store.storeName || "Store"}
-                </option>
-              ))}
-            </select>
+              register={register}
+              error={errors.store?.message}
+              options={storeOptions}
+              optionValue="value"
+              optionLabel="label"
+            />
           </div>
 
           <div className="order-form-field">
-            <label>Customer</label>
-
-            <select
+            <Select
+              label="Customer"
               name="customer"
-              value={form.customer}
-              onChange={handleChange}
-            >
-              <option value="">Walk-in Customer</option>
-
-              {customers.map((customer) => (
-                <option key={customer._id} value={customer._id}>
-                  {customer.name ||
-                    customer.customerName ||
-                    customer.phone ||
-                    "Customer"}
-                </option>
-              ))}
-            </select>
+              register={register}
+              error={errors.customer?.message}
+              options={customerOptions}
+              optionValue="value"
+              optionLabel="label"
+            />
           </div>
 
-          {form.orderType === "Dine In" && (
+          {orderType === "Dine In" && (
             <div className="order-form-field">
-              <label>Table *</label>
-
-              <select
+              <Select
+                label="Table"
                 name="table"
-                value={form.table}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Table</option>
-
-                {tables.map((table) => (
-                  <option key={table._id} value={table._id}>
-                    {table.name ||
-                      table.tableName ||
-                      table.tableNumber ||
-                      `Table ${table.number || ""}`}
-                  </option>
-                ))}
-              </select>
+                register={register}
+                error={errors.table?.message}
+                options={tableOptions}
+                optionValue="value"
+                optionLabel="label"
+              />
             </div>
           )}
         </div>
-      </section>
+      </div>
 
-      {/* ======================================================
-          ADD ITEM
-      ====================================================== */}
-
-      <section className="order-form-section">
-        <div className="order-form-section-title">
-          <h3>Add Menu Item</h3>
-        </div>
+      <div className="order-form-section">
+        <h3>Add Menu Item</h3>
 
         <div className="order-item-add-grid">
           <div className="order-form-field">
@@ -555,17 +568,17 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
             >
               <option value="">Select Menu Item</option>
 
-              {menuItems.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name || item.itemName || item.menuName || "Menu Item"} -{" "}
-                  {formatMoney(
-                    item.sellingPrice ?? item.price ?? item.salePrice ?? 0,
-                  )}
+              {menuItemOptions.map((item) => (
+                <option
+                  key={item.value || item._id}
+                  value={item.value || item._id}
+                >
+                  {getMenuItemName(item)} -{" "}
+                  {formatMoney(getMenuItemPrice(item))}
                 </option>
               ))}
             </select>
           </div>
-
           <div className="order-form-field">
             <label>Quantity</label>
 
@@ -605,21 +618,10 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
             </AddButton>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ======================================================
-          ITEMS
-      ====================================================== */}
-
-      <section className="order-form-section">
-        <div className="order-form-section-title">
-          <h3>Order Items</h3>
-
-          <span>
-            {items.length} item
-            {items.length !== 1 ? "s" : ""}
-          </span>
-        </div>
+      <div className="order-form-section">
+        <h3>Order Items</h3>
 
         {items.length === 0 ? (
           <div className="order-items-empty">No items added.</div>
@@ -641,15 +643,12 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
               <tbody>
                 {items.map((item, index) => (
                   <tr key={`${item.menuItem}-${index}`}>
-                    <td>
-                      <strong>{item.menuName}</strong>
-                    </td>
+                    <td>{item.menuName}</td>
 
                     <td>{formatMoney(item.unitPrice)}</td>
 
                     <td>
                       <input
-                        className="order-quantity-input"
                         type="number"
                         min="1"
                         value={item.quantity}
@@ -663,14 +662,11 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
 
                     <td>{formatMoney(item.gstAmount)}</td>
 
-                    <td>
-                      <strong>{formatMoney(item.totalAmount)}</strong>
-                    </td>
+                    <td>{formatMoney(item.totalAmount)}</td>
 
                     <td>
                       <button
                         type="button"
-                        className="order-remove-button"
                         onClick={() => handleRemoveItem(index)}
                       >
                         Remove
@@ -682,226 +678,163 @@ const OrderForm = ({ editingOrder, onSubmit, onCancel, loading }) => {
             </table>
           </div>
         )}
-      </section>
+      </div>
 
-      {/* ======================================================
-          CHARGES
-      ====================================================== */}
-
-      <section className="order-form-section">
-        <div className="order-form-section-title">
-          <h3>Additional Charges</h3>
-        </div>
+      <div className="order-form-section">
+        <h3>Additional Charges</h3>
 
         <div className="order-form-grid">
           <div className="order-form-field">
-            <label>Service Charge</label>
-
-            <input
-              type="number"
-              min="0"
+            <Input
+              label="Service Charge"
               name="serviceCharge"
-              value={form.serviceCharge}
-              onChange={handleChange}
+              type="number"
+              min="0"
+              register={register}
             />
           </div>
 
           <div className="order-form-field">
-            <label>Packing Charge</label>
-
-            <input
-              type="number"
-              min="0"
+            <Input
+              label="Packing Charge"
               name="packingCharge"
-              value={form.packingCharge}
-              onChange={handleChange}
+              type="number"
+              min="0"
+              register={register}
             />
           </div>
 
           <div className="order-form-field">
-            <label>Delivery Charge</label>
-
-            <input
-              type="number"
-              min="0"
+            <Input
+              label="Delivery Charge"
               name="deliveryCharge"
-              value={form.deliveryCharge}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="order-form-field">
-            <label>Tip</label>
-
-            <input
               type="number"
               min="0"
-              name="tipAmount"
-              value={form.tipAmount}
-              onChange={handleChange}
+              register={register}
             />
           </div>
 
           <div className="order-form-field">
-            <label>Round Off</label>
-
-            <input
+            <Input
+              label="Tip Amount"
+              name="tipAmount"
               type="number"
+              min="0"
+              register={register}
+            />
+          </div>
+
+          <div className="order-form-field">
+            <Input
+              label="Round Off"
               name="roundOffAmount"
-              value={form.roundOffAmount}
-              onChange={handleChange}
+              type="number"
+              register={register}
             />
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ======================================================
-          PAYMENT
-      ====================================================== */}
-
-      <section className="order-form-section">
-        <div className="order-form-section-title">
-          <h3>Payment</h3>
-        </div>
+      <div className="order-form-section">
+        <h3>Payment</h3>
 
         <div className="order-form-grid">
           <div className="order-form-field">
-            <label>Payment Method</label>
-
-            <select
+            <Select
+              label="Payment Method"
               name="paymentMethod"
-              value={form.paymentMethod}
-              onChange={handleChange}
-            >
-              <option value="Cash">Cash</option>
-
-              <option value="Card">Card</option>
-
-              <option value="UPI">UPI</option>
-
-              <option value="Wallet">Wallet</option>
-
-              <option value="Credit">Credit</option>
-
-              <option value="Split">Split</option>
-            </select>
+              register={register}
+              options={[
+                { _id: "Cash", label: "Cash" },
+                { _id: "Card", label: "Card" },
+                { _id: "UPI", label: "UPI" },
+                { _id: "Wallet", label: "Wallet" },
+                { _id: "Credit", label: "Credit" },
+                { _id: "Split", label: "Split" },
+              ]}
+            />
           </div>
 
           <div className="order-form-field">
-            <label>Paid Amount</label>
-
-            <input
+            <Input
+              label="Paid Amount"
+              name="paidAmount"
               type="number"
               min="0"
-              name="paidAmount"
-              value={form.paidAmount}
-              onChange={handleChange}
+              register={register}
             />
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ======================================================
-          REMARKS
-      ====================================================== */}
+      <div className="order-form-section">
+        <h3>Remarks</h3>
 
-      <section className="order-form-section">
-        <div className="order-form-field">
-          <label>Remarks</label>
-
-          <textarea
-            name="remarks"
-            rows="3"
-            value={form.remarks}
-            onChange={handleChange}
-            placeholder="Add order remarks..."
-          />
+        <div className="order-form-grid">
+          <div className="order-form-field order-full-width">
+            <textarea
+              {...register("remarks")}
+              rows="4"
+              placeholder="Add order remarks..."
+            />
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ======================================================
-          SUMMARY
-      ====================================================== */}
-
-      <section className="order-form-summary">
+      <div className="order-form-summary">
         <div className="order-summary-row">
           <span>Subtotal</span>
-
           <strong>{formatMoney(subTotal)}</strong>
         </div>
 
         <div className="order-summary-row">
           <span>Discount</span>
-
           <strong>- {formatMoney(totalDiscount)}</strong>
         </div>
 
         <div className="order-summary-row">
           <span>Taxable Amount</span>
-
           <strong>{formatMoney(taxableAmount)}</strong>
         </div>
 
         <div className="order-summary-row">
           <span>GST</span>
-
           <strong>{formatMoney(totalGST)}</strong>
         </div>
 
         <div className="order-summary-row">
           <span>Additional Charges</span>
-
-          <strong>
-            {formatMoney(
-              Number(form.serviceCharge || 0) +
-                Number(form.packingCharge || 0) +
-                Number(form.deliveryCharge || 0) +
-                Number(form.tipAmount || 0) +
-                Number(form.roundOffAmount || 0),
-            )}
-          </strong>
+          <strong>{formatMoney(additionalCharges)}</strong>
         </div>
 
         <div className="order-summary-row order-summary-total">
           <span>Grand Total</span>
-
           <strong>{formatMoney(grandTotal)}</strong>
         </div>
 
         <div className="order-summary-row">
           <span>Paid Amount</span>
-
-          <strong>{formatMoney(form.paidAmount)}</strong>
+          <strong>{formatMoney(paidAmount)}</strong>
         </div>
 
         <div className="order-summary-row order-summary-due">
           <span>Due Amount</span>
-
           <strong>{formatMoney(dueAmount)}</strong>
         </div>
-      </section>
+      </div>
 
       <div className="order-form-actions">
-        <CancelButton
-          type="button"
-          className="order-cancel-btn"
-          onClick={onCancel}
-          disabled={loading}
-        >
+        <CancelButton type="button" onClick={onCancel} disabled={loading}>
           Cancel
         </CancelButton>
 
-        <AddButton
-          type="submit"
-          className="order-submit-btn"
-          disabled={loading}
-        >
+        <SaveButton type="submit" disabled={loading}>
           {loading
             ? "Saving..."
             : editingOrder
               ? "Update Order"
               : "Create Order"}
-        </AddButton>
+        </SaveButton>
       </div>
     </form>
   );

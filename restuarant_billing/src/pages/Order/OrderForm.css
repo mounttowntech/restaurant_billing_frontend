@@ -120,7 +120,7 @@
 
 .order-item-add-grid {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) 120px 120px 120px 130px;
+  grid-template-columns: repeat(2, 1fr);
   align-items: end;
   gap: 14px;
 }

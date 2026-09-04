@@ -25,6 +25,11 @@ import {
   EditButton,
 } from "../../components/Common/Button";
 import Modal from "../../components/Common/Modal";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchStores } from "../../features/store/storeSlice";
+import { fetchTables } from "../../features/table/tableSlice";
+import { fetchCustomers } from "../../features/customer/customerSlice";
+import { fetchMenuItems } from "../../features/menuItem/menuItemSlice";
 
 const Order = () => {
   const dispatch = useDispatch();
@@ -37,6 +42,11 @@ const Order = () => {
     actionLoading,
     error,
   } = useSelector((state) => state.order || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+  const { stores = [] } = useSelector((state) => state.stores || {});
+  const { tables = [] } = useSelector((state) => state.tables || {});
+  const { customers = [] } = useSelector((state) => state.customer || {});
+  const { menuItems = [] } = useSelector((state) => state.menuItem || {});
 
   const [showForm, setShowForm] = useState(false);
   const [view, setView] = useState("all");
@@ -95,12 +105,6 @@ const Order = () => {
     } catch (err) {
       alert(err || "Failed to delete order");
     }
-  };
-
-  const handleFormSuccess = () => {
-    setShowForm(false);
-
-    loadOrders();
   };
 
   const formatMoney = (value) => {
@@ -169,6 +173,55 @@ const Order = () => {
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchRestaurants());
+    dispatch(fetchStores());
+    dispatch(fetchTables());
+    dispatch(fetchCustomers());
+    dispatch(fetchMenuItems());
+  }, [dispatch]);
+
+  const restaurantOptions = restaurants.map((item) => ({
+    label: item.restaurantName || item.restaurantCode || item.name || item._id,
+    value: item._id,
+  }));
+
+  const storeOptions = stores.map((item) => ({
+    label: item.storeName || item.name || item.storeCode || "Unnamed Store",
+    value: item._id,
+  }));
+
+  const menuItemOptions = menuItems.map((item) => ({
+    label:
+      item.menuName ||
+      item.itemName ||
+      item.name ||
+      item.menuCode ||
+      "Unnamed Menu Item",
+
+    value: item._id,
+  }));
+
+  const customerOptions = customers.map((item) => ({
+    label:
+      item.customerName ||
+      item.name ||
+      item.phone ||
+      item.customerCode ||
+      "Unnamed Customer",
+    value: item._id,
+  }));
+
+  const tableOptions = tables.map((item) => ({
+    label:
+      item.tableName ||
+      item.tableNumber ||
+      item.name ||
+      item.tableCode ||
+      "Unnamed Table",
+    value: item._id,
+  }));
+
   return (
     <div className="orders-page">
       {/* ====================================================
@@ -227,10 +280,6 @@ const Order = () => {
         </div>
       </div>
 
-      {/* ====================================================
-          TOOLBAR
-      ==================================================== */}
-
       <div className="orders-toolbar">
         <div className="orders-tabs">
           <button
@@ -261,23 +310,6 @@ const Order = () => {
           </button>
         </div>
       </div>
-
-      {/* ====================================================
-          FORM
-      ==================================================== */}
-
-      {showForm && (
-        <div className="orders-form-wrapper">
-          <OrderForm
-            onSuccess={handleFormSuccess}
-            onCancel={() => setShowForm(false)}
-          />
-        </div>
-      )}
-
-      {/* ====================================================
-          TABLE
-      ==================================================== */}
 
       <div className="orders-table-card">
         <div className="orders-table-header">
@@ -486,6 +518,11 @@ const Order = () => {
       >
         <OrderForm
           editingOrder={editingOrder}
+          restaurantOptions={restaurantOptions}
+          storeOptions={storeOptions}
+          tableOptions={tableOptions}
+          customerOptions={customerOptions}
+          menuItemOptions={menuItemOptions}
           onSubmit={handleSubmitOrder}
           onCancel={handleFormClose}
           loading={loading}
