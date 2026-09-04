@@ -1441,89 +1441,108 @@ const closeAddonModal = () => {
                 </span>
               </div>
             ) : (
-              cart.map(
-                (item) => (
-                  <div
-                    className="cart-item"
-                    key={
-                      item.menuItem
-                    }
-                  >
+              cart.map((item, index) => (
+  <div
+    className="cart-item"
+    key={`${item.menuItem}-${item.variant?.name || "default"}-${index}`}
+  >
+    {/* LEFT SIDE */}
+    <div className="cart-item-info">
 
-                    <div className="cart-item-info">
+      <div className="cart-item-name">
+        {item.menuName}
+      </div>
 
-                      <h4>
-                        {
-                          item.menuName
-                        }
-                      </h4>
+      {/* Variant */}
+      {item.variant?.name && (
+        <div className="cart-item-variant">
+          + {item.variant.name}
+        </div>
+      )}
 
-                      <span>
-                        {money(
-                          item.unitPrice
-                        )}
-                      </span>
+      {/* Addons */}
+      {item.addons?.length > 0 && (
+        <div className="cart-item-addons">
+          {item.addons.map((addon, addonIndex) => (
+            <div
+              className="cart-addon"
+              key={addon.addon || addonIndex}
+            >
+              <span>
+                + {addon.addonName}
+              </span>
 
-                    </div>
+              <span>
+                ₹{Number(addon.price || 0).toFixed(2)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
-                    <div className="quantity-control">
+      {/* UNIT / BASE PRICE */}
+      <div className="cart-item-unit-price">
+        ₹{Number(item.unitPrice || 0).toFixed(2)}
+      </div>
 
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(
-                            item.menuItem,
-                            item.quantity -
-                              1
-                          )
-                        }
-                      >
-                        −
-                      </button>
+    </div>
 
-                      <span>
-                        {
-                          item.quantity
-                        }
-                      </span>
 
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(
-                            item.menuItem,
-                            item.quantity +
-                              1
-                          )
-                        }
-                      >
-                        +
-                      </button>
+    {/* RIGHT SIDE */}
+    <div className="cart-item-right">
 
-                    </div>
+      {/* Quantity Controls */}
+      <div className="cart-quantity">
 
-                    <strong>
-                      {money(
-                        item.unitPrice *
-                          item.quantity
-                      )}
-                    </strong>
+        <button
+          type="button"
+          onClick={() =>
+            decreaseQuantity(item, index)
+          }
+        >
+          −
+        </button>
 
-                    <button
-                      type="button"
-                      className="remove-item"
-                      onClick={() =>
-                        removeFromCart(
-                          item.menuItem
-                        )
-                      }
-                    >
-                      ×
-                    </button>
+        <span>
+          {item.quantity}
+        </span>
 
-                  </div>
-                )
-              )
+        <button
+          type="button"
+          onClick={() =>
+            increaseQuantity(item, index)
+          }
+        >
+          +
+        </button>
+
+      </div>
+
+
+      {/* Total Price */}
+      <div className="cart-item-total">
+        ₹
+        {Number(
+          item.totalAmount ||
+          item.unitPrice * item.quantity
+        ).toFixed(2)}
+      </div>
+
+
+      {/* Remove Item */}
+      <button
+        type="button"
+        className="cart-item-remove"
+        onClick={() =>
+          removeFromCart(item, index)
+        }
+      >
+        ×
+      </button>
+
+    </div>
+  </div>
+))
             )}
 
           </div>
