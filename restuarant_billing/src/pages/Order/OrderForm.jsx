@@ -557,7 +557,11 @@ const OrderForm = ({
 
       <div className="order-form-section">
         <h3>Add Menu Item</h3>
-
+        <div className="order-form-add-button">
+          <AddButton type="button" onClick={handleAddItem}>
+            + Add Item
+          </AddButton>
+        </div>
         <div className="order-item-add-grid">
           <div className="order-form-field">
             <label>Menu Item</label>
@@ -610,12 +614,6 @@ const OrderForm = ({
               value={gstPercentage}
               onChange={(e) => setGstPercentage(e.target.value)}
             />
-          </div>
-
-          <div className="order-form-add-button">
-            <AddButton type="button" onClick={handleAddItem}>
-              + Add Item
-            </AddButton>
           </div>
         </div>
       </div>

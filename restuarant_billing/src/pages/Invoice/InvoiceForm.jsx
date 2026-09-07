@@ -446,11 +446,6 @@ const InvoiceForm = ({
                   name={`menuItem-${index}`}
                   register={register}
                   error={errors[`menuItem-${index}`]?.message}
-                  // value={
-                  //   typeof item.menuItem === "object"
-                  //     ? item.menuItem?._id || item.menuItem?.id || ""
-                  //     : item.menuItem || ""
-                  // }
                   options={menuItems.map((menuItem) => ({
                     _id: menuItem._id,
                     label:

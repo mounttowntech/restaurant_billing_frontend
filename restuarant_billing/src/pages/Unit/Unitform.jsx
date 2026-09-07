@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { CancelButton, SaveButton } from "../../components/Common/Button";
 import "./UnitForm.css";
+import { useForm } from "react-hook-form";
+import Select from "../../components/Common/Select";
 
 const initialForm = {
   restaurant: "",
@@ -21,6 +23,18 @@ const UnitForm = ({
   onCancel,
   loading = false,
 }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: initialForm,
+  });
+
+  const selectedRestaurant = watch("restaurant");
   const [formData, setFormData] = useState(initialForm);
 
   /* ==========================================================
@@ -30,46 +44,42 @@ Edit Data
   useEffect(() => {
     if (!initialData) {
       setFormData(initialForm);
+      reset(initialForm);
       return;
     }
 
-    setFormData({
+    const updatedData = {
       restaurant: initialData.restaurant?._id || initialData.restaurant || "",
-
       unitName: initialData.unitName || "",
-
       unitCode: initialData.unitCode || "",
-
       description: initialData.description || "",
-
       unitType: initialData.unitType || "Quantity",
-
       conversionValue: initialData.conversionValue ?? 1,
-
       baseUnit: initialData.baseUnit?._id || initialData.baseUnit || "",
-
       isActive: initialData.isActive ?? true,
-    });
-  }, [initialData]);
+    };
 
+    setFormData(updatedData);
+
+    reset(updatedData);
+  }, [initialData, reset]);
   /* ==========================================================
 Base Units
 
  Only show units belonging to selected restaurant.
 
 ========================================================== */
-
   const baseUnits = useMemo(() => {
-    if (!formData.restaurant) {
+    if (!selectedRestaurant) {
       return [];
     }
 
     return units.filter((unit) => {
       const restaurantId = unit.restaurant?._id || unit.restaurant;
 
-      return restaurantId?.toString() === formData.restaurant?.toString();
+      return restaurantId?.toString() === selectedRestaurant?.toString();
     });
-  }, [units, formData.restaurant]);
+  }, [units, selectedRestaurant]);
 
   /* ==========================================================
 Change Handler
@@ -106,59 +116,50 @@ Restaurant Change
 Submit
 ========================================================== */
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const onFormSubmit = async (data) => {
     const payload = {
-      restaurant: formData.restaurant,
+      restaurant: data.restaurant,
 
-      unitName: formData.unitName.trim(),
+      unitName: data.unitName.trim(),
 
-      unitCode: formData.unitCode.trim().toUpperCase(),
+      unitCode: data.unitCode.trim().toUpperCase(),
 
-      description: formData.description.trim(),
+      description: data.description.trim(),
 
-      unitType: formData.unitType,
+      unitType: data.unitType,
 
-      conversionValue: Number(formData.conversionValue),
+      conversionValue: Number(data.conversionValue),
 
-      baseUnit: formData.baseUnit || null,
+      baseUnit: data.baseUnit || null,
 
-      isActive: formData.isActive,
+      isActive: data.isActive,
     };
 
     onSubmit(payload);
   };
 
   return (
-    <form className="unit-form" onSubmit={handleSubmit}>
+    <form className="unit-form" onSubmit={handleSubmit(onFormSubmit)}>
       <div className="unit-form-grid">
         {/* ====================================================
 Restaurant
 ==================================================== */}
 
         <div className="unit-form-group">
-          <label>
-            Restaurant <span>*</span>
-          </label>
-
-          <select
+          <Select
+            label="Restaurant"
             name="restaurant"
-            value={formData.restaurant}
-            onChange={handleRestaurantChange}
-            required
-          >
-            <option value="">Select Restaurant</option>
-
-            {restaurants.map((restaurant) => (
-              <option key={restaurant._id} value={restaurant._id}>
-                {restaurant.restaurantName}
-                {restaurant.restaurantCode
-                  ? ` (${restaurant.restaurantCode})`
-                  : ""}
-              </option>
-            ))}
-          </select>
+            register={register}
+            error={errors.restaurant?.message}
+            options={restaurants.map((restaurant) => ({
+              _id: restaurant._id,
+              label:
+                restaurant.restaurantName ||
+                restaurant.name ||
+                restaurant.displayName ||
+                restaurant._id,
+            }))}
+          />
         </div>
 
         {/* ====================================================

@@ -7,6 +7,9 @@ import {
 } from "../../components/Common/Button";
 import "./Product.css";
 import { fetchStores } from "../../features/store/storeSlice";
+import { fetchCompanies } from "../../features/company/companySlice";
+import { fetchRestaurants } from "../../features/restaurant/restaurantSlice";
+import { fetchCategories } from "../../features/category/categorySlice";
 import Modal from "../../components/Common/Modal";
 
 import ProductForm from "./ProductForm";
@@ -22,7 +25,9 @@ import {
 
 const Product = () => {
   const dispatch = useDispatch();
-
+  const storedRestaurant = localStorage.getItem("restaurant") || "";
+  const storedStore = localStorage.getItem("store") || "";
+  const storedCompany = localStorage.getItem("companyId") || "";
   const {
     products = [],
     loading = false,
@@ -31,9 +36,12 @@ const Product = () => {
     error = null,
   } = useSelector((state) => state.product || {});
   const { stores = [] } = useSelector((state) => state.stores || {});
-  // =====================================================
-  // MODAL STATE
-  // =====================================================
+  const { companies = [] } = useSelector((state) => state.company || {});
+  const { restaurants = [] } = useSelector((state) => state.restaurants || {});
+  const { categories = [] } = useSelector((state) => state.category || {});
+
+  const state = useSelector((state) => state);
+  console.log("Product state is :", state);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -58,6 +66,9 @@ const Product = () => {
     console.log("STEP 1 - Product.jsx useEffect RUNNING");
     console.log("STEP 2 - dispatching fetchProducts()");
     dispatch(fetchStores());
+    dispatch(fetchCompanies());
+    dispatch(fetchRestaurants());
+    dispatch(fetchCategories());
   }, [dispatch]);
   console.log("Products is :", products);
   // =====================================================
@@ -401,6 +412,12 @@ const Product = () => {
           onCancel={handleCloseModal}
           loading={productLoading}
           stores={stores}
+          companies={companies}
+          restaurants={restaurants}
+          categories={categories}
+          storedRestaurant={storedRestaurant}
+          storedStore={storedStore}
+          storedCompany={storedCompany}
         />
       </Modal>
     </div>

@@ -9,11 +9,12 @@ import Select from "../../components/Common/Select";
 
 const initialForm = {
   productCode: "",
+  companyId: "",
   productName: "",
   description: "",
   category: "",
   store: "",
-
+  restaurant: "",
   purchasePrice: 0,
   sellingPrice: 0,
   mrp: 0,
@@ -42,8 +43,15 @@ const ProductForm = ({
   editingProduct,
   onSubmit,
   stores = [],
+  companies = [],
+  restaurants = [],
+  categories = [],
+  storedRestaurant,
+  storedStore,
+  storedCompany,
   onCancel,
   loading = false,
+  disabled = true,
 }) => {
   const {
     register,
@@ -62,6 +70,16 @@ const ProductForm = ({
   useEffect(() => {
     if (editingProduct) {
       reset({
+        companyId:
+          typeof editingProduct.companyId === "object"
+            ? editingProduct.companyId?._id || ""
+            : editingProduct.companyId || "",
+
+        restaurant:
+          typeof editingProduct.restaurant === "object"
+            ? editingProduct.restaurant?._id || ""
+            : editingProduct.restaurant || editingProduct.restaurantId || "",
+
         productCode: editingProduct.productCode || "",
         productName: editingProduct.productName || "",
         description: editingProduct.description || "",
@@ -111,9 +129,19 @@ const ProductForm = ({
             : true,
       });
     } else {
-      reset(initialForm);
+      reset({
+        ...initialForm,
+        restaurant:
+          storedRestaurant?._id ||
+          storedRestaurant?.id ||
+          storedRestaurant ||
+          "",
+        store: storedStore?._id || storedStore?.id || storedStore || "",
+        companyId:
+          storedCompany?._id || storedCompany?.id || storedCompany || "",
+      });
     }
-  }, [editingProduct, reset]);
+  }, [editingProduct, reset, storedRestaurant, storedStore, storedCompany]);
 
   /* =========================================================
      SUBMIT
@@ -121,6 +149,7 @@ const ProductForm = ({
   const onFormSubmit = async (data) => {
     const payload = {
       productCode: data.productCode.trim(),
+      // companyId: data.companyId?.trim(),
       productName: data.productName.trim(),
 
       description: data.description?.trim() || undefined,
@@ -155,6 +184,25 @@ const ProductForm = ({
     await onSubmit(payload);
   };
 
+  const companyOptions = companies.map((item) => ({
+    _id: item._id,
+    label:
+      item.companyName ||
+      item.name ||
+      item.companyCode ||
+      item.companyId ||
+      item._id,
+  }));
+
+  const restaurantOptions = restaurants.map((restaurant) => ({
+    _id: restaurant._id,
+    label:
+      restaurant.restaurantName ||
+      restaurant.name ||
+      restaurant.displayName ||
+      restaurant._id,
+  }));
+
   return (
     <form className="product-form" onSubmit={handleSubmit(onFormSubmit)}>
       <div className="product-form-section">
@@ -165,10 +213,32 @@ const ProductForm = ({
             <Input
               label="Product Code"
               name="productCode"
+              register={register}
               type="text"
               placeholder="PRD001"
-              register={register}
               error={errors.productCode?.message}
+            />
+          </div>
+
+          <div className="warehouse-field">
+            <Select
+              label="Restaurant"
+              name="restaurant"
+              register={register}
+              error={errors.restaurant?.message}
+              options={restaurantOptions}
+              disableFild={disabled}
+            />
+          </div>
+
+          <div className="product-field">
+            <Select
+              label="Company ID *"
+              name="companyId"
+              register={register}
+              error={errors.companyId?.message}
+              options={companyOptions}
+              disableFild={disabled}
             />
           </div>
 
@@ -200,13 +270,19 @@ const ProductForm = ({
           </div>
 
           <div className="product-field">
-            <Input
+            <Select
               label="Category ID"
               name="category"
-              type="text"
-              placeholder="Enter category ObjectId"
               register={register}
               error={errors.category?.message}
+              options={categories.map((item) => ({
+                _id: item._id,
+                label:
+                  item.categoryName ||
+                  item.name ||
+                  item.categoryCode ||
+                  item._id,
+              }))}
             />
           </div>
 
@@ -239,6 +315,7 @@ const ProductForm = ({
                 _id: store._id,
                 label: store.storeName || store.name || store._id,
               }))}
+              disableFild={disabled}
             />
           </div>
         </div>

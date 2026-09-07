@@ -6,6 +6,7 @@ const Select = ({
   // value,
   // onChange,
   options = [],
+  disableFild = false,
   placeholder = "Select option",
   optionValue = "_id",
   optionLabel = "label",
@@ -26,6 +27,7 @@ const Select = ({
         required={required}
         // value={value !== undefined ? value : undefined}
         // onChange={onChange}
+        disabled={disableFild}
       >
         <option value="">{placeholder}</option>
 
